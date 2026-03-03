@@ -1,3 +1,4 @@
+@import "tailwindcss";
 :root,
 [data-theme="dark"] {
   --bg: #0a0a0a;
@@ -382,14 +383,13 @@ ul {
 
 
 
-.hero-bio {
+.hero-section-bio {
   font-size: 15px;
   line-height: 1.8;
   color: var(--text-muted);
   max-width: 620px;
-  align-items: center;
-
-  justify-content: center;
+  margin: 0 auto;
+  text-align: center; 
 }
 
 /* Keyword highlight boxes */
