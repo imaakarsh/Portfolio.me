@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="dark">
 
 <head>
@@ -8,10 +8,11 @@
     content="Aakarsh — Full Stack Developer. Building fast, responsive, and user-focused web applications with modern technologies.">
   <title>Aakarsh — Full Stack Developer</title>
 
+  <script src="https://cdn.tailwindcss.com"></script>
 
 
   <link rel="stylesheet" href="style.css">
-  <link rel="shortcut icon" href="assets/favicon.jpg" type="image/x-icon">
+  <link rel="shortcut icon" href="assets/icon.jpg" type="image/x-icon">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,13 +29,13 @@
 
       <!-- Avatar logo -->
       <a href="index.html" class="nav-avatar" aria-label="Home">
-        <img src="assets/favicon.jpg" alt="Aakarsh">
+        <img src="assets/icon.jpg" alt="Aakarsh">
       </a>
 
       <!-- nav links -->
       <ul class="nav-links" id="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="#about">About</a></li>
+        <li><a href="#about-me">About</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="contact.html">Contact</a></li>
       </ul>
@@ -302,14 +303,69 @@
 
       </div>
     </section>
+    <!-- __ ABOUT ME __ -->
+    <section class="section about-me-section" id="about-me">
+      <p class="section-eyebrow">About</p>
+      <h2 class="section-heading" style="margin-bottom:20px;">Me</h2>
 
+      <div class="about-card">
+        <!-- Avatar -->
+        <div class="about-avatar-wrap" style="justify-self: center;align-items: center;">
+          <img src="assets/icon.jpg" alt="Aakarsh" class="about-avatar">
+        </div>
 
+        <!-- Info -->
+        <div class="about-info" style="justify-self: auto;align-items: center;">
+          <h3 class="about-name">Aakarsh</h3>
+          <p class="about-bio" style="justify-self: auto;align-items: center;">
+            I'm a Full Stack web developer passionate about building scalable
+            and user-focused web applications. I love solving real-world
+            problems and crafting seamless user experiences.
+          </p>
 
-  </main>
+          <p class="about-skills-label">Skills</p>
+          <div class="about-skills">
+            <div class="skill-badge" title="JavaScript">
+              <img src="assets/js.png" alt="JavaScript">
+            </div>
+            <div class="skill-badge" title="Node.js">
+              <img src="assets/node.png" alt="Node.js">
+            </div>
+            <div class="skill-badge" title="Python">
+              <img src="assets/python.png" alt="Python">
+            </div>
+            <div class="skill-badge" title="HTML5">
+              <img src="assets/html-5.png" alt="HTML5">
+            </div>
+            <div class="skill-badge" title="CSS3">
+              <img src="assets/css-3.png" alt="CSS3">
+            </div>
+            <div class="skill-badge" title="Tailwind CSS">
+              <img src="assets/tailwind.png" alt="Tailwind CSS">
+            </div>
+            <div class="skill-badge" title="Git">
+              <img src="assets/git.png" alt="Git">
+            </div>
+            <div class="skill-badge" title="GitHub">
+              <img src="assets/githubb.png" alt="GitHub">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  <br>
+  <br>
+    <div class="about-card-contact">
+     <p>Let's build something amazing.</p>
+     <p>Open to collaborations</p>
+     <a href="mailto:[aakarsh027@outlook.com]" class="contact-btn">Get In Touch</a>
+    </div>
+   
 
   <!-- FOOTER -->
   <footer class="site-footer">
-    <p class="footer-text">© 2026 Crafted with ❤️ by <strong>Aakarsh</strong></p>
+    <p class="footer-text">© 2026 Crafted with ❤️ by <strong>Aakarshdev.me</strong></p>
   </footer>
 
 </body>
