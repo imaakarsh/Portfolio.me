@@ -939,6 +939,61 @@ ul {
   letter-spacing: 0.2px;
 }
 
+.proj-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.proj-status-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--focus-dot);
+  box-shadow: 0 0 8px var(--focus-dot);
+  animation: pulse-dot 2s infinite;
+  flex-shrink: 0;
+}
+
+.status-text {
+  color: var(--focus-dot);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.proj-status-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.proj-status-right:hover {
+  color: var(--text);
+}
+
+.proj-status-right svg {
+  transition: transform 0.2s;
+}
+
+.proj-status-right:hover svg {
+  transform: translate(2px, -2px);
+}
+
 
 
 
