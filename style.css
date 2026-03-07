@@ -1441,7 +1441,7 @@ footer {
   margin-right: 15px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
   font-family: 'Caveat', cursive;
   font-size: 26px;
   color: var(--text-muted);
@@ -1466,9 +1466,9 @@ footer {
 
 @media (max-width: 800px) {
   .click-me-hint {
-    top: -30px;
+    top: -85px;
     right: auto;
-    left: 0%;
+    left: 50%;
     transform: translateX(-50%);
     margin-right: 0;
     flex-direction: column;
