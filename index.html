@@ -21,8 +21,10 @@
 </head>
 
 <body>
+  <script src="oneko.js"></script>
 
-
+  <!-- Night Sky Canvas -->
+  <canvas id="night-sky" aria-hidden="true"></canvas>
 
   <nav class="navbar">
     <div class="nav-container">
@@ -532,7 +534,141 @@
 
       document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
     </script>
-    <script src="oneko.js"></script>
+    
+    <script>
+      /* Night Sky Background  */
+      (function () {
+        const canvas = document.getElementById('night-sky');
+        const ctx = canvas.getContext('2d');
+        let W, H, stars = [], shooters = [], raf;
+
+        const STAR_COUNT = 200;
+        const TWINKLE_SPEED = 0.012;
+
+        function resize() {
+          W = canvas.width = window.innerWidth;
+          H = canvas.height = document.documentElement.scrollHeight;
+        }
+
+        function randomStar() {
+          return {
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.4 + 0.3,
+            alpha: Math.random(),
+            speed: Math.random() * TWINKLE_SPEED + 0.004,
+            dir: Math.random() < 0.5 ? 1 : -1,
+            color: ['#ffffff','#cce4ff','#ffe4cc','#d4ccff'][Math.floor(Math.random()*4)]
+          };
+        }
+
+        function spawnShooter() {
+          if (shooters.length > 2) return;
+          shooters.push({
+            x: Math.random() * W * 0.8,
+            y: Math.random() * H * 0.4,
+            len: Math.random() * 120 + 60,
+            speed: Math.random() * 8 + 6,
+            alpha: 1,
+            angle: Math.PI / 5
+          });
+        }
+
+        function init() {
+          stars = Array.from({ length: STAR_COUNT }, randomStar);
+          setInterval(spawnShooter, 3200);
+        }
+
+        function drawAurora() {
+          // Aurora band 1
+          const g1 = ctx.createRadialGradient(W * 0.3, H * 0.08, 0, W * 0.3, H * 0.08, W * 0.55);
+          g1.addColorStop(0, 'rgba(56,189,248,0.06)');
+          g1.addColorStop(0.5, 'rgba(139,92,246,0.04)');
+          g1.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = g1;
+          ctx.fillRect(0, 0, W, H);
+
+          // Aurora band 2
+          const g2 = ctx.createRadialGradient(W * 0.75, H * 0.12, 0, W * 0.75, H * 0.12, W * 0.45);
+          g2.addColorStop(0, 'rgba(52,211,153,0.05)');
+          g2.addColorStop(0.5, 'rgba(99,102,241,0.035)');
+          g2.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.fillStyle = g2;
+          ctx.fillRect(0, 0, W, H);
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+
+          drawAurora();
+
+          // Stars
+          stars.forEach(s => {
+            s.alpha += s.speed * s.dir;
+            if (s.alpha >= 1) { s.alpha = 1; s.dir = -1; }
+            if (s.alpha <= 0.08) { s.alpha = 0.08; s.dir = 1; }
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fillStyle = s.color;
+            ctx.globalAlpha = s.alpha;
+            ctx.fill();
+          });
+
+          // Shooting stars
+          shooters = shooters.filter(s => s.alpha > 0);
+          shooters.forEach(s => {
+            const ex = s.x + Math.cos(s.angle) * s.len;
+            const ey = s.y + Math.sin(s.angle) * s.len;
+            const grad = ctx.createLinearGradient(s.x, s.y, ex, ey);
+            grad.addColorStop(0, `rgba(255,255,255,0)`);
+            grad.addColorStop(0.3, `rgba(255,255,255,${s.alpha * 0.9})`);
+            grad.addColorStop(1, `rgba(255,255,255,0)`);
+            ctx.globalAlpha = 1;
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(s.x, s.y);
+            ctx.lineTo(ex, ey);
+            ctx.stroke();
+            s.x += Math.cos(s.angle) * s.speed;
+            s.y += Math.sin(s.angle) * s.speed;
+            s.alpha -= 0.018;
+          });
+
+          ctx.globalAlpha = 1;
+          raf = requestAnimationFrame(draw);
+        }
+
+        function isDark() {
+          return document.documentElement.getAttribute('data-theme') !== 'light';
+        }
+
+        function start() {
+          canvas.style.opacity = '1';
+          if (!raf) draw();
+        }
+
+        function stop() {
+          canvas.style.opacity = '0';
+          if (raf) { cancelAnimationFrame(raf); raf = null; }
+        }
+
+        // Watch theme changes
+        const observer = new MutationObserver(() => {
+          isDark() ? start() : stop();
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+        // Watch page height changes
+        const resizeObs = new ResizeObserver(() => { resize(); });
+        resizeObs.observe(document.body);
+
+        window.addEventListener('resize', resize);
+        resize();
+        init();
+        isDark() ? start() : stop();
+      })();
+    </script>
 </body>
 
 </html>
