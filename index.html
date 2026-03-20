@@ -218,22 +218,121 @@
       
 <!-- Blogs -->
 
-<section class="section" id="blogs" aria-label="About and experience">
-      <p class="section-eyebrow">Technical Learnings</p>
-      <h2 class="section-heading">Blogs</h2>
+<section class="section" id="blogs" aria-label="Blog posts">
+  <p class="section-eyebrow">Technical Learnings</p>
+  <h2 class="section-heading">Blogs</h2>
 
-      <div class="experience-card" id="experience-card">
-        <div class="exp-header">
-          <div class="exp-meta">
-            <span class="exp-role">Comming Soon</span>
-            <!-- <span class="exp-separator">·</span>
-            <span class="exp-company">Personal Projects</span> -->
-          </div>
-          <!-- <span class="exp-date">2026 — Present</span> -->
-        </div>
-        
+  <!-- Popular Tags -->
+  <div class="blog-tags-row">
+    <!-- <p class="blog-tags-label">Popular Tags</p> -->
+    <div class="blog-tags">
+      <button class="blog-tag active" onclick="filterBlogTag(this, 'all')">All <span class="tag-count">5</span></button>
+      <button class="blog-tag" onclick="filterBlogTag(this, 'webdev')">web dev <span class="tag-count">2</span></button>
+      <button class="blog-tag" onclick="filterBlogTag(this, 'networking')">networking <span class="tag-count">2</span></button>
+      <button class="blog-tag" onclick="filterBlogTag(this, 'javascript')">javascript <span class="tag-count">1</span></button>
+      <button class="blog-tag" onclick="filterBlogTag(this, 'devtools')">dev tools <span class="tag-count">1</span></button>
+    </div>
+  </div>
+
+  <!-- Latest Posts -->
+  <div class="blog-posts-header">
+    <span class="blog-posts-title">Latest Posts</span>
+    <span class="blog-posts-count">5 posts</span>
+  </div>
+
+  <div class="blog-grid" id="blog-grid">
+
+    <!-- Card 1 -->
+    <a href="https://aakarshh.hashnode.dev/" target="_blank" rel="noopener" class="blog-card" data-tags="networking webdev">
+      <div class="blog-card-thumb">
+        <img src="assets/dns.png" onerror="this.parentElement.classList.add('blog-thumb-fallback')" alt="How DNS Resolution Works">
+        <div class="blog-thumb-overlay"></div>
       </div>
-    </section>  
+      <div class="blog-card-body">
+        <div class="blog-card-tags">
+          <span class="blog-pill">networking</span>
+          <span class="blog-pill">webdev</span>
+        </div>
+        <h3 class="blog-card-title">How DNS Resolution Works</h3>
+        <p class="blog-card-excerpt">A deep dive into how DNS resolution works end-to-end, covering recursive resolvers, root servers, TLD servers, and authoritative DNS.</p>
+      </div>
+    </a>
+
+    <!-- Card 2 -->
+    <a href="https://aakarshhh.hashnode.dev/" target="_blank" rel="noopener" class="blog-card" data-tags="javascript devtools">
+      <div class="blog-card-thumb">
+        <img src="assets/blog2.png" onerror="this.parentElement.classList.add('blog-thumb-fallback')" alt="What is cURL">
+        <div class="blog-thumb-overlay"></div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-tags">
+          <span class="blog-pill">Networking</span>
+          <span class="blog-pill">WebDev</span>
+        </div>
+        <h3 class="blog-card-title">What is cURL and How to Use It</h3>
+        <p class="blog-card-excerpt">A beginner's friendly guide to cURL — the command-line tool for communicating with servers, testing APIs, and automating HTTP requests.</p>
+      </div>
+    </a>
+
+    <!-- Card 3 -->
+     <a href="https://codefreakk.hashnode.dev/" target="_blank" rel="noopener" class="blog-card blog-card--collapsed" data-tags="javascript devtools">
+      <div class="blog-card-thumb">
+        <img src="assets/blog3.png" onerror="this.parentElement.classList.add('blog-thumb-fallback')" alt="What is cURL">
+        <div class="blog-thumb-overlay"></div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-tags">
+          <span class="blog-pill">Git</span>
+          <span class="blog-pill">GitHub</span>
+        </div>
+        <h3 class="blog-card-title">Git for Beginners</h3>
+        <p class="blog-card-excerpt">A beginner's friendly guide to Git and GitHub — the version control system for tracking changes in code and collaborating with others.</p>
+      </div>
+    </a>
+
+    <!-- Card 4 -->
+    <a href="https://dnsresolutionworks.hashnode.dev/" target="_blank" rel="noopener" class="blog-card blog-card--collapsed" data-tags="javascript devtools">
+      <div class="blog-card-thumb">
+        <img src="assets/blogs4.png" onerror="this.parentElement.classList.add('blog-thumb-fallback')" alt="How a Browser Works">
+        <div class="blog-thumb-overlay"></div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-tags">
+          <span class="blog-pill">Networking</span>
+          <span class="blog-pill">WebDev</span>
+        </div>
+        <h3 class="blog-card-title">How a Browser Works</h3>
+        <p class="blog-card-excerpt">A Beginner-Friendly Guide to Browser Internals.</p>
+      </div>
+    </a>
+
+    <!-- card 5 -->
+     <a href="https://insidegitwork.hashnode.dev/inside-git-how-it-works-and-the-role-of-the-git-fold" target="_blank" rel="noopener" class="blog-card blog-card--collapsed" data-tags="javascript devtools">
+      <div class="blog-card-thumb">
+        <img src="assets/blogs5.png" onerror="this.parentElement.classList.add('blog-thumb-fallback')" alt="How a Browser Works">
+        <div class="blog-thumb-overlay"></div>
+      </div>
+      <div class="blog-card-body">
+        <div class="blog-card-tags">
+          <span class="blog-pill">Git</span>
+          <span class="blog-pill">GitHub</span>
+        </div>
+        <h3 class="blog-card-title">Inside Git Work</h3>
+        <p class="blog-card-excerpt">How It Works and the Role of the .git Folder</p>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- Show More -->
+  <div class="blog-show-more-wrap" id="blog-show-more-wrap">
+    <button class="blog-show-more-btn" id="blog-show-more-btn" onclick="toggleBlogMore(this)">
+      Show More <span id="blog-more-count">(3 more)</span>
+      <svg class="blog-chevron" id="blog-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+  </div>
+
+</section>
 
 
 
@@ -320,25 +419,49 @@
 
     <script>
 
-      projectItems.forEach(item => {
-        item.addEventListener('mouseenter', () => {
-          const newSrc = item.getAttribute('data-preview');
-          if (newSrc && previewImg.src !== newSrc) {
-            // Add loading/fade effect
-            previewCard.classList.add('loading');
-            
-            setTimeout(() => {
-              previewImg.src = newSrc;
-              previewCard.classList.remove('loading');
-            }, 150);
-          }
-        });
-      });
-
       // Avatar Toggle
       function toggleAvatar() {
         const avatarBtn = document.getElementById('about-avatar-img');
         avatarBtn.classList.toggle('avatar-clicked');
+      }
+
+      // Blog tag filter
+      function filterBlogTag(btn, tag) {
+        document.querySelectorAll('.blog-tag').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.blog-card').forEach(card => {
+          if (tag === 'all') {
+            card.classList.remove('hidden');
+          } else {
+            const tags = card.getAttribute('data-tags') || '';
+            card.classList.toggle('hidden', !tags.split(' ').includes(tag));
+          }
+        });
+      }
+
+      // Blog Show More / Show Less
+      function toggleBlogMore(btn) {
+        const collapsed = document.querySelectorAll('.blog-card--collapsed');
+        const chevron = document.getElementById('blog-chevron');
+        const countEl = document.getElementById('blog-more-count');
+        const isExpanded = btn.classList.contains('expanded');
+
+        if (isExpanded) {
+          // Collapse
+          collapsed.forEach(c => c.style.display = '');
+          btn.classList.remove('expanded');
+          chevron.style.transform = '';
+          const n = collapsed.length;
+          countEl.textContent = '(' + n + ' more)';
+          btn.childNodes[0].textContent = 'Show More ';
+        } else {
+          // Expand
+          collapsed.forEach(c => c.style.display = 'flex');
+          btn.classList.add('expanded');
+          chevron.style.transform = 'rotate(180deg)';
+          countEl.textContent = '';
+          btn.childNodes[0].textContent = 'Show Less ';
+        }
       }
     </script>
     <script src="oneko.js"></script>
