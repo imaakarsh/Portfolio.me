@@ -426,13 +426,25 @@ ul {
 }
 
 .hero-heading {
+  display: block;
   font-size: 3rem;
   font-weight: 700;
   line-height: 1.2;
-  color: lab(48.496% 0 0);
+  color: #f0f0f0;
   text-align: center;
   margin-top: 6px;
+  text-shadow: 0 0 60px rgba(249, 115, 22, 0.12);
+}
 
+[data-theme="light"] .hero-heading {
+  color: #111;
+}
+
+.hero-heading--sub {
+  display: block;
+  font-size: 2.4rem;
+  color: var(--text-muted);
+  text-shadow: none;
 }
 
 .hero-heading h1 {
@@ -1126,8 +1138,7 @@ h1 {
   /* padding: 60px 16px 16px; */
   margin: 0;
   font-size: 36px;
-  display: flex;
-  justify-content: center;
+  display: block;
   text-align: center;
 }
 
