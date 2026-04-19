@@ -10,7 +10,6 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <link href="/src/style.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" href="assets/icon.jpg" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +17,20 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@300;400;500;600;700;800&display=swap"
     rel="stylesheet">
+  <script>
+    (function () {
+      const storageKey = 'portfolio-theme';
+      const root = document.documentElement;
+
+      try {
+        const savedTheme = localStorage.getItem(storageKey);
+        const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+        root.setAttribute('data-theme', savedTheme || (prefersLight ? 'light' : 'dark'));
+      } catch (error) {
+        root.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
 </head>
 
 <body>
@@ -42,14 +55,19 @@
 
       <!-- nav links -->
       <ul class="nav-links" id="nav-links">
-        <li><a href="#home">Home</a></li>
         <li><a href="#about-me">About</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#blogs">Blogs</a></li>
-        <li><a href="#github-contributions">GitHub</a></li>
         <li><a href="#contact">Contact</a></li>
 
       </ul>
+
+      <div class="nav-actions">
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false"
+          aria-label="Toggle light mode" title="Toggle light mode">
+          <span id="theme-toggle-icon" aria-hidden="true">☾</span>
+        </button>
+      </div>
 
 
 
@@ -596,7 +614,7 @@
     <div class="about-card-contact" id="contact">
       <p>Let's build something amazing.</p>
       <p>Open to collaborations</p>
-      <a href="mailto:[aakarsh027@outlook.com]" class="contact-btn">Get In Touch</a>
+      <a href="mailto:aakarsh027@outlook.com" class="contact-btn">Get In Touch</a>
     </div>
 
 
@@ -606,6 +624,52 @@
     </footer>
 
     <script>
+
+      const themeStorageKey = 'portfolio-theme';
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+      function getTheme() {
+        return document.documentElement.getAttribute('data-theme') || 'dark';
+      }
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+
+        try {
+          localStorage.setItem(themeStorageKey, theme);
+        } catch (error) {
+          // Ignore storage failures and keep the session theme only.
+        }
+
+        const isLight = theme === 'light';
+        if (themeToggle) {
+          themeToggle.setAttribute('aria-pressed', String(isLight));
+          themeToggle.setAttribute('aria-label', isLight ? 'Toggle dark mode' : 'Toggle light mode');
+          themeToggle.title = isLight ? 'Toggle dark mode' : 'Toggle light mode';
+        }
+
+        if (themeToggleIcon) {
+          themeToggleIcon.textContent = isLight ? '☀' : '☾';
+        }
+      }
+
+      if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+          applyTheme(getTheme() === 'light' ? 'dark' : 'light');
+        });
+      }
+
+      try {
+        const savedTheme = localStorage.getItem(themeStorageKey);
+        if (savedTheme === 'light' || savedTheme === 'dark') {
+          applyTheme(savedTheme);
+        } else {
+          applyTheme(getTheme());
+        }
+      } catch (error) {
+        applyTheme(getTheme());
+      }
 
       // Avatar Toggle
       function toggleAvatar() {
