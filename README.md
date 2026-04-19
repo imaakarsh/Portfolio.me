@@ -16,7 +16,7 @@ This is my personal portfolio website built with HTML and CSS. It features a cle
 - **Modern UI** - Clean and professional interface
 - **Social Links** - Direct links to my social media profiles
 - **Easy Navigation** - Smooth navigation between sections
-
+- **Visitor Counter** - Real-time visitor tracking in the footer with auto-refresh functionality
 ## 🛠️ Technologies Used
 
 - HTML5
