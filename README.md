@@ -30,22 +30,22 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - Vercel (Deployment)
 ## 📂 Project Structure
 
-
 Portfolio/
-├── index.html      # Home page
-├── style.css       # Styling and layout
-├── build.js        # Build script for JS files
+├── index.html          # Home page
+├── style.css           # Styling and layout
+├── build.js            # Build script for JS files
 ├── public/
-│   ├── assets/     # Images and icons
-│   └── dist/       # JavaScript output
-├── src/            # JavaScript source files
-│   ├── core/       # Theme management
-│   ├── effects/    # Visual effects (Night Sky)
-│   ├── features/   # UI and API features
-│   └── utils/      # DOM utilities
-├── docs/           # Project documentation
-└── README.md       # Project documentation
-
+│   ├── assets/         # Images and icons
+│   └── dist/           # Bundled JavaScript output
+├── src/                # JavaScript source files
+│   ├── core/           # Theme management (theme.js)
+│   ├── effects/        # Visual effects (nightSky.js)
+│   ├── features/       # UI, Blog, and GitHub API features
+│   ├── utils/          # DOM utilities
+│   ├── main.js         # Application entry point
+│   └── oneko.js        # Oneko character logic
+├── docs/               # Project documentation
+└── README.md           # Project documentation
 ## 🎨 Sections
 
 - **Home** - Introduction and welcome section
