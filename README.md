@@ -77,6 +77,9 @@ Portfolio/
    bash
    open index.html
    
+
+5. Deployment:
+   The project is configured for Vercel deployment. The `vercel.json` file defines the build command (`npm run build`), sets the output directory to `public`, and configures routing to support SPA functionality.
 ## 📝 License
 
 This project is open source and available for personal use.
