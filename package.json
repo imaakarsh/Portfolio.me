@@ -1,6 +1,13 @@
 {
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -w -p tsconfig.json"
+  },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.1",
     "tailwindcss": "^4.2.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
   }
 }

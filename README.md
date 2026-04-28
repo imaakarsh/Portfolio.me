@@ -8,7 +8,7 @@ Visit the live site: [aakarshdev.vercel.app](https://aakarshdev.vercel.app/)
 
 ## 📋 About
 
-This is my personal portfolio website built with HTML and CSS. It features a clean, modern design with a focus on user experience and responsive layout.
+This is my personal portfolio website built with HTML, CSS, and TypeScript. The interactive behavior now lives in `src/` and is emitted to `public/dist/` for the browser.
 
 ## ✨ Features
 
@@ -21,7 +21,7 @@ This is my personal portfolio website built with HTML and CSS. It features a cle
 
 - HTML5
 - CSS3
-- JavaScript
+- TypeScript
 - Express
 - MongoDB
 - SQL
@@ -30,21 +30,13 @@ This is my personal portfolio website built with HTML and CSS. It features a cle
 ## 📂 Project Structure
 
 ```
-MainPF/
-├ index.html      # Home page
-├ about.html      # About section
-├ project.html    # Projects showcase
-├ skill.html      # Skills section
-├ contact.html    # Contact page
-├ style.css       # Styling and layout
-├ theme.js        # Theme and interactions
-├ assets/         # Images and icons
-│   ├icon.jpg
-│   ├ instagram.png
-│   ├ linkedin.png
-│   ├ social.png
-│   ├ spotify.png
-│   └ image.png
+Portfolio/
+├ public/
+│  ├ index.html   # Home page
+│  ├ style.css    # Styling and layout
+│  ├ assets/      # Images and icons
+│  └ dist/        # Browser-ready JavaScript output
+├ src/            # TypeScript source files
 └ README.md       # Project documentation
 ```
 
@@ -65,15 +57,19 @@ MainPF/
 
 ## 🚀 Getting Started
 
-1. Clone the repository:
+1. Install dependencies:
    ```bash
-   git clone https://github.com/imaakarsh/MainPF.git
+   npm install
    ```
 
-2. Open `index.html` in your browser:
+2. Build the TypeScript output:
    ```bash
-   cd MainPF
-   open index.html
+   npm run build
+   ```
+
+3. Open `public/index.html` in your browser:
+   ```bash
+   open public/index.html
    ```
 
 ## 📝 License
