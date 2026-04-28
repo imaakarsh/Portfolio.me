@@ -29,11 +29,11 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 
 ## 📂 Project Structure
 
-
+markdown
 Portfolio/
+├ index.html      # Home page
+├ style.css       # Styling and layout
 ├ public/
-│  ├ index.html   # Home page
-│  ├ style.css    # Styling and layout
 │  ├ assets/      # Images and icons
 │  └ dist/        # Compiled JavaScript output
 ├ src/            # TypeScript source files
@@ -73,9 +73,9 @@ Portfolio/
    npm run watch
    
 
-4. Open `public/index.html` in your browser:
+4. Open `index.html` in your browser:
    bash
-   open public/index.html
+   open index.html
    
 ## 📝 License
 
