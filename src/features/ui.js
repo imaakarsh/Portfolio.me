@@ -1,4 +1,4 @@
-import { byId, queryAll, throttle } from '../utils/dom.js';
+import { byId, throttle } from '../utils/dom.js';
 
 const typingPhrases = [
   'Full Stack Developer.',
@@ -18,6 +18,13 @@ export function initAvatarToggle() {
 }
 
 export function initRevealObserver() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.reveal').forEach((element) => {
+      element.classList.add('reveal--visible');
+    });
+    return;
+  }
+
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -32,11 +39,13 @@ export function initRevealObserver() {
 
 export function initTypingAnimation() {
   const typingText = byId('typing-text');
-  if (!typingText) return;
+  if (!typingText || typingText.dataset.typingInit === 'true') return;
+  typingText.dataset.typingInit = 'true';
 
   let phraseIndex = 0;
   let charIndex = 0;
   let deleting = false;
+  let timeoutId = null;
 
   const step = () => {
     const phrase = typingPhrases[phraseIndex];
@@ -46,7 +55,7 @@ export function initTypingAnimation() {
       typingText.textContent = phrase.slice(0, charIndex);
       if (charIndex === phrase.length) {
         deleting = true;
-        window.setTimeout(step, 1800);
+        timeoutId = window.setTimeout(step, 1800);
         return;
       }
     } else {
@@ -58,10 +67,16 @@ export function initTypingAnimation() {
       }
     }
 
-    window.setTimeout(step, deleting ? 45 : 80);
+    timeoutId = window.setTimeout(step, deleting ? 45 : 80);
   };
 
   step();
+
+  window.addEventListener('beforeunload', () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  });
 }
 
 export function initScrollProgress() {

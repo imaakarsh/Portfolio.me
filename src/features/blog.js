@@ -1,4 +1,4 @@
-import { byId, queryAll } from '../utils/dom.js';
+import { byId, query, queryAll } from '../utils/dom.js';
 
 export function initBlogFiltering() {
   const buttons = queryAll('.blog-tag[data-blog-tag]');
@@ -19,8 +19,8 @@ export function initBlogFiltering() {
         return;
       }
 
-      const tags = card.getAttribute('data-tags') ?? '';
-      const visible = tags.split(' ').includes(tag);
+      const tags = (card.getAttribute('data-tags') ?? '').trim();
+      const visible = tags.split(/\s+/).includes(tag);
       card.classList.toggle('hidden', !visible);
     });
   };
@@ -35,7 +35,7 @@ export function initBlogFiltering() {
 export function initBlogShowMore() {
   const button = byId('blog-show-more-btn');
   const countEl = byId('blog-more-count');
-  const labelEl = byId('blog-show-more-label');
+  const labelEl = query('.blog-show-more-label');
   const chevron = byId('blog-chevron');
   const collapsedCards = queryAll('.blog-card--collapsed');
 
@@ -53,6 +53,7 @@ export function initBlogShowMore() {
       chevron.style.transform = 'rotate(180deg)';
       countEl.textContent = '';
       labelEl.textContent = 'Show Less';
+      button.setAttribute('aria-expanded', 'true');
       return;
     }
 
@@ -63,6 +64,7 @@ export function initBlogShowMore() {
     chevron.style.transform = '';
     countEl.textContent = collapsedCards.length > 0 ? `(${collapsedCards.length} more)` : '';
     labelEl.textContent = 'Show More';
+    button.setAttribute('aria-expanded', 'false');
   };
 
   setExpanded(false);
