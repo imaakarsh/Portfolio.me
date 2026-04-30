@@ -17,14 +17,14 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - **GitHub Contributions** - Real-time display of GitHub activity grid and animated contribution statistics with fallback API support
 - **Social Links** - Direct links to my social media profiles
 - **Easy Navigation** - Smooth navigation between sections
-- **Visitor Counter** - Real-time visitor tracking with robust session handling, error management, and auto-refresh functionality
+- **Visitor Counter** - Persistent visitor tracking using localStorage with simplified retrieval and improved logic for edge cases
 ## 🛠️ Technologies Used
 
 - HTML5
 - CSS3
 - JavaScript (ES6+)
-- Tailwind CSS
-- Vite
+- Tailwind CSS v4
+- Vite v8
 - Express
 - MongoDB
 - SQL
