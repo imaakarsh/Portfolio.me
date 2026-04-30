@@ -175,6 +175,22 @@ export function initVisitorCounter() {
   let lastValue = null;
   let pollInterval = null;
 
+  const getSessionFlag = (flag) => {
+    try {
+      return sessionStorage.getItem(flag);
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const setSessionFlag = (flag, value) => {
+    try {
+      sessionStorage.setItem(flag, value);
+    } catch (error) {
+      // Storage can be disabled in some browsers or privacy modes.
+    }
+  };
+
   if (!countEl) {
     console.debug('Visitor counter element not found');
     return;
@@ -214,21 +230,32 @@ export function initVisitorCounter() {
 
   const fetchCount = async (isFirst) => {
     try {
-      const firstVisit = isFirst && !sessionStorage.getItem('vc_counted');
-      const endpoint = firstVisit
-        ? `https://api.countapi.xyz/hit/${namespace}/${key}`
-        : `https://api.countapi.xyz/get/${namespace}/${key}`;
+      const countedThisSession = getSessionFlag('vc_counted');
+      const shouldHit = isFirst && !countedThisSession;
+      const endpoints = shouldHit
+        ? [
+            `https://api.countapi.xyz/hit/${namespace}/${key}`,
+            `https://api.countapi.xyz/get/${namespace}/${key}`,
+          ]
+        : [`https://api.countapi.xyz/get/${namespace}/${key}`];
 
-      const response = await fetch(endpoint, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`countapi ${response.status}`);
-      const data = await response.json();
+      for (const endpoint of endpoints) {
+        const response = await fetch(endpoint, { cache: 'no-store' });
+        if (!response.ok) {
+          continue;
+        }
 
-      if (firstVisit) {
-        sessionStorage.setItem('vc_counted', '1');
-      }
+        const data = await response.json();
+        if (data.value == null) {
+          continue;
+        }
 
-      if (data.value != null) {
+        if (shouldHit) {
+          setSessionFlag('vc_counted', '1');
+        }
+
         setCount(data.value, !isFirst);
+        return;
       }
     } catch (error) {
       console.warn('[Visitor Counter]', error);
