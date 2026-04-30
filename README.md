@@ -14,6 +14,7 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - **Responsive Design** - Works seamlessly across all devices
 - **Modern UI** - Clean and professional interface
 - **Interactive Oneko** - A playful cat animation that follows your cursor with idle behaviors like sleeping and scratching
+- **GitHub Contributions** - Real-time display of GitHub activity grid and animated contribution statistics
 - **Social Links** - Direct links to my social media profiles
 - **Easy Navigation** - Smooth navigation between sections
 - **Visitor Counter** - Real-time visitor tracking in the footer with auto-refresh functionality
