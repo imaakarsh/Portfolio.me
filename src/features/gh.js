@@ -216,22 +216,23 @@ export function initVisitorCounter() {
     try {
       const firstVisit = isFirst && !sessionStorage.getItem('vc_counted');
       const endpoint = firstVisit
-        ? `https://api.counterapi.dev/v1/${namespace}/${key}/up`
-        : `https://api.counterapi.dev/v1/${namespace}/${key}`;
+        ? `https://api.countapi.xyz/hit/${namespace}/${key}`
+        : `https://api.countapi.xyz/get/${namespace}/${key}`;
 
       const response = await fetch(endpoint, { cache: 'no-store' });
-      if (!response.ok) throw new Error(`counterapi ${response.status}`);
+      if (!response.ok) throw new Error(`countapi ${response.status}`);
       const data = await response.json();
 
       if (firstVisit) {
         sessionStorage.setItem('vc_counted', '1');
       }
 
-      if (data.count != null) {
-        setCount(data.count, !isFirst);
+      if (data.value != null) {
+        setCount(data.value, !isFirst);
       }
     } catch (error) {
       console.warn('[Visitor Counter]', error);
+      countEl.textContent = '--';
     }
   };
 
