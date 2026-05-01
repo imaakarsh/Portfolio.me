@@ -175,24 +175,40 @@ export function initVisitorCounter() {
     return;
   }
 
-  const storageKey = 'portfolio-visitor-count';
-  const sessionKey = 'portfolio-visitor-counted';
+  // Use CounterAPI for a real global visitor count
+  fetch('https://api.counterapi.dev/v1/aakarshdev/portfolio/up')
+    .then(response => {
+      if (!response.ok) throw new Error('Counter API error');
+      return response.json();
+    })
+    .then(data => {
+      if (data && typeof data.count === 'number') {
+        countEl.textContent = String(data.count);
+      } else {
+        throw new Error('Invalid counter format');
+      }
+    })
+    .catch(error => {
+      console.warn('[Visitor Counter] API failed, falling back to local.', error);
+      // Fallback local storage logic if API is blocked or offline
+      const storageKey = 'portfolio-visitor-count';
+      const sessionKey = 'portfolio-visitor-counted';
+      try {
+        const existingCount = Number.parseInt(localStorage.getItem(storageKey) ?? '0', 10);
+        const alreadyCounted = sessionStorage.getItem(sessionKey) === '1';
 
-  try {
-    const existingCount = Number.parseInt(localStorage.getItem(storageKey) ?? '0', 10);
-    const alreadyCounted = sessionStorage.getItem(sessionKey) === '1';
+        if (!alreadyCounted) {
+          const nextCount = Number.isFinite(existingCount) && existingCount > 0 ? existingCount + 1 : 1;
+          localStorage.setItem(storageKey, String(nextCount));
+          sessionStorage.setItem(sessionKey, '1');
+          countEl.textContent = String(nextCount);
+          return;
+        }
 
-    if (!alreadyCounted) {
-      const nextCount = Number.isFinite(existingCount) && existingCount > 0 ? existingCount + 1 : 1;
-      localStorage.setItem(storageKey, String(nextCount));
-      sessionStorage.setItem(sessionKey, '1');
-      countEl.textContent = String(nextCount);
-      return;
-    }
-
-    const safeCount = Number.isFinite(existingCount) && existingCount > 0 ? existingCount : 1;
-    countEl.textContent = String(safeCount);
-  } catch (error) {
-    countEl.textContent = '1';
-  }
+        const safeCount = Number.isFinite(existingCount) && existingCount > 0 ? existingCount : 1;
+        countEl.textContent = String(safeCount);
+      } catch (localError) {
+        countEl.textContent = '1';
+      }
+    });
 }

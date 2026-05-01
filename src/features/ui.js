@@ -12,8 +12,17 @@ export function initAvatarToggle() {
   const avatar = byId('about-avatar-img');
   if (!avatar) return;
 
+  const imgA = 'assets/aakarsh.png';
+  const imgB = 'assets/icon.jpg';
+  let isAlt = false;
+
   avatar.addEventListener('click', () => {
-    avatar.classList.toggle('avatar-clicked');
+    avatar.classList.add('avatar-swapping');
+    setTimeout(() => {
+      isAlt = !isAlt;
+      avatar.src = isAlt ? imgB : imgA;
+      avatar.classList.remove('avatar-swapping');
+    }, 300);
   });
 }
 
@@ -158,4 +167,31 @@ export function initCursorSpotlight() {
   };
 
   document.addEventListener('mousemove', handleMouseMove, { passive: true });
+}
+
+export function initNavScrollSpy() {
+  const navLinks = document.querySelectorAll('.nav-link[data-section]');
+  if (!navLinks.length) return;
+
+  const sections = Array.from(navLinks).map((link) => {
+    const id = link.getAttribute('data-section');
+    return { link, section: document.getElementById(id) };
+  }).filter(({ section }) => section != null);
+
+  const setActive = (id) => {
+    navLinks.forEach((link) => {
+      const active = link.getAttribute('data-section') === id;
+      link.classList.toggle('active', active);
+    });
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setActive(entry.target.id);
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+
+  sections.forEach(({ section }) => observer.observe(section));
 }
