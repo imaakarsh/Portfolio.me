@@ -1,4 +1,7 @@
 (() => {
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+  if (isMobile) return;
+
   const nekoEl = document.createElement('div');
   let nekoPosX = 32;
   let nekoPosY = 32;

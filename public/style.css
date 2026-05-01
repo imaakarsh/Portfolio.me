@@ -2416,3 +2416,81 @@ footer {
 [data-theme="light"] .visitor-label {
   color: rgba(0, 0, 0, 0.4);
 }
+
+/* ========================================
+   GLOBAL MOBILE RESPONSIVENESS
+   ======================================== */
+@media (max-width: 520px) {
+  /* 1. Navbar Crowding */
+  .nav-pill {
+    padding: 6px;
+    gap: 2px;
+    width: calc(100% - 20px);
+  }
+  .nav-links {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .nav-links::-webkit-scrollbar {
+    display: none;
+  }
+  .nav-links li a.nav-link {
+    padding: 6px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .theme-toggle {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+  .nav-avatar {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+  
+  /* 2. Hero Section Typography & Buttons */
+  .hero-heading {
+    font-size: 2rem;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+  .hero-section-bio {
+    font-size: 14px;
+    padding: 0 10px;
+  }
+  .hero-cta {
+    flex-direction: column;
+    padding: 0 20px;
+  }
+  .btn-outline, .btn-solid {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* 3. Tech Stack Grid Density */
+  .tech-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  }
+  
+  /* 4. GitHub Activity Legend Spacing */
+  .gh-activity-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  /* 5. Header Overlap Fix for mobile */
+  html {
+    scroll-padding-top: 100px;
+  }
+
+  /* 6. Blog Tags Adjustments */
+  .blog-tag {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
