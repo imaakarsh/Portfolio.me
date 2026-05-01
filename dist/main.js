@@ -1,7 +1,7 @@
 import './oneko.js';
 import { initTheme } from './core/theme.js';
 import { initBlogFiltering, initBlogShowMore } from './features/blog.js';
-import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initAnimatedCounters, initProgressBars, initCursorSpotlight } from './features/ui.js';
+import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initAnimatedCounters, initProgressBars, initCursorSpotlight, initNavScrollSpy } from './features/ui.js';
 import { initNightSky } from './effects/nightSky.js';
 import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
 
@@ -35,6 +35,7 @@ function init() {
   safeInit('Animated Counters', initAnimatedCounters);
   safeInit('Progress Bars', initProgressBars);
   safeInit('Cursor Spotlight', initCursorSpotlight);
+  safeInit('Nav Scroll Spy', initNavScrollSpy);
 
   // Effects
   safeInit('Night Sky', initNightSky);

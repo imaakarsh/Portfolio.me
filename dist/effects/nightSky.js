@@ -27,9 +27,17 @@ export function initNightSky() {
   const starCount = 200;
   const twinkleSpeed = 0.012;
 
+  let resizeTimer = null;
   const resize = () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = document.documentElement.scrollHeight;
+  };
+  const debouncedResize = () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      resize();
+      stars = Array.from({ length: starCount }, randomStar);
+    }, 150);
   };
 
   const randomStar = () => ({
@@ -147,9 +155,12 @@ export function initNightSky() {
       clearInterval(spawnInterval);
       spawnInterval = null;
     }
+    if (resizeTimer) {
+      clearTimeout(resizeTimer);
+    }
     observer.disconnect();
     resizeObserver.disconnect();
-    window.removeEventListener('resize', resize);
+    window.removeEventListener('resize', debouncedResize);
   };
 
   const observer = new MutationObserver(() => {
@@ -163,11 +174,11 @@ export function initNightSky() {
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   const resizeObserver = new ResizeObserver(() => {
-    resize();
+    debouncedResize();
   });
   resizeObserver.observe(document.body);
 
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', debouncedResize);
   window.addEventListener('beforeunload', cleanup);
 
   resize();
