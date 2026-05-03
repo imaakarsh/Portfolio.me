@@ -1,3 +1,7 @@
+// ---- Auto-redirect 127.0.0.1 to localhost for Firebase Auth compatibility ----
+if (window.location.hostname === '127.0.0.1') {
+  window.location.hostname = 'localhost';
+}
 
 
 const firebaseConfig = {
