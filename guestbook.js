@@ -57,7 +57,7 @@ function escHtml(str) {
 }
 
 // ---- Render a single comment entry ----
-function renderEntry(doc) {
+function renderEntry(doc, currentUid) {
   const data = doc.data();
   const id = doc.id;
   const { name, photoURL, message, createdAt, uid } = data;
@@ -75,7 +75,9 @@ function renderEntry(doc) {
          ${escHtml(name[0])}
        </div>`;
 
-  const isOwner = auth.currentUser && auth.currentUser.uid === uid;
+  const isOwner = currentUid && currentUid === uid;
+  console.log(`Render message: "${message}", Message UID: ${uid}, Current UID: ${currentUid}, isOwner: ${isOwner}`);
+
   const deleteBtnHtml = isOwner 
     ? `<button class="gb-delete-btn" data-id="${id}" aria-label="Delete message" title="Delete message">
          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -127,8 +129,9 @@ function renderMessages(snapshot) {
     return;
   }
 
+  const currentUid = auth.currentUser ? auth.currentUser.uid : null;
   snapshot.forEach(doc => {
-    commentsList.appendChild(renderEntry(doc));
+    commentsList.appendChild(renderEntry(doc, currentUid));
   });
 }
 
