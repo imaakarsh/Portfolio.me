@@ -2544,10 +2544,28 @@ footer {
 
 .gb-meta {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
   margin-bottom: 8px;
   flex-wrap: wrap;
+}
+
+.gb-delete-btn {
+  margin-left: auto;
+  color: var(--text-subtle);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gb-delete-btn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
 }
 
 .gb-name {
