@@ -138,7 +138,12 @@ signinBtn.addEventListener('click', async () => {
   signinBtn.textContent = 'Signing in…';
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
-    await auth.signInWithPopup(provider);
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile) {
+      await auth.signInWithRedirect(provider);
+    } else {
+      await auth.signInWithPopup(provider);
+    }
   } catch (err) {
     console.error('Sign-in error:', err);
     signinBtn.disabled = false;
@@ -151,6 +156,11 @@ signinBtn.addEventListener('click', async () => {
       </svg>
       Sign in with Google`;
   }
+});
+
+// ---- Handle redirect errors (if any) ----
+auth.getRedirectResult().catch(err => {
+  console.error('Redirect sign-in error:', err);
 });
 
 // ---- Sign out ----
