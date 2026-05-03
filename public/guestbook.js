@@ -136,16 +136,26 @@ auth.onAuthStateChanged(user => {
 signinBtn.addEventListener('click', async () => {
   signinBtn.disabled = true;
   signinBtn.textContent = 'Signing in…';
+  
+  // Timeout fallback in case promise hangs
+  const resetBtnTimeout = setTimeout(() => {
+    signinBtn.disabled = false;
+    signinBtn.innerHTML = 'Sign in with Google (Stuck?)';
+  }, 10000);
+
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     if (isMobile) {
       await auth.signInWithRedirect(provider);
     } else {
       await auth.signInWithPopup(provider);
     }
   } catch (err) {
+    clearTimeout(resetBtnTimeout);
     console.error('Sign-in error:', err);
+    alert('Sign-in error: ' + err.message);
     signinBtn.disabled = false;
     signinBtn.innerHTML = `
       <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
@@ -161,6 +171,7 @@ signinBtn.addEventListener('click', async () => {
 // ---- Handle redirect errors (if any) ----
 auth.getRedirectResult().catch(err => {
   console.error('Redirect sign-in error:', err);
+  alert('Redirect error: ' + err.message);
 });
 
 // ---- Sign out ----
