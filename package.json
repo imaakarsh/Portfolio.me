@@ -1,11 +1,12 @@
 {
   "scripts": {
-    "dev": "vite public",
-    "build": "node build.js",
+    "dev": "vite",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
+    "firebase": "^12.12.1",
     "tailwindcss": "^4.2.4",
     "vite": "^8.0.10"
   }

@@ -4,6 +4,7 @@ import { initBlogFiltering, initBlogShowMore } from './features/blog.js';
 import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initAnimatedCounters, initProgressBars, initCursorSpotlight, initNavScrollSpy } from './features/ui.js';
 import { initNightSky } from './effects/nightSky.js';
 import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
+import { initGuestbook } from './features/guestbook.js';
 
 /**
  * Error-safe wrapper for initialization functions
@@ -43,6 +44,7 @@ function init() {
   // External APIs
   safeInit('GitHub Contributions', initGitHubContributions);
   safeInit('Visitor Counter', initVisitorCounter);
+  safeInit('Guestbook', initGuestbook);
 }
 
 // Initialize when DOM is ready
