@@ -21,16 +21,12 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - **Visitor Counter** - Persistent visitor tracking using localStorage with simplified retrieval and improved logic for edge cases
 ## 🛠️ Technologies Used
 
-- HTML5
-- CSS3
-- JavaScript (ES6+)
-- Tailwind CSS v4
-- Vite v8
-- Firebase (Firestore & Authentication)
-- Express
-- MongoDB
-- SQL
-- Vercel (Deployment)
+- **Frontend:** HTML5, CSS3, JavaScript (ES6+), Tailwind CSS
+- **Build Tool:** Vite
+- **Backend:** Node.js, Express
+- **Database:** MongoDB, SQL, Firebase (Firestore & Authentication)
+- **Deployment:** Vercel
+- **Version Control:** Git & GitHub
 ## 📂 Project Structure
 
 Portfolio/
