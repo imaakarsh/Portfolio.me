@@ -15,7 +15,7 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - **Modern UI** - Clean and professional interface
 - **Interactive Oneko** - A playful cat animation that follows your cursor with idle behaviors like sleeping and scratching
 - **GitHub Contributions** - Real-time display of GitHub activity grid and animated contribution statistics with fallback API support
-- **Interactive Guestbook** - Real-time messaging system with Firebase Firestore integration, Google Authentication (Popup/Redirect), and dynamic avatar generation
+- **Interactive Guestbook** - Real-time messaging system with Firebase Firestore integration, Google Authentication (Popup/Redirect), character counting, and dynamic avatar generation
 - **Social Links** - Direct links to my social media profiles
 - **Easy Navigation** - Smooth navigation between sections
 - **Visitor Counter** - Persistent visitor tracking using localStorage with simplified retrieval and improved logic for edge cases
