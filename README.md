@@ -15,6 +15,7 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - **Modern UI** - Clean and professional interface
 - **Interactive Oneko** - A playful cat animation that follows your cursor with idle behaviors like sleeping and scratching
 - **GitHub Contributions** - Real-time display of GitHub activity grid and animated contribution statistics with fallback API support
+- **Interactive Guestbook** - Real-time messaging system with Firebase integration and Google Authentication
 - **Social Links** - Direct links to my social media profiles
 - **Easy Navigation** - Smooth navigation between sections
 - **Visitor Counter** - Persistent visitor tracking using localStorage with simplified retrieval and improved logic for edge cases
@@ -25,6 +26,7 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - JavaScript (ES6+)
 - Tailwind CSS v4
 - Vite v8
+- Firebase (Firestore & Authentication)
 - Express
 - MongoDB
 - SQL
@@ -37,7 +39,8 @@ Portfolio/
 ├── build.js            # Build script for JS files
 ├── public/
 │   ├── assets/         # Images and icons
-│   └── dist/           # Bundled JavaScript output
+│   ├── dist/           # Bundled JavaScript output
+│   └── guestbook.js    # Firebase guestbook logic
 ├── src/                # JavaScript source files
 │   ├── core/           # Theme management (theme.js)
 │   ├── effects/        # Visual effects (nightSky.js)
