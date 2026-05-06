@@ -7,6 +7,7 @@ import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
 import { initGuestbook } from './features/guestbook.js';
 import { initSpotify } from './features/spotify.js';
 import { initDiscord } from './features/discord.js';
+import { initWakaTime } from './features/wakatime.js';
 
 /**
  * Error-safe wrapper for initialization functions
@@ -49,6 +50,7 @@ function init() {
   safeInit('Guestbook', initGuestbook);
   safeInit('Spotify', initSpotify);
   safeInit('Discord', initDiscord);
+  safeInit('WakaTime', initWakaTime);
 }
 
 // Initialize when DOM is ready

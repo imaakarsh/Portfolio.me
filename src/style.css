@@ -485,18 +485,27 @@ ul {
   justify-content: center;
 }
 
-/* Discord presence status */
+/* Discord presence — matches reference exactly */
 .discord-status {
   display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  cursor: default;
+  width: 100%;
+}
+
+/* Row 1: ● OFFLINE — plain, no background */
+.discord-row-status {
+  display: flex;
   align-items: center;
   gap: 7px;
-  margin-top: 14px;
-  justify-content: center;
 }
 
 .discord-dot {
-  width: 9px;
-  height: 9px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: #80848e;
   flex-shrink: 0;
@@ -504,13 +513,48 @@ ul {
 }
 
 .discord-text {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-muted);
   transition: color 0.4s;
 }
+
+/* Row 2: ⏱ 0h 0m coded today — bordered pill */
+.discord-row-wakatime {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+[data-theme="light"] .discord-row-wakatime {
+  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/* Row 3: editors */
+.discord-row-editors {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.discord-editors-text {
+  font-size: 11px;
+  color: var(--text-subtle, #555);
+  font-weight: 400;
+}
+
 
 
 
