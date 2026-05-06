@@ -5,7 +5,7 @@ import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollPr
 import { initNightSky } from './effects/nightSky.js';
 import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
 import { initGuestbook } from './features/guestbook.js';
-import { initSpotify } from './features/spotify.js';
+import { initLastFm } from './features/lastfm.js';
 import { initDiscord } from './features/discord.js';
 import { initWakaTime } from './features/wakatime.js';
 
@@ -48,7 +48,7 @@ function init() {
   safeInit('GitHub Contributions', initGitHubContributions);
   safeInit('Visitor Counter', initVisitorCounter);
   safeInit('Guestbook', initGuestbook);
-  safeInit('Spotify', initSpotify);
+  safeInit('Last.fm', initLastFm);
   safeInit('Discord', initDiscord);
   safeInit('WakaTime', initWakaTime);
 }

@@ -215,20 +215,22 @@ export function initGuestbook() {
   // ---- Auth state ----
   onAuthStateChanged(auth, user => {
     if (user) {
-      authPanel.style.display  = 'none';
-      composePanel.style.display = '';
+      if (authPanel) authPanel.style.display  = 'none';
+      if (composePanel) composePanel.style.display = '';
 
-      userName.textContent = user.displayName || 'Anonymous';
-      if (user.photoURL) {
-        userAvatar.innerHTML = `<img src="${escHtml(user.photoURL)}" alt="${escHtml(user.displayName || 'User')}">`;
-      } else {
-        userAvatar.classList.add('gb-avatar--letter');
-        userAvatar.style.setProperty('--av-color', colorForName(user.displayName || 'A'));
-        userAvatar.textContent = (user.displayName || 'A')[0];
+      if (userName) userName.textContent = user.displayName || 'Anonymous';
+      if (userAvatar) {
+        if (user.photoURL) {
+          userAvatar.innerHTML = `<img src="${escHtml(user.photoURL)}" alt="${escHtml(user.displayName || 'User')}">`;
+        } else {
+          userAvatar.classList.add('gb-avatar--letter');
+          userAvatar.style.setProperty('--av-color', colorForName(user.displayName || 'A'));
+          userAvatar.textContent = (user.displayName || 'A')[0];
+        }
       }
     } else {
-      authPanel.style.display  = '';
-      composePanel.style.display = 'none';
+      if (authPanel) authPanel.style.display  = '';
+      if (composePanel) composePanel.style.display = 'none';
     }
 
     if (currentMessagesSnapshot) {
