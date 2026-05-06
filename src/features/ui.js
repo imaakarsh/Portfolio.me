@@ -121,7 +121,10 @@ export function initAnimatedCounters() {
   };
 
   const statsSection = document.querySelector('.stats-section');
-  if (!statsSection) return;
+  if (!statsSection) {
+    console.debug('[UI] Stats section not found, skipping counters.');
+    return;
+  }
 
   const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -150,7 +153,13 @@ export function initProgressBars() {
     });
   }, { threshold: 0.2 });
 
-  document.querySelectorAll('#learning').forEach((element) => barObserver.observe(element));
+  const learningSection = document.querySelectorAll('#learning');
+  if (learningSection.length === 0) {
+    console.debug('[UI] Learning section not found, skipping progress bars.');
+    return;
+  }
+
+  learningSection.forEach((element) => barObserver.observe(element));
 }
 
 export function initCursorSpotlight() {

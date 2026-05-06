@@ -9,19 +9,9 @@ export default defineConfig(({ mode }) => {
   console.log('[Vite Config] Mode:', mode);
   console.log('[Vite Config] CWD:', process.cwd());
   
-  const envFile = path.resolve(process.cwd(), '.env.development');
-  if (fs.existsSync(envFile)) {
-    console.log('[Vite Config] Found .env.development');
-    const content = fs.readFileSync(envFile, 'utf-8');
-    content.split(/\r?\n/).forEach(line => {
-      const trimmed = line.trim();
-      if (trimmed && !trimmed.startsWith('#')) {
-        const [key, ...valueParts] = trimmed.split('=');
-        const value = valueParts.join('=').trim();
-        process.env[key.trim()] = value;
-      }
-    });
-  }
+  const env = loadEnv(mode, process.cwd(), '');
+  // Merge loaded env into process.env so serverless functions can access them
+  Object.assign(process.env, env);
   
   console.log('[Vite Config] WAKATIME_API_KEY loaded:', !!process.env.WAKATIME_API_KEY);
 
