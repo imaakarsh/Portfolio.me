@@ -466,6 +466,35 @@ ul {
   justify-content: center;
 }
 
+/* Discord presence status */
+.discord-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 14px;
+  justify-content: center;
+}
+
+.discord-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #80848e;
+  flex-shrink: 0;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+
+.discord-text {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color 0.4s;
+}
+
+
+
 .highlight {
   color: whitesmoke;
   position: relative;
