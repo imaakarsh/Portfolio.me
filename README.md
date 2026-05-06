@@ -8,10 +8,10 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 
 ## 🛠️ Stack
 
-- Frontend: HTML, CSS, JavaScript (ES modules), Tailwind CSS v4
-- Build tool: Vite
-- APIs: Vercel-style serverless functions in `api/`
-- Realtime/data: Firebase (guestbook), Lanyard (Discord), Last.fm, WakaTime, GitHub APIs
+- **Frontend**: HTML, CSS, JavaScript (ES modules), Tailwind CSS v4 (via `@tailwindcss/vite`)
+- **Build tool**: Vite 6
+- **APIs**: Vercel-style serverless functions in `api/` (Node.js)
+- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Last.fm, WakaTime, and GitHub APIs
 ## Features
 
 - Responsive single-page portfolio sections
@@ -68,10 +68,9 @@ Set deployment/local env vars for APIs you use:
 
 ## 🚀 Deployment
 
-- Vite builds to `dist/`.
-- Deploy via Vercel; `vercel.json` configures SPA rewrites and `/api/*` routing.
-- The GitHub Actions workflow runs `npm run build` and deploys the output to Vercel on every push to `main`.
-
+- **Build**: Vite compiles the application into the `dist/` directory.
+- **Platform**: Deployed via Vercel; `vercel.json` is configured for SPA rewrites, `/api/*` routing, and clean URLs.
+- **CI/CD**: A GitHub Actions workflow (`build.yml`) automatically runs `npm run build` and deploys to Vercel on every push to the `main` branch.
 ## License
 
 This project is open source and available for personal use.
