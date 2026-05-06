@@ -75,7 +75,7 @@ Portfolio/
    
 
 2. **Configure Environment Variables:**
-   Create a `.env` file based on `.env.example` and provide your credentials for Last.fm, WakaTime, and other services.
+   Create a `.env` file and provide your credentials for Last.fm, WakaTime, and other services.
 
 3. **Run the development server:**
    bash
