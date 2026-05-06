@@ -6,13 +6,12 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 
 - [www.aakarshdev.me](https://www.aakarshdev.me)
 
-## Stack
+## 🛠️ Stack
 
 - Frontend: HTML, CSS, JavaScript (ES modules), Tailwind CSS v4
 - Build tool: Vite
 - APIs: Vercel-style serverless functions in `api/`
 - Realtime/data: Firebase (guestbook), Lanyard (Discord), Last.fm, WakaTime, GitHub APIs
-
 ## Features
 
 - Responsive single-page portfolio sections
@@ -22,23 +21,22 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - Firebase guestbook with Google sign-in and realtime updates
 - Night sky effect and interactive UI animations
 
-## Project structure
+## 📂 Project structure
 
-```text
+text
 Portfolio/
 ├── api/                      # Serverless API handlers
 │   ├── lastfm.js
 │   ├── spotify.js
 │   └── wakatime.js
-├── docs/
-│   └── project-structure.md
-├── public/                   # Static public assets copied as-is by Vite
+├── docs/                     # Documentation
+├── public/                   # Static public assets
 ├── src/
-│   ├── config/               # Shared constants
+│   ├── config/               # Shared constants (profile data)
 │   ├── core/                 # Core systems (theme)
-│   ├── effects/              # Visual effects
-│   ├── features/             # Feature modules
-│   ├── utils/                # Utilities
+│   ├── effects/              # Visual effects (night sky)
+│   ├── features/             # Feature modules (Discord, GH, etc.)
+│   ├── utils/                # Utility functions
 │   ├── main.js               # Frontend entry point
 │   ├── oneko.js              # Cursor-following cat effect
 │   └── style.css
@@ -46,9 +44,8 @@ Portfolio/
 ├── vite.config.js
 ├── vercel.json
 └── package.json
-```
 
-## Local development
+## 💻 Local development
 
 1. Install dependencies:
    - `npm install`
@@ -58,7 +55,6 @@ Portfolio/
    - `npm run build`
 4. Preview production bundle:
    - `npm run preview`
-
 ## Environment variables
 
 Set deployment/local env vars for APIs you use:
@@ -70,12 +66,11 @@ Set deployment/local env vars for APIs you use:
 - `SPOTIFY_CLIENT_SECRET`
 - `SPOTIFY_REFRESH_TOKEN`
 
-## Deployment
+## 🚀 Deployment
 
 - Vite builds to `dist/`.
 - `vercel.json` provides SPA rewrites and `/api/*` routing.
-- GitHub Actions workflow also deploys the `dist/` output for Pages.
-
+- GitHub Actions workflow automatically builds and deploys the `dist/` output to GitHub Pages on push to `main`.
 ## License
 
 This project is open source and available for personal use.
