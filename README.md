@@ -48,12 +48,12 @@ Portfolio/
 ## 💻 Local development
 
 1. Install dependencies:
-   - `npm install`
-2. Run dev server:
-   - `npm run dev`
-3. Build production bundle:
-   - `npm run build`
-4. Preview production bundle:
+   - `npm install` 
+2. Run the development server:
+   - `npm run dev` 
+3. Build the production bundle:
+   - `npm run build` 
+4. Preview the production build locally:
    - `npm run preview`
 ## Environment variables
 
