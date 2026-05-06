@@ -4,36 +4,34 @@
 
 ```text
 Portfolio/
-├ public/
-│  ├ index.html
-│  ├ style.css
-│  ├ assets/
-│  └ dist/
-├ src/
-├ docs/
-├ package.json
-├ package-lock.json
-├ tsconfig.json
-└ README.md
+├── api/                      # Serverless route handlers
+├── docs/                     # Documentation
+├── public/                   # Static files served directly by Vite
+├── src/
+│   ├── config/
+│   ├── core/
+│   ├── effects/
+│   ├── features/
+│   ├── utils/
+│   ├── main.js
+│   ├── oneko.js
+│   └── style.css
+├── index.html                # Main HTML entry
+├── vite.config.js            # Vite config + local API middleware
+├── vercel.json               # Production rewrites
+└── package.json
 ```
 
 ## Responsibility split
 
-- `public/index.html` is the static entry point for the portfolio.
-- `public/style.css` owns the presentation layer.
-- `public/assets/` stores images, icons, and other media.
-- `public/dist/` contains the browser-ready JavaScript output.
-- `src/` contains the TypeScript source.
-- `docs/` stores project notes and structure documentation.
+- `index.html` defines page structure and semantic sections.
+- `src/main.js` bootstraps features and coordinates startup order.
+- `src/features/` contains functional modules (blog, guestbook, stats, integrations).
+- `src/effects/` contains decorative canvas/animation effects.
+- `src/config/` stores shared profile/config constants.
+- `api/*.js` exposes backend endpoints consumed by frontend widgets.
 
-## Suggested next split if you want a deeper organization
+## Build and deploy outputs
 
-```text
-src/
-├ app/
-├ effects/
-├ features/
-└ utils/
-```
-
-This repo is already functionally organized. The next real structural step would be splitting the TypeScript into those folders, which can be done without changing behavior.
+- Local/prod build output directory is `dist/`.
+- Generated output is not source code and should remain excluded from git.

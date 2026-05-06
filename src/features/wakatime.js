@@ -30,5 +30,17 @@ export function initWakaTime() {
   };
 
   fetchAndRender();
-  setInterval(fetchAndRender, POLL_INTERVAL);
+  const intervalId = setInterval(() => {
+    if (!document.hidden) {
+      fetchAndRender();
+    }
+  }, POLL_INTERVAL);
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      fetchAndRender();
+    }
+  });
+
+  window.addEventListener('beforeunload', () => clearInterval(intervalId), { once: true });
 }

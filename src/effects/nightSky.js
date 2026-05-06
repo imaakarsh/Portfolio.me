@@ -135,6 +135,7 @@ export function initNightSky() {
   const isDark = () => document.documentElement.getAttribute('data-theme') !== 'light';
 
   const start = () => {
+    if (document.hidden) return;
     canvas.style.opacity = '1';
     if (raf === null) {
       draw();
@@ -172,6 +173,16 @@ export function initNightSky() {
   });
 
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stop();
+      return;
+    }
+    if (isDark()) {
+      start();
+    }
+  });
 
   const resizeObserver = new ResizeObserver(() => {
     debouncedResize();

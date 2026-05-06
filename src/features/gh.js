@@ -1,6 +1,7 @@
 import { byId } from '../utils/dom.js';
+import { PROFILE } from '../config/constants.js';
 
-const githubUsername = 'imaakarsh';
+const { githubUsername } = PROFILE;
 
 export function initGitHubContributions() {
   const ghCard = byId('gh-glass-card');

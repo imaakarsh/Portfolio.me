@@ -12,6 +12,7 @@
   let idleAnimation = null;
   let idleAnimationFrame = 0;
   const nekoSpeed = 10;
+  let intervalId = null;
   const spriteSets = {
     idle: [[-3, -3]],
     alert: [[-7, -3]],
@@ -45,7 +46,7 @@
       mousePosY = event.clientY;
     });
 
-    window.onekoInterval = window.setInterval(frame, 100);
+    intervalId = window.setInterval(frame, 100);
   }
 
   function setSprite(name, frameNum) {
@@ -125,6 +126,27 @@
     nekoEl.style.left = `${nekoPosX - 16}px`;
     nekoEl.style.top = `${nekoPosY - 16}px`;
   }
+
+  function startLoop() {
+    if (!intervalId) {
+      intervalId = window.setInterval(frame, 100);
+    }
+  }
+
+  function stopLoop() {
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      stopLoop();
+      return;
+    }
+    startLoop();
+  });
 
   create();
 })();

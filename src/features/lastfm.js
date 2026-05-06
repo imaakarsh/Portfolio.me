@@ -3,9 +3,10 @@ import { byId } from '../utils/dom.js';
 const POLL_INTERVAL = 30_000;
 
 export function initLastFm() {
-  const widget  = byId('spotify-widget'); // We can reuse the same widget ID or rename it
+  const widget  = byId('spotify-widget');
   const section = byId('sp-section');
   if (!widget || !section) return;
+  widget.setAttribute('aria-label', 'Last.fm listening status');
 
   const fetchAndRender = async () => {
     try {
@@ -14,12 +15,24 @@ export function initLastFm() {
       const data = await res.json();
       render(data);
     } catch {
-      render({ isPlaying: false });
+      render({ isPlaying: false, title: 'Unable to load', artist: 'Last.fm unavailable' });
     }
   };
 
   fetchAndRender();
-  setInterval(fetchAndRender, POLL_INTERVAL);
+  const intervalId = setInterval(() => {
+    if (!document.hidden) {
+      fetchAndRender();
+    }
+  }, POLL_INTERVAL);
+
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      fetchAndRender();
+    }
+  });
+
+  window.addEventListener('beforeunload', () => clearInterval(intervalId), { once: true });
 }
 
 function render(data) {
