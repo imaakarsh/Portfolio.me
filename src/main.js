@@ -5,6 +5,7 @@ import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollPr
 import { initNightSky } from './effects/nightSky.js';
 import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
 import { initGuestbook } from './features/guestbook.js';
+import { initSpotify } from './features/spotify.js';
 
 /**
  * Error-safe wrapper for initialization functions
@@ -45,6 +46,7 @@ function init() {
   safeInit('GitHub Contributions', initGitHubContributions);
   safeInit('Visitor Counter', initVisitorCounter);
   safeInit('Guestbook', initGuestbook);
+  safeInit('Spotify', initSpotify);
 }
 
 // Initialize when DOM is ready

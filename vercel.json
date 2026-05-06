@@ -1,16 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
-  "installCommand": "npm install",
-  "buildCommand": "npm run build",
-  "outputDirectory": "public",
-  "env": {
-    "ENABLE_FILE_CACHING": "false"
-  },
+  "framework": "vite",
   "rewrites": [
-    {
-      "source": "/:path*",
-      "destination": "/index.html"
-    }
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }

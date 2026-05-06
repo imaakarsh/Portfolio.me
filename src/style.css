@@ -378,7 +378,7 @@ ul {
 
 /*  HERO SECTION  */
 .hero-section {
-  padding: 120px 0 56px;
+  padding: 120px 0 45px;
   display: block;
   color: whitesmoke;
 }
@@ -1477,7 +1477,7 @@ footer {
 .about-avatar {
   width: 100%;
   height: 100%;
-  object-fit: cover;  
+  object-fit: cover;
   display: block;
   transition: transform 0.4s ease-in-out, filter 0.3s ease, opacity 0.3s ease;
 }
@@ -2353,69 +2353,372 @@ footer {
   color: var(--text-subtle, #6b7280);
 }
 
+/* ========================================
+   VISITORS SECTION
+   ======================================== */
+
+@keyframes visitors-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Main card — same style as focus-card / experience-card */
+.visitors-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 40px 32px 32px;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+}
+
+.visitors-card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Orbs hidden — not needed for minimal style */
+.visitors-orb {
+  display: none;
+}
+
+.visitors-dot-grid {
+  display: none;
+}
+
+/* Live pill */
+.visitors-live-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--tag-bg);
+  border: 1px solid var(--tag-border);
+  border-radius: var(--radius-pill);
+}
+
+.visitors-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--focus-dot);
+  animation: visitors-pulse 2.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.visitors-live-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+/* Counter */
+.visitors-count-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.visitors-number {
+  font-size: clamp(2.8rem, 7vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -2px;
+  line-height: 1;
+  color: var(--text);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.visitors-number.visitors-number--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.visitors-suffix {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* Stats row */
+.visitors-stats-row {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.visitors-stat {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  justify-content: center;
+}
+
+.visitors-stat-divider {
+  width: 1px;
+  background: var(--border);
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.visitors-stat-icon {
+  color: var(--text-subtle);
+  flex-shrink: 0;
+  display: flex;
+}
+
+.visitors-stat-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  min-width: 0;
+}
+
+.visitors-stat-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.visitors-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .visitors-card {
+    padding: 28px 16px 24px;
+    gap: 18px;
+  }
+
+  .visitors-stats-row {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .visitors-stat {
+    justify-content: flex-start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .visitors-stat:last-child {
+    border-bottom: none;
+  }
+
+  .visitors-stat-divider {
+    display: none;
+  }
+}
+
+
+/* ========================================
+   SPOTIFY NOW PLAYING WIDGET
+   ======================================== */
+
+/* Section wrapper — uses same max-width as content */
+.sp-section {
+  width: 100%;
+  padding: 0 0 20px;
+}
+
+/* Full-width single-row card */
+.sp-widget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  width: 100%;
+  cursor: default;
+  transition: border-color 0.2s;
+}
+
+.sp-widget:hover {
+  border-color: var(--border-hover);
+}
+
+/* Album art */
+.sp-art {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* Center info block */
+.sp-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+/* Top row: Spotify logo + LAST PLAYED label */
+.sp-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 2px;
+}
+
+.sp-logo {
+  flex-shrink: 0;
+}
+
+.sp-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1db954;
+}
+
+/* Song title */
+.sp-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+/* Artist line: "by: Artist1, Artist2" */
+.sp-artist {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Play triangle button on far right */
+.sp-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-subtle);
+  flex-shrink: 0;
+  transition: color 0.2s;
+  padding: 4px;
+}
+
+.sp-play:hover {
+  color: #1db954;
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  .sp-art {
+    width: 42px;
+    height: 42px;
+  }
+
+  .sp-title {
+    font-size: 13px;
+  }
+}
+
+
+
+
+
 /* ---- Visitor Badge ---- */
+
+
 .visitor-badge {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 6px 14px 6px 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 6px;
+  padding: 5px 12px 5px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 999px;
   cursor: default;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .visitor-badge:hover {
-  background: rgba(255, 255, 255, 0.11);
-  border-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.13);
 }
 
 .visitor-eye {
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.4);
   flex-shrink: 0;
 }
 
 .visitor-count {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.9);
-  letter-spacing: -0.3px;
-  min-width: 24px;
+  color: rgba(255, 255, 255, 0.88);
+  letter-spacing: -0.2px;
+  min-width: 20px;
   text-align: center;
 }
 
 .visitor-label {
   font-size: 12px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.92);
-  letter-spacing: 0.2px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 [data-theme="light"] .visitor-badge {
-  background: rgba(0, 0, 0, 0.06);
-  border-color: rgba(0, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(102, 72, 44, 0.1);
 }
 
 [data-theme="light"] .visitor-badge:hover {
-  background: rgba(0, 0, 0, 0.1);
-  border-color: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(102, 72, 44, 0.16);
 }
 
 [data-theme="light"] .visitor-eye {
-  color: rgba(0, 0, 0, 0.45);
+  color: rgba(0, 0, 0, 0.35);
 }
 
 [data-theme="light"] .visitor-count {
-  color: rgba(0, 0, 0, 0.82);
+  color: rgba(0, 0, 0, 0.75);
 }
 
 [data-theme="light"] .visitor-label {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.35);
 }
+
 
 /* ========================================
    GUESTBOOK SECTION
@@ -2433,7 +2736,7 @@ footer {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 16px;
   margin-bottom: 32px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .guestbook-signin-prompt {
@@ -2457,7 +2760,7 @@ footer {
   cursor: pointer;
   transition: background 0.2s, transform 0.1s, border-color 0.2s, box-shadow 0.2s;
   font-family: inherit;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .guestbook-google-btn:hover {
@@ -2612,9 +2915,11 @@ footer {
     height: 36px;
     font-size: 14px;
   }
+
   .guestbook-entry {
     gap: 12px;
   }
+
   .guestbook-signin-box {
     padding: 28px 16px;
   }
@@ -2757,12 +3062,14 @@ footer {
    GLOBAL MOBILE RESPONSIVENESS
    ======================================== */
 @media (max-width: 520px) {
+
   /* 1. Navbar Crowding */
   .nav-pill {
     padding: 6px;
     gap: 2px;
     width: calc(100% - 20px);
   }
+
   .nav-links {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -2770,56 +3077,64 @@ footer {
     -ms-overflow-style: none;
     min-width: 0;
   }
+
   .nav-links::-webkit-scrollbar {
     display: none;
   }
+
   .nav-links li a.nav-link {
     padding: 6px 10px;
     font-size: 13px;
     white-space: nowrap;
   }
+
   .theme-toggle {
     width: 32px;
     height: 32px;
     flex-shrink: 0;
   }
+
   .nav-avatar {
     width: 32px;
     height: 32px;
     flex-shrink: 0;
   }
-  
+
   /* 2. Hero Section Typography & Buttons */
   .hero-heading {
     font-size: 2rem;
     line-height: 1.2;
     word-break: break-word;
   }
+
   .hero-section-bio {
     font-size: 14px;
     padding: 0 10px;
   }
+
   .hero-cta {
     flex-direction: column;
     padding: 0 20px;
   }
-  .btn-outline, .btn-solid {
+
+  .btn-outline,
+  .btn-solid {
     width: 100%;
     justify-content: center;
   }
-  
+
   /* 3. Tech Stack Grid Density */
   .tech-grid {
     grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
   }
-  
+
   /* 4. GitHub Activity Legend Spacing */
   .gh-activity-footer {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-  
+
   /* 5. Header Overlap Fix for mobile */
   html {
     scroll-padding-top: 100px;
@@ -2830,4 +3145,4 @@ footer {
     padding: 5px 10px;
     font-size: 12px;
   }
-}
+}

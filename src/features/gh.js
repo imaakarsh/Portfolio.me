@@ -166,7 +166,6 @@ export function initGitHubContributions() {
 
   fetchGitHubStats();
 }
-
 export function initVisitorCounter() {
   const countEl = byId('visitor-count');
 
@@ -175,7 +174,37 @@ export function initVisitorCounter() {
     return;
   }
 
-  // Use CounterAPI for a real global visitor count
+  // Smooth count-up animation triggered on scroll into view
+  const animateCount = (target) => {
+    const duration = 1200;
+    const start = performance.now();
+    const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+
+    const tick = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      countEl.textContent = Math.round(target * easeOut(progress)).toLocaleString();
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  const showCount = (count) => {
+    const badge = byId('visitor-badge');
+    if (!badge) { countEl.textContent = count.toLocaleString(); return; }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateCount(count);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(badge);
+  };
+
   fetch('https://api.counterapi.dev/v1/aakarshdev/portfolio/up')
     .then(response => {
       if (!response.ok) throw new Error('Counter API error');
@@ -183,14 +212,13 @@ export function initVisitorCounter() {
     })
     .then(data => {
       if (data && typeof data.count === 'number') {
-        countEl.textContent = String(data.count);
+        showCount(data.count);
       } else {
         throw new Error('Invalid counter format');
       }
     })
     .catch(error => {
       console.warn('[Visitor Counter] API failed, falling back to local.', error);
-      // Fallback local storage logic if API is blocked or offline
       const storageKey = 'portfolio-visitor-count';
       const sessionKey = 'portfolio-visitor-counted';
       try {
@@ -201,14 +229,17 @@ export function initVisitorCounter() {
           const nextCount = Number.isFinite(existingCount) && existingCount > 0 ? existingCount + 1 : 1;
           localStorage.setItem(storageKey, String(nextCount));
           sessionStorage.setItem(sessionKey, '1');
-          countEl.textContent = String(nextCount);
+          showCount(nextCount);
           return;
         }
 
         const safeCount = Number.isFinite(existingCount) && existingCount > 0 ? existingCount : 1;
-        countEl.textContent = String(safeCount);
+        showCount(safeCount);
       } catch (localError) {
         countEl.textContent = '1';
       }
     });
 }
+
+
+

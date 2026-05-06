@@ -5,8 +5,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "^12.12.1"
+  },
+  "devDependencies": {
     "@tailwindcss/vite": "^4.2.4",
-    "firebase": "^12.12.1",
     "tailwindcss": "^4.2.4",
     "vite": "^8.0.10"
   }
