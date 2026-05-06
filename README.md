@@ -4,7 +4,7 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 
 ## Live site
 
-- [www.aakarshdev.me](https://www.aakarshdev.me)
+- [https://portfolio.me](https://portfolio.me)
 
 ## 🛠️ Stack
 
@@ -69,8 +69,9 @@ Set deployment/local env vars for APIs you use:
 ## 🚀 Deployment
 
 - Vite builds to `dist/`.
-- `vercel.json` provides SPA rewrites and `/api/*` routing.
-- GitHub Actions workflow automatically builds and deploys the `dist/` output to GitHub Pages on push to `main`.
+- Deploy via Vercel; `vercel.json` configures SPA rewrites and `/api/*` routing.
+- The GitHub Actions workflow runs `npm run build` and deploys the output to Vercel on every push to `main`.
+
 ## License
 
 This project is open source and available for personal use.
