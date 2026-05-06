@@ -16,7 +16,7 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - **Interactive Oneko** - A playful cat animation that follows your cursor with idle behaviors like sleeping and scratching
 - **GitHub Contributions** - Real-time display of GitHub activity grid and animated contribution statistics with fallback API support
 - **Spotify Integration** - Persistent widget displaying live "Now Playing" or "Last Played" status, featuring a "Not playing" state when idle and periodic polling for real-time updates
-- **Discord Presence** - Real-time status tracking (Online, Idle, DND, Offline) powered by Lanyard WebSocket API for live connectivity
+- **Discord Presence** - Real-time status tracking (Online, Idle, DND, Offline) powered by Lanyard WebSocket API with live status indicators on both the hero section and navigation avatar
 - **Interactive Guestbook** - Real-time messaging system with Firebase Firestore integration, Google Authentication (Popup/Redirect), message deletion for owners, character counting, and dynamic avatar generation
 - **Social Links** - Direct links to my social media profiles
 - **Easy Navigation** - Smooth navigation between sections
