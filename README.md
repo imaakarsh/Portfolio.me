@@ -85,7 +85,7 @@ Portfolio/
    
 
 5. **Deployment:**
-   The project is configured for Vercel deployment. The `vercel.json` file defines API rewrites for Spotify integration and configures routing to support SPA functionality. The build command utilizes `npx vite build` to prevent permission errors during the Vercel build process. Ensure `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN` environment variables are configured.
+   The project is configured for Vercel deployment. The `vercel.json` file defines API rewrites for Spotify integration and configures routing to support SPA functionality. The build process utilizes Vite 6 to ensure stability and prevent permission errors (such as error 126) during the Vercel build process. Ensure `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN` environment variables are configured.
 ## 📝 License
 
 This project is open source and available for personal use.
