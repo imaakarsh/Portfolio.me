@@ -4,7 +4,6 @@ import { initBlogFiltering, initBlogShowMore } from './features/blog.js';
 import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initAnimatedCounters, initProgressBars, initCursorSpotlight, initNavScrollSpy } from './features/ui.js';
 import { initNightSky } from './effects/nightSky.js';
 import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
-import { initLastFm } from './features/lastfm.js';
 import { initDiscord } from './features/discord.js';
 import { initWakaTime } from './features/wakatime.js';
 
@@ -71,7 +70,6 @@ async function init() {
   await safeInit('GitHub Contributions', initGitHubContributions);
   await safeInit('Visitor Counter', initVisitorCounter);
   await safeInit('Guestbook', initGuestbookOnDemand);
-  await safeInit('Last.fm', initLastFm);
   await safeInit('Discord', initDiscord);
   await safeInit('WakaTime', initWakaTime);
 }

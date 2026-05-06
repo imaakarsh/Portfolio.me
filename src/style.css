@@ -509,16 +509,26 @@ ul {
   border-radius: 50%;
   background: #80848e;
   flex-shrink: 0;
-  transition: background 0.4s, box-shadow 0.4s;
+  transition: background 0.4s, box-shadow 0.4s, transform 0.4s;
+}
+
+.discord-dot:not([style*="background: rgb(128, 132, 142)"]) {
+  animation: discord-pulse 2s infinite;
+}
+
+@keyframes discord-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .discord-text {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
-  transition: color 0.4s;
+  transition: color 0.4s, text-shadow 0.4s;
 }
 
 /* Row 2: ⏱ 0h 0m coded today — bordered pill */
