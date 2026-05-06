@@ -15,6 +15,7 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - **Modern UI** - Clean and professional interface
 - **Interactive Oneko** - A playful cat animation that follows your cursor with idle behaviors like sleeping and scratching
 - **GitHub Contributions** - Real-time display of GitHub activity grid and animated contribution statistics with fallback API support
+- **Spotify Integration** - Live "Now Playing" or "Last Played" status widget powered by a custom Spotify API integration
 - **Interactive Guestbook** - Real-time messaging system with Firebase Firestore integration, Google Authentication (Popup/Redirect), message deletion for owners, character counting, and dynamic avatar generation
 - **Social Links** - Direct links to my social media profiles
 - **Easy Navigation** - Smooth navigation between sections
@@ -23,8 +24,8 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 
 - **Frontend:** HTML5, CSS3, JavaScript (ES6+), Tailwind CSS
 - **Build Tool:** Vite
-- **Backend:** Node.js, Express
-- **Database:** MongoDB, SQL, Firebase (Firestore & Authentication)
+- **Backend:** Node.js (Vercel Serverless Functions)
+- **Database:** Firebase (Firestore & Authentication)
 - **Deployment:** Vercel
 - **Version Control:** Git & GitHub
 ## 📂 Project Structure
@@ -68,23 +69,23 @@ Portfolio/
    npm install
    
 
-2. Build the TypeScript output:
+2. Run the development server:
+   bash
+   npm run dev
+   
+
+3. Build for production:
    bash
    npm run build
    
 
-3. Watch for changes (Development):
+4. Preview the build:
    bash
-   npm run watch
-   
-
-4. Open `index.html` in your browser:
-   bash
-   open index.html
+   npm run preview
    
 
 5. Deployment:
-   The project is configured for Vercel deployment. The `vercel.json` file defines the build command (`npm run build`), sets the output directory to `public`, and configures routing to support SPA functionality.
+   The project is configured for Vercel deployment. The `vercel.json` file defines API rewrites for Spotify integration and configures routing to support SPA functionality. Ensure `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN` environment variables are configured.
 ## 📝 License
 
 This project is open source and available for personal use.
