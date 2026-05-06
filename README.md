@@ -64,28 +64,28 @@ Portfolio/
 
 ## 🚀 Getting Started
 
-1. Install dependencies:
+1. **Install dependencies:**
    bash
    npm install
    
 
-2. Run the development server:
+2. **Run the development server:**
    bash
    npm run dev
    
 
-3. Build for production:
+3. **Build for production:**
    bash
    npm run build
    
 
-4. Preview the build:
+4. **Preview the build:**
    bash
    npm run preview
    
 
-5. Deployment:
-   The project is configured for Vercel deployment. The `vercel.json` file defines API rewrites for Spotify integration and configures routing to support SPA functionality. Ensure `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN` environment variables are configured.
+5. **Deployment:**
+   The project is configured for Vercel deployment. The `vercel.json` file defines API rewrites for Spotify integration and configures routing to support SPA functionality. The build command utilizes `npx vite build` to prevent permission errors during the Vercel build process. Ensure `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN` environment variables are configured.
 ## 📝 License
 
 This project is open source and available for personal use.
