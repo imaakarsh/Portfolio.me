@@ -14,13 +14,12 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Last.fm, WakaTime, and GitHub APIs
 ## Features
 
-- Responsive single-page portfolio sections
-- GitHub contribution grid + animated counters
-- Discord live presence + WakaTime coding stats
-- Last.fm now playing / last scrobbled widget
-- Firebase guestbook with Google sign-in and realtime updates
-- Night sky effect and interactive UI animations
-
+- 📱 Responsive single-page portfolio sections
+- 📊 GitHub contribution grid + animated counters
+- 💬 Discord live presence & real-time Spotify status via Lanyard API
+- ⏱️ WakaTime coding statistics
+- 📖 Firebase guestbook with Google sign-in and realtime updates
+- 🌌 Night sky effect and interactive UI animations
 ## 📂 Project structure
 
 text
@@ -59,13 +58,7 @@ Portfolio/
 
 Set deployment/local env vars for APIs you use:
 
-- `LASTFM_API_KEY`
-- `LASTFM_USERNAME`
 - `WAKATIME_API_KEY`
-- `SPOTIFY_CLIENT_ID`
-- `SPOTIFY_CLIENT_SECRET`
-- `SPOTIFY_REFRESH_TOKEN`
-
 ## 🚀 Deployment
 
 - **Build**: Vite compiles the application into the `dist/` directory.
