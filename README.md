@@ -15,10 +15,11 @@ This is my personal portfolio website built with HTML, CSS, and TypeScript. The 
 - **Modern UI** - Clean and professional interface
 - **Interactive Oneko** - A playful cat animation that follows your cursor with idle behaviors like sleeping and scratching
 - **GitHub Contributions** - Real-time display of GitHub activity grid and animated contribution statistics with fallback API support
-- **Spotify Integration** - Persistent widget displaying live "Now Playing" or "Last Played" status, featuring a "Not playing" state when idle and periodic polling for real-time updates
+- **Last.fm Integration** - Real-time "Currently Listening" or "Last Scrobbed" status with album art and direct song links, featuring periodic polling for live updates
 - **Discord Presence** - Real-time status tracking (Online, Idle, DND, Offline) powered by Lanyard WebSocket API with live status indicators on both the hero section and navigation avatar
 - **WakaTime Statistics** - Real-time coding activity tracking showing daily time spent and a breakdown of top editors (e.g., VS Code, Cursor) with automated polling
-- **Interactive Guestbook** - Real-time messaging system with Firebase Firestore integration, Google Authentication (Popup/Redirect), message deletion for owners, character counting, and dynamic avatar generation
+- **Interactive Guestbook** - Real-time messaging system with Firebase Firestore integration, Google Authentication, message deletion for owners, and a dynamic "View More" pagination system for message history
+- **Local API Emulator** - Custom Vite middleware to emulate Vercel Serverless Functions locally for seamless API development
 - **Social Links** - Direct links to my social media profiles
 - **Easy Navigation** - Smooth navigation between sections
 - **Visitor Counter** - Persistent visitor tracking using localStorage with simplified retrieval and improved logic for edge cases
@@ -73,23 +74,27 @@ Portfolio/
    npm install
    
 
-2. **Run the development server:**
+2. **Configure Environment Variables:**
+   Create a `.env` file based on `.env.example` and provide your credentials for Last.fm, WakaTime, and other services.
+
+3. **Run the development server:**
    bash
    npm run dev
    
+   *Note: The development server uses a custom emulator to handle API routes in `api/*.js`.*
 
-3. **Build for production:**
+4. **Build for production:**
    bash
    npm run build
    
 
-4. **Preview the build:**
+5. **Preview the build:**
    bash
    npm run preview
    
 
-5. **Deployment:**
-   The project is configured for Vercel deployment. The `vercel.json` file defines API rewrites for Spotify integration and configures routing to support SPA functionality. The build process utilizes Vite 6 to ensure stability and prevent permission errors (such as error 126) during the Vercel build process. Ensure `SPOTIFY_CLIENT_ID`, `SPOTIFY_CLIENT_SECRET`, and `SPOTIFY_REFRESH_TOKEN` environment variables are configured.
+6. **Deployment:**
+   The project is configured for Vercel deployment. The `vercel.json` file defines API rewrites and configures routing to support SPA functionality. Ensure `LASTFM_API_KEY`, `LASTFM_USERNAME`, `WAKATIME_API_KEY`, and any Spotify credentials are configured in your deployment environment variables.
 ## 📝 License
 
 This project is open source and available for personal use.
