@@ -265,8 +265,12 @@ ul {
 }
 
 /* Avatar logo */
-.nav-avatar {
+.nav-avatar-wrap {
+  position: relative;
   flex-shrink: 0;
+}
+
+.nav-avatar {
   display: block;
   width: 38px;
   height: 38px;
@@ -286,6 +290,21 @@ ul {
   border-color: var(--accent);
   transform: scale(0.93);
 }
+
+/* Discord status dot on avatar */
+.nav-discord-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #80848e;
+  border: 2px solid var(--bg-nav, #18181b);
+  transition: background 0.4s, box-shadow 0.4s;
+  pointer-events: none;
+}
+
 
 [data-theme="light"] .nav-avatar {
   border-color: rgba(0, 0, 0, 0.08);
