@@ -13,7 +13,8 @@ export default defineConfig(({ mode }) => {
   // Merge loaded env into process.env so serverless functions can access them
   Object.assign(process.env, env);
   
-  console.log('[Vite Config] WAKATIME_API_KEY loaded:', !!process.env.WAKATIME_API_KEY);
+  console.log('[Vite Config] CODETIME_API_KEY loaded:', !!process.env.CODETIME_API_KEY);
+  console.log('[Vite Config] WAKATIME_API_KEY present (fallback):', !!process.env.WAKATIME_API_KEY);
 
   return {
     plugins: [

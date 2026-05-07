@@ -5,7 +5,7 @@ import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollPr
 import { initNightSky } from './effects/nightSky.js';
 import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
 import { initDiscord } from './features/discord.js';
-import { initWakaTime } from './features/wakatime.js';
+import { initCodeTime } from './features/codetime.js';
 
 /**
  * Error-safe wrapper for initialization functions
@@ -71,7 +71,7 @@ async function init() {
   await safeInit('Visitor Counter', initVisitorCounter);
   await safeInit('Guestbook', initGuestbookOnDemand);
   await safeInit('Discord', initDiscord);
-  await safeInit('WakaTime', initWakaTime);
+  await safeInit('CodeTime', initCodeTime);
 }
 
 // Initialize when DOM is ready

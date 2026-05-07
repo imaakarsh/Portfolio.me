@@ -1,21 +1,28 @@
 const POLL_INTERVAL = 5 * 60_000; // poll every 5 minutes
 
-export function initWakaTime() {
-  const timeEl    = document.getElementById('discord-wakatime');
+export function initCodeTime() {
+  const timeEl    = document.getElementById('discord-codetime');
   const editorsEl = document.getElementById('discord-editors');
   const edTextEl  = document.getElementById('discord-editors-text');
   if (!timeEl) return;
 
   const fetchAndRender = async () => {
     try {
-      const res  = await fetch('/api/wakatime');
+      const res  = await fetch('/api/codetime');
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
-      if (data.error) return; // No key configured yet
+      if (data.error) {
+        timeEl.textContent = 'CodeTime unavailable';
+        if (edTextEl && editorsEl) {
+          edTextEl.textContent = '';
+          editorsEl.style.display = 'none';
+        }
+        return;
+      }
 
       // Update time text
-      const h = data.hours   || 0;
-      const m = data.minutes || 0;
+      const h = Number(data.hours) || 0;
+      const m = Number(data.minutes) || 0;
       timeEl.textContent = `${h}h ${m}m coded today`;
 
       // Update editors row

@@ -67,7 +67,7 @@
         <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
         <li><a href="#blogs" class="nav-link" data-section="blogs">Blog</a></li>
         <li><a href="#about-me" class="nav-link" data-section="about-me">About</a></li>
-        <li><a href="#guestbook" class="nav-link" data-section="guestbook">Guestbook</a></li>
+        
       </ul>
 
       <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false"
@@ -145,14 +145,15 @@
 
         <!-- Discord Presence -->
         <div class="discord-status" id="discord-status" aria-label="Discord status">
-          <div class="discord-row-wakatime">
+          <div class="discord-row-codetime discord-row-wakatime">
             <div class="discord-row-status">
               <span class="discord-dot" id="discord-dot"></span>
               <span class="discord-text" id="discord-text">OFFLINE</span>
             </div>
-            <div class="discord-wakatime-content">
+            <div class="discord-codetime-content discord-wakatime-content">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              <span id="discord-wakatime">0h 0m coded today</span>
+              <span id="discord-codetime">0h 0m coded today</span>
+              <span id="discord-wakatime" style="display:none;">0h 0m coded today</span>
             </div>
           </div>
           <div class="discord-row-editors" id="discord-editors" style="display:none;">

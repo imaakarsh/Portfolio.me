@@ -9,6 +9,7 @@ export const themeStorageKey = 'portfolio-theme';
 export function initTheme() {
   const themeToggle = byId('theme-toggle');
   const themeToggleIcon = byId('theme-toggle-icon');
+  let switchTimer = null;
 
   const getTheme = () => {
     const current = document.documentElement.getAttribute('data-theme');
@@ -37,9 +38,30 @@ export function initTheme() {
     }
   };
 
+  const animateSwitch = () => {
+    if (!themeToggle) return;
+
+    themeToggle.classList.add('is-switching');
+    window.clearTimeout(switchTimer);
+    switchTimer = window.setTimeout(() => {
+      themeToggle.classList.remove('is-switching');
+    }, 420);
+  };
+
+  const setTheme = (theme, animated = false) => {
+    if (animated && 'startViewTransition' in document) {
+      animateSwitch();
+      document.startViewTransition(() => applyTheme(theme));
+      return;
+    }
+
+    if (animated) animateSwitch();
+    applyTheme(theme);
+  };
+
   if (themeToggle) {
     themeToggle.addEventListener('click', () => {
-      applyTheme(getTheme() === 'light' ? 'dark' : 'light');
+      setTheme(getTheme() === 'light' ? 'dark' : 'light', true);
     });
   }
 
