@@ -145,13 +145,15 @@
 
         <!-- Discord Presence -->
         <div class="discord-status" id="discord-status" aria-label="Discord status">
-          <div class="discord-row-status">
-            <span class="discord-dot" id="discord-dot"></span>
-            <span class="discord-text" id="discord-text">OFFLINE</span>
-          </div>
           <div class="discord-row-wakatime">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span id="discord-wakatime">0h 0m coded today</span>
+            <div class="discord-row-status">
+              <span class="discord-dot" id="discord-dot"></span>
+              <span class="discord-text" id="discord-text">OFFLINE</span>
+            </div>
+            <div class="discord-wakatime-content">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span id="discord-wakatime">0h 0m coded today</span>
+            </div>
           </div>
           <div class="discord-row-editors" id="discord-editors" style="display:none;">
             <span class="discord-editors-text" id="discord-editors-text"></span>

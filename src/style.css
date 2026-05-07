@@ -533,16 +533,24 @@ ul {
 
 /* Row 2: ⏱ 0h 0m coded today — bordered pill */
 .discord-row-wakatime {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
+  gap: 8px;
+  padding: 10px 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.04);
   color: var(--text-muted);
   font-size: 12px;
   font-weight: 500;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.discord-wakatime-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 [data-theme="light"] .discord-row-wakatime {
