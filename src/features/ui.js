@@ -12,7 +12,7 @@ export function initAvatarToggle() {
   const avatar = byId('about-avatar-img');
   if (!avatar) return;
 
-  const imgA = 'assets/aakarsh.png';
+  const imgA = 'assets/krisna.jpeg';
   const imgB = 'assets/icon.jpg';
   let isAlt = false;
 
