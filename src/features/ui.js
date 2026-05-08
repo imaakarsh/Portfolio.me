@@ -204,32 +204,3 @@ export function initNavScrollSpy() {
 
   sections.forEach(({ section }) => observer.observe(section));
 }
-
-export function initMobileMenu() {
-  const menuBtn = byId('nav-menu-btn');
-  const navLinks = byId('nav-links');
-
-  if (!menuBtn || !navLinks) return;
-
-  menuBtn.addEventListener('click', () => {
-    menuBtn.classList.toggle('active');
-    navLinks.classList.toggle('active');
-    menuBtn.setAttribute('aria-expanded', menuBtn.classList.contains('active'));
-  });
-
-  navLinks.querySelectorAll('.nav-link').forEach((link) => {
-    link.addEventListener('click', () => {
-      menuBtn.classList.remove('active');
-      navLinks.classList.remove('active');
-      menuBtn.setAttribute('aria-expanded', false);
-    });
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!menuBtn.contains(e.target) && !navLinks.contains(e.target)) {
-      menuBtn.classList.remove('active');
-      navLinks.classList.remove('active');
-      menuBtn.setAttribute('aria-expanded', false);
-    }
-  });
-}
