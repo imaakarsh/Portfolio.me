@@ -204,3 +204,55 @@ export function initNavScrollSpy() {
 
   sections.forEach(({ section }) => observer.observe(section));
 }
+
+export function initMobileMenu() {
+  const menuBtn = byId('nav-menu-btn');
+  const navLinks = byId('nav-links');
+  if (!menuBtn || !navLinks) return;
+
+  const navLinks_items = document.querySelectorAll('.nav-link');
+  let menuOpen = false;
+
+  const closeMenu = () => {
+    menuOpen = false;
+    menuBtn.classList.remove('menu-open');
+    navLinks.classList.remove('nav-links--open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  };
+
+  const openMenu = () => {
+    menuOpen = true;
+    menuBtn.classList.add('menu-open');
+    navLinks.classList.add('nav-links--open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+  };
+
+  const toggleMenu = () => {
+    if (menuOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  };
+
+  menuBtn.addEventListener('click', toggleMenu);
+
+  navLinks_items.forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('click', (e) => {
+    const navbar = document.querySelector('.navbar');
+    if (navbar && !navbar.contains(e.target) && menuOpen) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menuOpen) {
+      closeMenu();
+      menuBtn.focus();
+    }
+  });
+}
+

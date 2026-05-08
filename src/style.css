@@ -547,6 +547,201 @@ ul {
   transform: scale(0.96);
 }
 
+/* Hamburger Menu Button */
+.nav-menu-btn {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.25s ease;
+  position: relative;
+  z-index: 1001;
+}
+
+.nav-menu-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .nav-menu-btn:hover {
+  background: rgba(156, 201, 255, 0.08);
+}
+
+[data-theme="light"] .nav-menu-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.nav-menu-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Hamburger Icon Lines */
+.nav-menu-icon {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 1px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  position: absolute;
+}
+
+.nav-menu-icon:nth-child(1) {
+  top: 10px;
+}
+
+.nav-menu-icon:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nav-menu-icon:nth-child(3) {
+  bottom: 10px;
+}
+
+/* Hamburger Animation - Open State */
+.nav-menu-btn.menu-open .nav-menu-icon:nth-child(1) {
+  transform: rotate(45deg) translateY(8px);
+}
+
+.nav-menu-btn.menu-open .nav-menu-icon:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-menu-btn.menu-open .nav-menu-icon:nth-child(3) {
+  transform: rotate(-45deg) translateY(-8px);
+}
+
+/* Mobile Navigation Links Dropdown */
+.nav-links {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-links--mobile-hidden {
+  display: none;
+}
+
+@media (max-width: 520px) {
+  /* Hide nav links by default on mobile */
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    margin-left: 0;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% + 20px);
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 0 0 16px 16px;
+    padding: 6px 6px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: none;
+    z-index: 999;
+  }
+
+  [data-theme="dark"] .nav-links {
+    background: rgba(7, 11, 20, 0.95);
+    border-color: rgba(156, 201, 255, 0.12);
+  }
+
+  [data-theme="light"] .nav-links {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  /* Show nav links when menu is open */
+  .nav-links--open {
+    display: flex;
+  }
+
+  /* Style nav links in mobile dropdown */
+  .nav-links li a.nav-link {
+    display: block;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-muted);
+    transition: background 0.2s, color 0.2s;
+    white-space: normal;
+    text-align: left;
+  }
+
+  .nav-links li a.nav-link:hover {
+    color: var(--text);
+  }
+
+  [data-theme="dark"] .nav-links li a.nav-link:hover {
+    background: rgba(156, 201, 255, 0.1);
+    color: var(--text);
+  }
+
+  [data-theme="light"] .nav-links li a.nav-link:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--text);
+  }
+
+  /* Active state in mobile dropdown */
+  .nav-links li a.nav-link.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  [data-theme="light"] .nav-links li a.nav-link.active {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  [data-theme="dark"] .nav-links li a.nav-link.active {
+    background: rgba(156, 201, 255, 0.15);
+  }
+
+  /* Show hamburger menu button on mobile */
+  .nav-menu-btn {
+    display: flex;
+  }
+
+  /* Adjust nav pill spacing on mobile */
+  .nav-pill {
+    padding: 4px 4px 4px 4px;
+    gap: 4px;
+    width: calc(100% - 32px);
+  }
+
+  /* Improve touch targets on mobile */
+  .nav-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .theme-toggle {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 800px) {
+  .nav-menu-btn {
+    display: none;
+  }
+
+  .nav-links {
+    display: flex;
+  }
+}
+
 /*  HERO SECTION  */
 .hero-section {
   padding: 120px 0 45px;
