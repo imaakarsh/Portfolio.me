@@ -5,6 +5,7 @@ import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollPr
 import { initNightSky } from './effects/nightSky.js';
 import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
 import { initDiscord } from './features/discord.js';
+import { initSpotify } from './features/spotify.js';
 import { initCodeTime } from './features/codetime.js';
 
 /**
@@ -70,7 +71,9 @@ async function init() {
   await safeInit('GitHub Contributions', initGitHubContributions);
   await safeInit('Visitor Counter', initVisitorCounter);
   await safeInit('Guestbook', initGuestbookOnDemand);
-  await safeInit('Discord', initDiscord);
+  // Discord integration disabled in favor of direct Spotify API
+  // await safeInit('Discord', initDiscord);
+  await safeInit('Spotify', initSpotify);
   await safeInit('CodeTime', initCodeTime);
 }
 
