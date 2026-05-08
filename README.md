@@ -14,21 +14,17 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 <<<<<<< HEAD
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Last.fm, CodeTime, and GitHub APIs
 ## Features
-=======
-- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Last.fm, WakaTime, and GitHub APIs
+
+- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Last.fm, WakaTime/CodeTime, and GitHub APIs
 ## ✨ Features
->>>>>>> 048138a9cdba550b1aaf639fd7d0e7a6a49ca636
 
 - 📱 Responsive single-page portfolio sections
 - 📊 GitHub contribution grid + animated counters
 - 💬 Discord live presence & real-time Spotify status via Lanyard API
-<<<<<<< HEAD
-- ⏱️ CodeTime coding statistics
-=======
-- ⏱️ Refined WakaTime coding statistics and status layout
->>>>>>> 048138a9cdba550b1aaf639fd7d0e7a6a49ca636
+- ⏱️ CodeTime coding statistics and refined status layout
 - 📖 Firebase guestbook with Google sign-in and realtime updates
-- 🌌 Night sky effect and interactive UI animations
+- 🌌 Animated night sky effect with stars, shooting stars, and aurora gradients
+- 🎨 Enhanced dark and light themes with optimized CSS variables
 ## 📂 Project structure
 
 text
