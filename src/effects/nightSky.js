@@ -24,8 +24,8 @@ export function initNightSky() {
   let raf = null;
   let spawnInterval = null;
 
-  const starCount = 200;
-  const twinkleSpeed = 0.012;
+  const starCount = 120;
+  const twinkleSpeed = 0.008;
 
   let resizeTimer = null;
   const resize = () => {
@@ -72,15 +72,15 @@ export function initNightSky() {
 
   const drawAurora = () => {
     const g1 = context.createRadialGradient(width * 0.3, height * 0.08, 0, width * 0.3, height * 0.08, width * 0.55);
-    g1.addColorStop(0, 'rgba(56,189,248,0.06)');
-    g1.addColorStop(0.5, 'rgba(139,92,246,0.04)');
+    g1.addColorStop(0, 'rgba(56,189,248,0.04)');
+    g1.addColorStop(0.5, 'rgba(139,92,246,0.02)');
     g1.addColorStop(1, 'rgba(0,0,0,0)');
     context.fillStyle = g1;
     context.fillRect(0, 0, width, height);
 
     const g2 = context.createRadialGradient(width * 0.75, height * 0.12, 0, width * 0.75, height * 0.12, width * 0.45);
-    g2.addColorStop(0, 'rgba(52,211,153,0.05)');
-    g2.addColorStop(0.5, 'rgba(99,102,241,0.035)');
+    g2.addColorStop(0, 'rgba(52,211,153,0.03)');
+    g2.addColorStop(0.5, 'rgba(99,102,241,0.02)');
     g2.addColorStop(1, 'rgba(0,0,0,0)');
     context.fillStyle = g2;
     context.fillRect(0, 0, width, height);
