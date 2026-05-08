@@ -13,14 +13,14 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **APIs**: Vercel-style serverless functions in `api/` (Node.js)
 <<<<<<< HEAD
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Last.fm, CodeTime, and GitHub APIs
-## Features
+## 🚀 Features
 
-- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Last.fm, WakaTime/CodeTime, and GitHub APIs
+- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), WakaTime/CodeTime, and GitHub APIs
 ## ✨ Features
 
 - 📱 Responsive single-page portfolio sections
 - 📊 GitHub contribution grid + animated counters
-- 💬 Discord live presence & real-time Spotify status via Lanyard API
+- 💬 Discord live presence status via Lanyard API
 - ⏱️ CodeTime coding statistics and refined status layout
 - 📖 Firebase guestbook with Google sign-in and realtime updates
 - 🌌 Animated night sky effect with stars, shooting stars, and aurora gradients
@@ -59,7 +59,7 @@ Portfolio/
    - `npm run build` 
 4. Preview the production build locally:
    - `npm run preview`
-## Environment variables
+## 🔑 Environment variables
 
 Set deployment/local env vars for APIs you use:
 
