@@ -3297,44 +3297,7 @@ footer {
    ======================================== */
 @media (max-width: 520px) {
 
-  /* 1. Navbar Crowding */
-  .nav-pill {
-    padding: 6px;
-    gap: 2px;
-    width: calc(100% - 20px);
-  }
-
-  .nav-links {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    min-width: 0;
-  }
-
-  .nav-links::-webkit-scrollbar {
-    display: none;
-  }
-
-  .nav-links li a.nav-link {
-    padding: 6px 10px;
-    font-size: 13px;
-    white-space: nowrap;
-  }
-
-  .theme-toggle {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-  }
-
-  .nav-avatar {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-  }
-
-  /* 2. Hero Section Typography & Buttons */
+  /* 1. Hero Section Typography & Buttons */
   .hero-heading {
     font-size: 2rem;
     line-height: 1.2;
