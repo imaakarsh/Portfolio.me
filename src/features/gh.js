@@ -175,10 +175,9 @@ export function initVisitorCounter() {
     return;
   }
 
-  const storageKey = 'portfolio-visitor-count-v2';
-  const sessionKey = 'portfolio-visitor-counted-v2';
+  const sessionKey = 'portfolio-visitor-counted-v3';
 
-  // Smooth count-up animation triggered on scroll into view
+  // Smooth count-up animation
   const animateCount = (target) => {
     const duration = 1200;
     const start = performance.now();
@@ -195,12 +194,13 @@ export function initVisitorCounter() {
 
   const showCount = (count) => {
     const badge = byId('visitor-badge');
-    if (!badge) { countEl.textContent = count.toLocaleString(); return; }
+    if (!badge) {
+      countEl.textContent = count.toLocaleString();
+      return;
+    }
 
-    // Immediately show the count so it's visible without interaction
     countEl.textContent = count.toLocaleString();
 
-    // Also animate when the badge scrolls into view for a nicer effect
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -213,24 +213,58 @@ export function initVisitorCounter() {
     observer.observe(badge);
   };
 
-  try {
-    const existingCount = Number.parseInt(localStorage.getItem(storageKey) ?? '0', 10);
-    const alreadyCounted = sessionStorage.getItem(sessionKey) === '1';
+  const fetchAndUpdateCount = async () => {
+    try {
+      // Check if already counted in this session
+      const alreadyCounted = sessionStorage.getItem(sessionKey) === '1';
 
-    if (!alreadyCounted) {
-      const nextCount = Number.isFinite(existingCount) && existingCount >= 0 ? existingCount + 1 : 1;
-      localStorage.setItem(storageKey, String(nextCount));
-      sessionStorage.setItem(sessionKey, '1');
-      showCount(nextCount);
-      return;
+      // Use countapi.xyz - free, no auth required
+      const namespace = 'aakarsh-portfolio';
+      const key = 'visitor-count';
+      const url = `https://api.countapi.xyz/hit/${namespace}/${key}`;
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch count');
+
+      const data = await response.json();
+      const count = data.value || 0;
+
+      // Only increment once per session
+      if (!alreadyCounted) {
+        sessionStorage.setItem(sessionKey, '1');
+      }
+
+      showCount(count);
+    } catch (error) {
+      console.warn('[Visitor Counter] API unavailable, using fallback.', error);
+      // Fallback: use localStorage
+      try {
+        const storageKey = 'portfolio-visitor-count-fallback';
+        const existingCount = Number.parseInt(localStorage.getItem(storageKey) ?? '0', 10);
+        const alreadyCounted = sessionStorage.getItem(sessionKey) === '1';
+
+        if (!alreadyCounted) {
+          const nextCount = Number.isFinite(existingCount) && existingCount >= 0 ? existingCount + 1 : 1;
+          localStorage.setItem(storageKey, String(nextCount));
+          sessionStorage.setItem(sessionKey, '1');
+          showCount(nextCount);
+          return;
+        }
+
+        const safeCount = Number.isFinite(existingCount) && existingCount >= 0 ? existingCount : 0;
+        showCount(safeCount);
+      } catch (storageError) {
+        console.warn('[Visitor Counter] Local storage unavailable.', storageError);
+        countEl.textContent = '—';
+      }
     }
+  };
 
-    const safeCount = Number.isFinite(existingCount) && existingCount >= 0 ? existingCount : 0;
-    showCount(safeCount);
-  } catch (error) {
-    console.warn('[Visitor Counter] Local storage unavailable.', error);
-    countEl.textContent = '0';
-  }
+  fetchAndUpdateCount();
 }
 
 
