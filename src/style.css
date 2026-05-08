@@ -549,7 +549,7 @@ ul {
 
 /* Hamburger Menu Button */
 .nav-menu-btn {
-  display: none;
+  display: none !important;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -630,87 +630,12 @@ ul {
 }
 
 @media (max-width: 520px) {
-  /* Hide nav links by default on mobile */
+  /* Keep nav links visible on all screen sizes */
   .nav-links {
-    display: none;
-    flex-direction: column;
-    gap: 0;
-    margin-left: 0;
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% + 20px);
-    background: var(--nav-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--border);
-    border-radius: 0 0 16px 16px;
-    padding: 6px 6px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    max-width: none;
-    z-index: 999;
-  }
-
-  [data-theme="dark"] .nav-links {
-    background: rgba(7, 11, 20, 0.95);
-    border-color: rgba(156, 201, 255, 0.12);
-  }
-
-  [data-theme="light"] .nav-links {
-    background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(0, 0, 0, 0.08);
-  }
-
-  /* Show nav links when menu is open */
-  .nav-links--open {
     display: flex;
-  }
-
-  /* Style nav links in mobile dropdown */
-  .nav-links li a.nav-link {
-    display: block;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    color: var(--text-muted);
-    transition: background 0.2s, color 0.2s;
-    white-space: normal;
-    text-align: left;
-  }
-
-  .nav-links li a.nav-link:hover {
-    color: var(--text);
-  }
-
-  [data-theme="dark"] .nav-links li a.nav-link:hover {
-    background: rgba(156, 201, 255, 0.1);
-    color: var(--text);
-  }
-
-  [data-theme="light"] .nav-links li a.nav-link:hover {
-    background: rgba(0, 0, 0, 0.06);
-    color: var(--text);
-  }
-
-  /* Active state in mobile dropdown */
-  .nav-links li a.nav-link.active {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text);
-    font-weight: 600;
-  }
-
-  [data-theme="light"] .nav-links li a.nav-link.active {
-    background: rgba(0, 0, 0, 0.1);
-  }
-
-  [data-theme="dark"] .nav-links li a.nav-link.active {
-    background: rgba(156, 201, 255, 0.15);
-  }
-
-  /* Show hamburger menu button on mobile */
-  .nav-menu-btn {
-    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    margin-left: auto;
   }
 
   /* Adjust nav pill spacing on mobile */
@@ -730,11 +655,17 @@ ul {
     width: 36px;
     height: 36px;
   }
+
+  /* Reduce font size for nav links on small screens */
+  .nav-links li a.nav-link {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 800px) {
   .nav-menu-btn {
-    display: none;
+    display: none !important;
   }
 
   .nav-links {
