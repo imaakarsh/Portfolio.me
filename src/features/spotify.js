@@ -5,6 +5,7 @@
 
 const SPOTIFY_WIDGET_ID = 'spotify-widget';
 const TOKEN_STORAGE_KEY = 'spotifyTokens';
+const SPOTIFY_API_BASE = '/api/spotify';
 
 export async function initSpotify() {
   try {
@@ -58,11 +59,11 @@ function clearTokens() {
 
 async function fetchAndUpdateWidget(accessToken, refreshToken) {
   try {
-    const response = await fetch(`/api/spotify/currently-playing?accessToken=${encodeURIComponent(accessToken)}`);
+    const response = await fetch(`${SPOTIFY_API_BASE}?action=currently-playing&accessToken=${encodeURIComponent(accessToken)}`);
 
     if (response.status === 401) {
       // Token expired, try to refresh
-      const refreshResponse = await fetch(`/api/spotify/refresh?refreshToken=${encodeURIComponent(refreshToken)}`);
+      const refreshResponse = await fetch(`${SPOTIFY_API_BASE}?action=refresh&refreshToken=${encodeURIComponent(refreshToken)}`);
       if (refreshResponse.ok) {
         const newToken = await refreshResponse.json();
         storeTokens({ accessToken: newToken.accessToken, refreshToken });
@@ -84,6 +85,22 @@ async function fetchAndUpdateWidget(accessToken, refreshToken) {
     updateWidget(track);
   } catch (error) {
     console.error('Error fetching Spotify data:', error);
+    updateWidget(getStoredTrackData());
+  }
+}
+
+function getStoredTrackData() {
+  const stored = localStorage.getItem('trackData');
+
+  if (!stored) {
+    return { isPlaying: false };
+  }
+
+  try {
+    const track = JSON.parse(stored);
+    return track ? { ...track, isPlaying: false } : { isPlaying: false };
+  } catch {
+    return { isPlaying: false };
   }
 }
 
@@ -98,12 +115,37 @@ function updateWidget(trackData) {
   const linkElement = document.getElementById('sp-link');
 
   if (trackData.isPlaying === false) {
-    // No track playing, show last played or empty state
-    labelElement.textContent = 'LAST PLAYED';
-    titleElement.textContent = 'Nothing playing';
-    artistElement.textContent = 'Start playing on Spotify';
-    artElement.src = '';
-    linkElement.href = '#';
+    const lastPlayed = getStoredTrackData();
+
+    if (lastPlayed.title) {
+      labelElement.textContent = 'LAST PLAYED';
+      titleElement.textContent = lastPlayed.title;
+      artistElement.textContent = lastPlayed.artist || '';
+
+      if (lastPlayed.albumArt) {
+        artElement.src = lastPlayed.albumArt;
+        artElement.style.display = 'block';
+      } else {
+        artElement.src = '';
+        artElement.style.display = 'none';
+      }
+
+      if (lastPlayed.spotifyUrl) {
+        linkElement.href = lastPlayed.spotifyUrl;
+        linkElement.style.display = 'flex';
+      } else {
+        linkElement.href = '#';
+        linkElement.style.display = 'none';
+      }
+    } else {
+      labelElement.textContent = 'LAST PLAYED';
+      titleElement.textContent = 'Nothing playing';
+      artistElement.textContent = 'Start playing on Spotify';
+      artElement.src = '';
+      artElement.style.display = 'none';
+      linkElement.href = '#';
+      linkElement.style.display = 'none';
+    }
     return;
   }
 
@@ -114,12 +156,20 @@ function updateWidget(trackData) {
   
   if (trackData.albumArt) {
     artElement.src = trackData.albumArt;
+    artElement.style.display = 'block';
+  } else {
+    artElement.src = '';
+    artElement.style.display = 'none';
   }
   
   if (trackData.spotifyUrl) {
     linkElement.href = trackData.spotifyUrl;
     linkElement.target = '_blank';
     linkElement.rel = 'noopener noreferrer';
+    linkElement.style.display = 'flex';
+  } else {
+    linkElement.href = '#';
+    linkElement.style.display = 'none';
   }
 
   // Save to localStorage as fallback
@@ -155,7 +205,7 @@ function showLoginPrompt() {
   document.getElementById('sp-link').addEventListener('click', async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/api/spotify/auth');
+      const response = await fetch(`${SPOTIFY_API_BASE}?action=auth`);
       const data = await response.json();
       if (data.authUrl) {
         window.location.href = data.authUrl;

@@ -144,17 +144,15 @@ async function refreshToken(req, res) {
 export default async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname;
+  const action = url.searchParams.get('action');
 
-  if (pathname === '/api/spotify/auth') {
+  if (action === 'auth' || pathname === '/api/spotify/auth') {
     return getAuthUrl(req, res);
   }
-  if (pathname === '/api/spotify/callback') {
-    return await handleCallback(req, res);
-  }
-  if (pathname === '/api/spotify/currently-playing') {
+  if (action === 'currently-playing' || pathname === '/api/spotify/currently-playing') {
     return await getCurrentlyPlaying(req, res);
   }
-  if (pathname === '/api/spotify/refresh') {
+  if (action === 'refresh' || pathname === '/api/spotify/refresh') {
     return await refreshToken(req, res);
   }
 
