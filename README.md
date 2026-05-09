@@ -64,9 +64,12 @@ Portfolio/
    - `npm run preview`
 ## 🔑 Environment variables
 
-Set deployment/local env vars for APIs you use:
+Set deployment/local env vars for the APIs used in the project:
 
-`CODETIME_API_KEY`
+- `CODETIME_API_KEY`
+- `SPOTIFY_CLIENT_ID`
+- `SPOTIFY_CLIENT_SECRET`
+- `SPOTIFY_REFRESH_TOKEN`
 ## 🚀 Deployment
 
 - **Build**: Vite compiles the application into the `dist/` directory.
