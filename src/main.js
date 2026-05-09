@@ -1,7 +1,7 @@
 import './oneko.js';
 import { initTheme } from './core/theme.js';
 import { initBlogFiltering, initBlogShowMore } from './features/blog.js';
-import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initAnimatedCounters, initProgressBars, initCursorSpotlight, initNavScrollSpy, initMobileMenu } from './features/ui.js';
+import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initAnimatedCounters, initProgressBars, initSkillTabs, initCursorSpotlight, initNavScrollSpy, initMobileMenu } from './features/ui.js';
 import { initNightSky } from './effects/nightSky.js';
 import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
 import { initDiscord } from './features/discord.js';
@@ -60,6 +60,7 @@ async function init() {
   await safeInit('Scroll Progress', initScrollProgress);
   await safeInit('Animated Counters', initAnimatedCounters);
   await safeInit('Progress Bars', initProgressBars);
+  await safeInit('Skill Tabs', initSkillTabs);
   await safeInit('Cursor Spotlight', initCursorSpotlight);
   await safeInit('Nav Scroll Spy', initNavScrollSpy);
   await safeInit('Mobile Menu', initMobileMenu);

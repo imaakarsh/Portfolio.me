@@ -162,6 +162,36 @@ export function initProgressBars() {
   learningSection.forEach((element) => barObserver.observe(element));
 }
 
+export function initSkillTabs() {
+  const skillsPanel = document.querySelector('.skills-panel');
+  if (!skillsPanel) return;
+
+  const tabs = Array.from(skillsPanel.querySelectorAll('.skills-tab[data-skill-group]'));
+  const rows = Array.from(skillsPanel.querySelectorAll('.skill-row[data-skill-group]'));
+
+  if (!tabs.length || !rows.length) return;
+
+  const setActiveGroup = (group) => {
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.skillGroup === group;
+      tab.classList.toggle('is-active', isActive);
+      tab.setAttribute('aria-selected', String(isActive));
+    });
+
+    rows.forEach((row) => {
+      row.classList.toggle('is-hidden', row.dataset.skillGroup !== group);
+    });
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      setActiveGroup(tab.dataset.skillGroup);
+    });
+  });
+
+  setActiveGroup('frontend');
+}
+
 export function initCursorSpotlight() {
   const spotlight = byId('cursor-spotlight');
   if (!spotlight) return;

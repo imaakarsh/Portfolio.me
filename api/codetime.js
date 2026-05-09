@@ -74,25 +74,37 @@ async function fetchWakaData(apiKey) {
     { Authorization: `Bearer ${apiKey}` },
   ];
 
+  console.log('[CodeTime] attempting WakaTime fetch with', authVariants.length, 'auth variants');
+
   let lastTodayStatus = 0;
   let lastStatsStatus = 0;
 
-  for (const headers of authVariants) {
-    const [todayRes, statsRes] = await Promise.all([
-      fetch('https://wakatime.com/api/v1/users/current/status_bar/today', { headers }),
-      fetch('https://wakatime.com/api/v1/users/current/stats/last_7_days', { headers }),
-    ]);
+  for (const [i, headers] of authVariants.entries()) {
+    try {
+      console.log(`[CodeTime] trying auth variant ${i + 1}`);
+      const [todayRes, statsRes] = await Promise.all([
+        fetch('https://wakatime.com/api/v1/users/current/status_bar/today', { headers }),
+        fetch('https://wakatime.com/api/v1/users/current/stats/last_7_days', { headers }),
+      ]);
 
-    lastTodayStatus = todayRes.status;
-    lastStatsStatus = statsRes.status;
+      lastTodayStatus = todayRes.status;
+      lastStatsStatus = statsRes.status;
 
-    if (!todayRes.ok) {
+      console.log(`[CodeTime] responses: today=${todayRes.status}, stats=${statsRes.status}`);
+
+      if (!todayRes.ok) {
+        // try next auth variant
+        continue;
+      }
+
+      const today = await todayRes.json();
+      const stats = statsRes.ok ? await statsRes.json() : null;
+      return { today, stats, todayStatus: todayRes.status, statsStatus: statsRes.status };
+    } catch (err) {
+      console.warn('[CodeTime] fetch attempt failed:', err && err.message ? err.message : err);
+      // try next variant
       continue;
     }
-
-    const today = await todayRes.json();
-    const stats = statsRes.ok ? await statsRes.json() : null;
-    return { today, stats, todayStatus: todayRes.status, statsStatus: statsRes.status };
   }
 
   return { today: null, stats: null, todayStatus: lastTodayStatus, statsStatus: lastStatsStatus };
@@ -103,7 +115,9 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=300'); // cache 5 min
 
   if (!CODETIME_API_KEY) {
-    return res.status(200).json({ error: 'No API key' });
+    // Keep 200 JSON response so frontend can render a friendly message.
+    console.warn('[CodeTime] no API key configured');
+    return res.status(200).json({ error: 'No API key', text: 'CodeTime unavailable', hours: 0, minutes: 0, editors: [] });
   }
 
   try {
@@ -111,7 +125,8 @@ export default async function handler(req, res) {
     console.log('[CodeTime] upstream status:', todayStatus, statsStatus);
 
     if (!today) {
-      return res.status(200).json({ error: `Auth failed (${todayStatus || 0})`, text: '0 secs', hours: 0, minutes: 0, editors: [] });
+      // Return a clear JSON payload while keeping 200 to simplify client handling in-dev
+      return res.status(200).json({ error: `Auth failed (${todayStatus || 0})`, text: 'CodeTime unavailable', hours: 0, minutes: 0, editors: [] });
     }
 
     const totals = normalizeTotals(today?.data, stats?.data);

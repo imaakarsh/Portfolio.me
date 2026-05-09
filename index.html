@@ -253,28 +253,107 @@
           <span>Express JS</span>
         </div>
       </div>
+
+      <div class="skills-panel reveal reveal-d2" aria-label="Skill levels">
+        <div class="skills-tabs" role="tablist" aria-label="Skill groups">
+          <button type="button" class="skills-tab is-active" data-skill-group="frontend" aria-selected="true">Frontend</button>
+          <button type="button" class="skills-tab" data-skill-group="backend" aria-selected="false">Backend</button>
+          <button type="button" class="skills-tab" data-skill-group="tools" aria-selected="false">Tools</button>
+        </div>
+
+        <div class="skills-list">
+          <div class="skill-row" data-skill-group="frontend">
+            <span class="skill-name">HTML / CSS</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 95%;"></span></div>
+            <span class="skill-percent">95%</span>
+          </div>
+          <div class="skill-row" data-skill-group="frontend">
+            <span class="skill-name">JavaScript</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 88%;"></span></div>
+            <span class="skill-percent">88%</span>
+          </div>
+          <div class="skill-row" data-skill-group="frontend">
+            <span class="skill-name">TypeScript</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 72%;"></span></div>
+            <span class="skill-percent">72%</span>
+          </div>
+          <div class="skill-row" data-skill-group="frontend">
+            <span class="skill-name">Tailwind CSS</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 85%;"></span></div>
+            <span class="skill-percent">85%</span>
+          </div>
+          <div class="skill-row is-hidden" data-skill-group="backend">
+            <span class="skill-name">Node.js</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 80%;"></span></div>
+            <span class="skill-percent">80%</span>
+          </div>
+          <div class="skill-row is-hidden" data-skill-group="backend">
+            <span class="skill-name">Express</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 76%;"></span></div>
+            <span class="skill-percent">76%</span>
+          </div>
+          <div class="skill-row is-hidden" data-skill-group="backend">
+            <span class="skill-name">MongoDB</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 68%;"></span></div>
+            <span class="skill-percent">68%</span>
+          </div>
+          <div class="skill-row is-hidden" data-skill-group="tools">
+            <span class="skill-name">Git / GitHub</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 90%;"></span></div>
+            <span class="skill-percent">90%</span>
+          </div>
+          <div class="skill-row is-hidden" data-skill-group="tools">
+            <span class="skill-name">VS Code</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 92%;"></span></div>
+            <span class="skill-percent">92%</span>
+          </div>
+          <div class="skill-row is-hidden" data-skill-group="tools">
+            <span class="skill-name">Vite</span>
+            <div class="skill-track" aria-hidden="true"><span class="skill-fill" style="width: 84%;"></span></div>
+            <span class="skill-percent">84%</span>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Career Path-->
-    <section class="section reveal" id="experience" aria-label="About and experience">
+    <!-- EXPERIENCE — visual timeline -->
+    <section class="section reveal" id="experience">
       <p class="section-eyebrow">Career Path</p>
       <h2 class="section-heading">Experience &amp; Impact</h2>
 
-      <div class="experience-card" id="experience-card">
-        <div class="exp-header">
-          <div class="exp-meta">
-            <span class="exp-role">Full Stack Developer</span>
-            <span class="exp-separator">·</span>
-            <span class="exp-company">Personal Projects</span>
+      <div class="timeline">
+        <div class="timeline-item reveal reveal-d1">
+          <div class="timeline-dot"></div>
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-role">Full Stack Developer</div>
+              <div class="timeline-company">Personal Projects</div>
+            </div>
+            <span class="timeline-date">2026 — Present</span>
           </div>
-          <span class="exp-date">2026 — Present</span>
+          <ul class="timeline-bullets">
+            <li>Built and deployed responsive full-stack web apps using HTML, CSS, JS</li>
+            <li>Shipped FocusFlow (Pomodoro app) and a developer tool landing page clone</li>
+            <li>Focused on clean UI, accessibility, and cross-device performance</li>
+            <li>Explored modern frameworks and frontend tooling to expand the stack</li>
+          </ul>
         </div>
-        <ul class="exp-bullets">
-          <li>Built and deployed responsive full-stack web applications using HTML, CSS, JS</li>
-          <li>Shipped a Pomodoro productivity app (FocusFlow) and a developer tool landing page clone</li>
-          <li>Focused on clean UI, accessibility, and performance across all projects</li>
-          <li>Explored FrameWorks and modern frontend tooling to expand the stack</li>
-        </ul>
+
+        <div class="timeline-item reveal reveal-d2">
+          <div class="timeline-dot dim"></div>
+          <div class="timeline-header">
+            <div>
+              <div class="timeline-role">Open Source Contributor</div>
+              <div class="timeline-company">GitHub</div>
+            </div>
+            <span class="timeline-date">2026 — Present</span>
+          </div>
+          <ul class="timeline-bullets">
+            <li>Maintained Notes Archive — a B.Tech resource hub for students</li>
+            <li>Wrote technical blog posts on DNS, cURL, Git internals, and browser mechanics</li>
+            <li>Published 7+ articles on Hashnode covering web fundamentals</li>
+          </ul>
+        </div>
       </div>
     </section>
 
