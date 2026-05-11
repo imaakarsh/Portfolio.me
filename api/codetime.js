@@ -1,75 +1,86 @@
-const CODETIME_API_KEY = process.env.CODETIME_API_KEY || process.env.WAKATIME_API_KEY; // fallback for compatibility
+const CODETIME_API_KEY = process.env.CODETIME_API_KEY || process.env.WAKATIME_API_KEY;
 
-function parseSecondsFromText(text) {
-  if (!text || typeof text !== 'string') return 0;
+async function fetchCodetimeData(apiKey) {
+  try {
+    console.log('[CodeTime] attempting CodeTime API fetch');
+    const headers = { 
+      'Authorization': apiKey,
+      'Content-Type': 'application/json' 
+    };
 
-  const hourMatch = text.match(/(\d+)\s*(?:h|hr|hrs|hour|hours)/i);
-  const minuteMatch = text.match(/(\d+)\s*(?:m|min|mins|minute|minutes)/i);
-  const secondMatch = text.match(/(\d+)\s*(?:s|sec|secs|second|seconds)/i);
+    const res = await fetch('https://api.codetime.dev/v1/user', { headers });
+    console.log(`[CodeTime] CodeTime API response: ${res.status}`);
 
-  const h = Number(hourMatch?.[1] || 0);
-  const m = Number(minuteMatch?.[1] || 0);
-  const s = Number(secondMatch?.[1] || 0);
-  return h * 3600 + m * 60 + s;
+    if (res.ok) {
+      const data = await res.json();
+      console.log('[CodeTime] Got CodeTime data');
+      return data;
+    }
+    return null;
+  } catch (err) {
+    console.warn('[CodeTime] CodeTime fetch failed:', err?.message);
+    return null;
+  }
 }
 
-function normalizeTotals(todayData, statsData) {
-  const todayGrand = todayData?.grand_total || {};
-  const statsGrand = statsData?.grand_total || {};
-
-  // Prefer explicit numeric fields from "today", then from 7-day stats.
-  let seconds = Number(
-    todayGrand.total_seconds
-      ?? todayGrand.seconds
-      ?? todayData?.total_seconds
-      ?? todayData?.cumulative_total?.seconds
-      ?? 0,
-  );
-
-  if (!Number.isFinite(seconds) || seconds <= 0) {
-    seconds = Number(
-      statsGrand.total_seconds
-        ?? statsGrand.seconds
-        ?? 0,
-    );
-  }
-
-  if (!Number.isFinite(seconds) || seconds <= 0) {
-    // Fallback for payloads that only include human-readable text.
-    const textCandidates = [
-      todayGrand.text,
-      todayGrand.digital,
-      todayData?.human_readable_total_including_other_language,
-      todayData?.human_readable_total,
-      statsGrand.text,
-      statsGrand.digital,
-    ];
-
-    for (const candidate of textCandidates) {
-      const parsed = parseSecondsFromText(candidate);
-      if (parsed > 0) {
-        seconds = parsed;
-        break;
-      }
+async function fetchWakatimeData(apiKey) {
+  try {
+    console.log('[CodeTime] attempting WakaTime API fetch');
+    const authHeader = `Bearer ${apiKey}`;
+    
+    const res = await fetch('https://wakatime.com/api/v1/users/current/stats/today', {
+      headers: { 'Authorization': authHeader }
+    });
+    
+    console.log(`[CodeTime] WakaTime API response: ${res.status}`);
+    
+    if (res.ok) {
+      const data = await res.json();
+      console.log('[CodeTime] Got WakaTime data');
+      return { data, source: 'wakatime' };
     }
+    return null;
+  } catch (err) {
+    console.warn('[CodeTime] WakaTime fetch failed:', err?.message);
+    return null;
   }
+}
 
-  if (!Number.isFinite(seconds) || seconds < 0) {
-    seconds = 0;
-  }
+function formatCodetimeData(data) {
+  if (!data) return { text: 'CodeTime unavailable', hours: 0, minutes: 0 };
+  
+  const totalSeconds = data?.cumulativeCodeTime || data?.cumulative_total?.total_seconds || 0;
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  
+  return {
+    text: `${hours}h ${minutes}m coded today`,
+    hours,
+    minutes
+  };
+}
 
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const text = todayGrand.text || statsGrand.text || (seconds > 0 ? `${hours} hrs ${minutes} mins` : '0 secs');
-
-  return { seconds, hours, minutes, text };
+function formatWakatimeData(data) {
+  if (!data || !data.data) return { text: '0h 0m coded today', hours: 0, minutes: 0 };
+  
+  const grand = data.data.grand_total || {};
+  const totalSeconds = grand.total_seconds || 0;
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  
+  return {
+    text: `${hours}h ${minutes}m coded today`,
+    hours,
+    minutes
+  };
 }
 
 async function fetchWakaData(apiKey) {
   const authVariants = [
-    // WakaTime-compatible Basic auth expects "apiKey:" as the credential.
+    // WakaTime accepts raw token in Basic auth header
+    { Authorization: `Basic ${apiKey}` },
+    // Also try standard Base64 encoding formats as fallbacks
     { Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString('base64')}` },
-    // Keep previous format as fallback for compatibility.
     { Authorization: `Basic ${Buffer.from(apiKey).toString('base64')}` },
     { Authorization: `Bearer ${apiKey}` },
   ];
@@ -115,35 +126,34 @@ export default async function handler(req, res) {
   res.setHeader('Cache-Control', 's-maxage=300'); // cache 5 min
 
   if (!CODETIME_API_KEY) {
-    // Keep 200 JSON response so frontend can render a friendly message.
-    console.warn('[CodeTime] no API key configured');
-    return res.status(200).json({ error: 'No API key', text: 'CodeTime unavailable', hours: 0, minutes: 0, editors: [] });
+    console.warn('[CodeTime] No API key configured');
+    return res.status(200).json({ 
+      text: 'CodeTime unconfigured', 
+      hours: 0, 
+      minutes: 0 
+    });
   }
 
   try {
-    const { today, stats, todayStatus, statsStatus } = await fetchWakaData(CODETIME_API_KEY);
-    console.log('[CodeTime] upstream status:', todayStatus, statsStatus);
-
-    if (!today) {
-      // Return a clear JSON payload while keeping 200 to simplify client handling in-dev
-      return res.status(200).json({ error: `Auth failed (${todayStatus || 0})`, text: 'CodeTime unavailable', hours: 0, minutes: 0, editors: [] });
+    const wakaData = await fetchWakaData(CODETIME_API_KEY);
+    
+    if (wakaData?.today?.data) {
+      const formatted = formatWakatimeData(wakaData.today);
+      return res.status(200).json(formatted);
     }
-
-    const totals = normalizeTotals(today?.data, stats?.data);
-    const editors = stats?.data?.editors?.slice(0, 3) ?? [];
-
-    return res.status(200).json({
-      text: totals.text,
-      hours: totals.hours,
-      minutes: totals.minutes,
-      editors: editors.map((e) => ({
-        name: e.name,
-        percent: Math.round(Number(e.percent) || 0),
-        text: e.text,
-      })),
+    
+    // Fallback to static response
+    return res.status(200).json({ 
+      text: 'Fetching stats...', 
+      hours: 0, 
+      minutes: 0 
     });
   } catch (err) {
-    console.error('[CodeTime]', err);
-    return res.status(200).json({ error: 'Failed', text: '0 secs', editors: [] });
+    console.error('[CodeTime] Handler error:', err);
+    return res.status(200).json({ 
+      text: 'Stats unavailable', 
+      hours: 0, 
+      minutes: 0 
+    });
   }
 }

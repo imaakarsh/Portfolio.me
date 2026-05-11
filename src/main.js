@@ -72,8 +72,7 @@ async function init() {
   await safeInit('GitHub Contributions', initGitHubContributions);
   await safeInit('Visitor Counter', initVisitorCounter);
   await safeInit('Guestbook', initGuestbookOnDemand);
-  // Discord integration disabled in favor of direct Spotify API
-  // await safeInit('Discord', initDiscord);
+  await safeInit('Discord', initDiscord);
   await safeInit('CodeTime', initCodeTime);
 }
 
