@@ -66,7 +66,7 @@ Portfolio/
 
 Set deployment/local env vars for the APIs used in the project:
 
-- `CODETIME_API_KEY`: API key for fetching WakaTime/CodeTime coding statistics.
+- `CODETIME_API_KEY` or `WAKATIME_API_KEY`: API key for fetching WakaTime or CodeTime coding statistics.
 - `SPOTIFY_CLIENT_ID`: Client ID from the Spotify Developer Dashboard.
 - `SPOTIFY_CLIENT_SECRET`: Client Secret from the Spotify Developer Dashboard.
 - `SPOTIFY_REFRESH_TOKEN`: OAuth refresh token for persistent Spotify API access.
