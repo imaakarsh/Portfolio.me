@@ -51,6 +51,14 @@ export function initTheme() {
   const setTheme = (theme, animated = false) => {
     if (animated && 'startViewTransition' in document) {
       animateSwitch();
+      // Create ripple effect from toggle button
+      if (themeToggle) {
+        const rect = themeToggle.getBoundingClientRect();
+        const startX = rect.left + rect.width / 2;
+        const startY = rect.top + rect.height / 2;
+        document.documentElement.style.setProperty('--ripple-x', `${startX}px`);
+        document.documentElement.style.setProperty('--ripple-y', `${startY}px`);
+      }
       document.startViewTransition(() => applyTheme(theme));
       return;
     }

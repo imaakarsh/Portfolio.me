@@ -221,18 +221,77 @@ export function initNavScrollSpy() {
     navLinks.forEach((link) => {
       const active = link.getAttribute('data-section') === id;
       link.classList.toggle('active', active);
+      if (active) {
+        // Smooth scroll the active link into view if needed
+        link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      }
     });
   };
 
+  // Use a better root margin for scroll detection
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        setActive(entry.target.id);
-      }
-    });
-  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+    // Find the entry that's most in view
+    const mostVisible = entries.reduce((max, entry) => {
+      return entry.intersectionRatio > (max?.intersectionRatio ?? 0) ? entry : max;
+    }, null);
+
+    if (mostVisible?.isIntersecting) {
+      setActive(mostVisible.target.id);
+    }
+  }, { 
+    rootMargin: '-40% 0px -40% 0px',
+    threshold: [0, 0.25, 0.5, 0.75, 1]
+  });
 
   sections.forEach(({ section }) => observer.observe(section));
+
+  // Handle click events for smooth scrolling
+  navLinks.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const sectionId = link.getAttribute('data-section');
+      const section = document.getElementById(sectionId);
+      
+      if (section) {
+        // Set active immediately on click for better UX
+        setActive(sectionId);
+        
+        // Scroll smoothly with appropriate offset
+        const offsetTop = section.getBoundingClientRect().top + window.scrollY;
+        const navHeight = document.querySelector('.navbar')?.offsetHeight || 100;
+        
+        window.scrollTo({
+          top: offsetTop - navHeight - 16,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+
+  // Keyboard navigation support (Arrow keys for nav links)
+  navLinks.forEach((link, index) => {
+    link.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextLink = navLinks[(index + 1) % navLinks.length];
+        nextLink.focus();
+        nextLink.click();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevLink = navLinks[(index - 1 + navLinks.length) % navLinks.length];
+        prevLink.focus();
+        prevLink.click();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        navLinks[0].focus();
+        navLinks[0].click();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        navLinks[navLinks.length - 1].focus();
+        navLinks[navLinks.length - 1].click();
+      }
+    });
+  });
 }
 
 export function initMobileMenu() {
