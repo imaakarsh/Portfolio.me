@@ -8,11 +8,10 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 
 ## 🛠️ Stack
 
-- **Frontend**: HTML, CSS, JavaScript (ES modules), Tailwind CSS v4 (via `@tailwindcss/vite`)
+- **Frontend**: HTML, CSS, TypeScript, Tailwind CSS v4 (via `@tailwindcss/vite`)
 - **Build tool**: Vite 6
-- **APIs**: Vercel-style serverless functions in `api/` (Node.js)
-<<<<<<< HEAD
-- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Last.fm, CodeTime, and GitHub APIs
+- **APIs**: Vercel-style serverless functions in `api/` (Node.js/TypeScript)
+- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Spotify, CodeTime, GitHub, and CountAPI (visitors)
 ## 🚀 Features
 
 - **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), WakaTime/CodeTime, and GitHub APIs with a visual contribution grid.
@@ -34,10 +33,10 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 
 text
 Portfolio/
-├── api/                      # Serverless API handlers
-│   ├── lastfm.js
-│   ├── spotify.js
-│   └── codetime.js
+├── api/                      # Serverless API handlers (TypeScript)
+│   ├── visitors.ts
+│   ├── spotify.ts
+│   └── codetime.ts
 ├── docs/                     # Documentation
 ├── public/                   # Static public assets
 ├── src/
@@ -46,11 +45,12 @@ Portfolio/
 │   ├── effects/              # Visual effects (night sky)
 │   ├── features/             # Feature modules (Discord, GH, etc.)
 │   ├── utils/                # Utility functions
-│   ├── main.js               # Frontend entry point
-│   ├── oneko.js              # Cursor-following cat effect
+│   ├── main.ts               # Frontend entry point
+│   ├── oneko.ts              # Cursor-following cat effect
 │   └── style.css
 ├── index.html                # App HTML entry
-├── vite.config.js
+├── tsconfig.json             # TypeScript configuration
+├── vite.config.ts            # Vite configuration
 ├── vercel.json
 └── package.json
 
