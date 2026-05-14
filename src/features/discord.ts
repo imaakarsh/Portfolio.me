@@ -1,4 +1,4 @@
-import { PROFILE } from '../config/constants.js';
+import { PROFILE } from '../config/constants';
 
 const LANYARD_WS  = 'wss://api.lanyard.rest/socket';
 const HEARTBEAT   = 30_000;

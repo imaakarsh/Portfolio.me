@@ -1,4 +1,4 @@
-import { byId } from '../utils/dom.js';
+import { byId } from '../utils/dom';
 
 export const themeStorageKey = 'portfolio-theme';
 

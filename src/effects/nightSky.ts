@@ -1,4 +1,4 @@
-import { byId } from '../utils/dom.js';
+import { byId } from '../utils/dom';
 
 /**
  * Initialize animated night sky effect with stars and shooting stars

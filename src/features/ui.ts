@@ -1,4 +1,4 @@
-import { byId, throttle } from '../utils/dom.js';
+import { byId, throttle } from '../utils/dom';
 
 const typingPhrases = [
   'Full Stack Developer.',
@@ -8,11 +8,11 @@ const typingPhrases = [
   'Lifelong Learner.',
 ];
 
-export function initAvatarToggle() {
-  const avatar = byId('about-avatar-img');
+export function initAvatarToggle(): void {
+  const avatar = byId('about-avatar-img') as HTMLImageElement | null;
   if (!avatar) return;
 
-  const imgA = 'assets/krisna.jpeg';
+  const imgA = 'assets/aakarshh.png';
   const imgB = 'assets/icon.jpg';
   let isAlt = false;
 

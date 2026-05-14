@@ -7,7 +7,7 @@
  * @param {string} id - The element ID
  * @returns {Element|null} The element or null if not found
  */
-export function byId(id) {
+export function byId(id: string): HTMLElement | null {
   try {
     return document.getElementById(id);
   } catch {
@@ -22,7 +22,7 @@ export function byId(id) {
  * @param {Document|Element} parent - Parent element to query within (defaults to document)
  * @returns {Element[]} Array of matching elements
  */
-export function queryAll(selector, parent = document) {
+export function queryAll(selector: string, parent: Document | Element = document): Element[] {
   try {
     return Array.from(parent.querySelectorAll(selector));
   } catch {
@@ -37,7 +37,7 @@ export function queryAll(selector, parent = document) {
  * @param {Document|Element} parent - Parent element to query within (defaults to document)
  * @returns {Element|null} The element or null
  */
-export function query(selector, parent = document) {
+export function query(selector: string, parent: Document | Element = document): Element | null {
   try {
     return parent.querySelector(selector) ?? null;
   } catch {
@@ -50,7 +50,7 @@ export function query(selector, parent = document) {
  * Safely add/remove classes with error handling
  */
 export const classList = {
-  add(element, ...classes) {
+  add(element: Element | null, ...classes: string[]): void {
     if (!element) return;
     try {
       element.classList.add(...classes);
@@ -58,7 +58,7 @@ export const classList = {
       console.warn('Failed to add classes', classes);
     }
   },
-  remove(element, ...classes) {
+  remove(element: Element | null, ...classes: string[]): void {
     if (!element) return;
     try {
       element.classList.remove(...classes);
@@ -66,7 +66,7 @@ export const classList = {
       console.warn('Failed to remove classes', classes);
     }
   },
-  toggle(element, className, force) {
+  toggle(element: Element | null, className: string, force?: boolean): void {
     if (!element) return;
     try {
       element.classList.toggle(className, force);
@@ -74,7 +74,7 @@ export const classList = {
       console.warn('Failed to toggle class', className);
     }
   },
-  has(element, className) {
+  has(element: Element | null, className: string): boolean {
     if (!element) return false;
     try {
       return element.classList.contains(className);
@@ -90,10 +90,10 @@ export const classList = {
  * @param {number} delay - Delay in milliseconds
  * @returns {Function} Debounced function
  */
-export function debounce(fn, delay) {
-  let timeoutId = null;
+export function debounce<T extends (...args: any[]) => any>(fn: T, delay: number): (...args: Parameters<T>) => void {
+  let timeoutId: NodeJS.Timeout | null = null;
 
-  return (...args) => {
+  return (...args: Parameters<T>): void => {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
@@ -110,11 +110,11 @@ export function debounce(fn, delay) {
  * @param {number} delay - Delay in milliseconds
  * @returns {Function} Throttled function
  */
-export function throttle(fn, delay) {
+export function throttle<T extends (...args: any[]) => any>(fn: T, delay: number): (...args: Parameters<T>) => void {
   let lastCall = 0;
-  let timeoutId = null;
+  let timeoutId: NodeJS.Timeout | null = null;
 
-  return (...args) => {
+  return (...args: Parameters<T>): void => {
     const now = Date.now();
 
     if (now - lastCall >= delay) {

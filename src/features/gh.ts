@@ -1,5 +1,5 @@
-import { byId } from '../utils/dom.js';
-import { PROFILE } from '../config/constants.js';
+import { byId } from '../utils/dom';
+import { PROFILE } from '../config/constants';
 
 const { githubUsername } = PROFILE;
 
@@ -181,8 +181,6 @@ export function initVisitorCounter() {
     return;
   }
 
-  const sessionKey = 'portfolio-visitor-counted-v3';
-
   // Smooth count-up animation
   const animateCount = (target) => {
     const duration = 1200;
@@ -219,52 +217,41 @@ export function initVisitorCounter() {
     observer.observe(badge);
   };
 
-  const fetchAndUpdateCount = async () => {
+  const fetchAndUpdateCount = async (): Promise<void> => {
     try {
-      // Check if already counted in this session
-      const alreadyCounted = sessionStorage.getItem(sessionKey) === '1';
-
-      // Use countapi.xyz - free, no auth required
-      const namespace = 'aakarsh-portfolio';
-      const key = 'visitor-count';
-      const url = `https://api.countapi.xyz/hit/${namespace}/${key}`;
-
-      const response = await fetch(url, {
+      const response = await fetch('/api/visitors?action=hit', {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
+        cache: 'no-store',
       });
 
-      if (!response.ok) throw new Error('Failed to fetch count');
+      if (!response.ok) throw new Error(`API returned ${response.status}`);
 
       const data = await response.json();
-      const count = data.value || 0;
+      const count = data.count ?? 0;
 
-      // Only increment once per session
-      if (!alreadyCounted) {
-        sessionStorage.setItem(sessionKey, '1');
-      }
-
+      console.debug(`[Visitor Counter] Incremented via backend. Total visits: ${count}`);
       showCount(count);
     } catch (error) {
-      console.warn('[Visitor Counter] API unavailable, using fallback.', error);
-      // Fallback: use localStorage
+      console.warn('[Visitor Counter] Backend unavailable, falling back to localStorage.', error);
+      // Fallback: use localStorage for local counting
       try {
         const storageKey = 'portfolio-visitor-count-fallback';
-        const existingCount = Number.parseInt(localStorage.getItem(storageKey) ?? '0', 10);
-        const alreadyCounted = sessionStorage.getItem(sessionKey) === '1';
 
-        if (!alreadyCounted) {
-          const nextCount = Number.isFinite(existingCount) && existingCount >= 0 ? existingCount + 1 : 1;
-          localStorage.setItem(storageKey, String(nextCount));
-          sessionStorage.setItem(sessionKey, '1');
-          showCount(nextCount);
-          return;
+        let currentCount = Number.parseInt(localStorage.getItem(storageKey) ?? '0', 10);
+        
+        // Ensure count is valid
+        if (!Number.isFinite(currentCount) || currentCount < 0) {
+          currentCount = 0;
         }
 
-        const safeCount = Number.isFinite(existingCount) && existingCount >= 0 ? existingCount : 0;
-        showCount(safeCount);
+        currentCount += 1;
+        localStorage.setItem(storageKey, String(currentCount));
+        console.debug(`[Visitor Counter] Incremented locally (fallback). Total: ${currentCount}`);
+
+        showCount(currentCount);
       } catch (storageError) {
-        console.warn('[Visitor Counter] Local storage unavailable.', storageError);
+        console.warn('[Visitor Counter] Storage unavailable.', storageError);
         countEl.textContent = '—';
       }
     }

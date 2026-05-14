@@ -1,4 +1,4 @@
-import { byId, query, queryAll } from '../utils/dom.js';
+import { byId, query, queryAll } from '../utils/dom';
 
 export function initBlogFiltering() {
   const buttons = queryAll('.blog-tag[data-blog-tag]');

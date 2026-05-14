@@ -3,6 +3,15 @@ import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 import fs from 'fs';
 
+function resolveApiModule(apiName: string) {
+  const tsPath = path.resolve(__dirname, `api/${apiName}.ts`);
+  const jsPath = path.resolve(__dirname, `api/${apiName}.js`);
+
+  if (fs.existsSync(tsPath)) return tsPath;
+  if (fs.existsSync(jsPath)) return jsPath;
+  return null;
+}
+
 export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to '' to load all envs regardless of the `VITE_` prefix.
@@ -26,9 +35,9 @@ export default defineConfig(({ mode }) => {
             if (req.url?.startsWith('/api/')) {
               const url = new URL(req.url, `http://${req.headers.host}`);
               const apiName = url.pathname.split('/api/')[1];
-              const filePath = path.resolve(__dirname, `api/${apiName}.js`);
+              const filePath = resolveApiModule(apiName);
 
-              if (fs.existsSync(filePath)) {
+              if (filePath) {
                 try {
                   const { default: handler } = await server.ssrLoadModule(filePath);
                   

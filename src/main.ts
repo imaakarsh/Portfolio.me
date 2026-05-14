@@ -1,17 +1,17 @@
-import './oneko.js';
-import { initTheme } from './core/theme.js';
-import { initBlogFiltering, initBlogShowMore } from './features/blog.js';
-import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initAnimatedCounters, initProgressBars, initSkillTabs, initCursorSpotlight, initNavScrollSpy, initMobileMenu } from './features/ui.js';
-import { initNightSky } from './effects/nightSky.js';
-import { initGitHubContributions, initVisitorCounter } from './features/gh.js';
-import { initDiscord } from './features/discord.js';
-import { initCodeTime } from './features/codetime.js';
+import './oneko';
+import { initTheme } from './core/theme';
+import { initBlogFiltering, initBlogShowMore } from './features/blog';
+import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initAnimatedCounters, initProgressBars, initSkillTabs, initCursorSpotlight, initNavScrollSpy, initMobileMenu } from './features/ui';
+import { initNightSky } from './effects/nightSky';
+import { initVisitorCounter } from './features/gh';
+import { initDiscord } from './features/discord';
+import { initCodeTime } from './features/codetime';
 
 /**
  * Error-safe wrapper for initialization functions
  * Logs errors but continues with other initializations
  */
-async function safeInit(name, fn) {
+async function safeInit(name: string, fn: () => Promise<void>): Promise<void> {
   try {
     await fn();
   } catch (error) {
@@ -19,12 +19,12 @@ async function safeInit(name, fn) {
   }
 }
 
-async function initGuestbookOnDemand() {
+async function initGuestbookOnDemand(): Promise<void> {
   const section = document.getElementById('guestbook');
   if (!section) return;
 
-  const loadGuestbook = async () => {
-    const { initGuestbook } = await import('./features/guestbook.js');
+  const loadGuestbook = async (): Promise<void> => {
+    const { initGuestbook } = await import('./features/guestbook');
     await initGuestbook();
   };
 
@@ -47,7 +47,7 @@ async function initGuestbookOnDemand() {
  * Initialize all portfolio features in order
  * Each feature initializes independently to prevent cascading failures
  */
-async function init() {
+async function init(): Promise<void> {
   // Core features
   await safeInit('Theme', initTheme);
   await safeInit('Avatar Toggle', initAvatarToggle);
@@ -69,7 +69,6 @@ async function init() {
   await safeInit('Night Sky', initNightSky);
 
   // External APIs
-  await safeInit('GitHub Contributions', initGitHubContributions);
   await safeInit('Visitor Counter', initVisitorCounter);
   await safeInit('Guestbook', initGuestbookOnDemand);
   await safeInit('Discord', initDiscord);
