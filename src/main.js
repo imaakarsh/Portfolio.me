@@ -2,7 +2,6 @@ import './oneko';
 import { initTheme } from './core/theme';
 import { initBlogFiltering, initBlogShowMore } from './features/blog';
 import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initSkillTabs, initCursorSpotlight, initNavScrollSpy, initMobileMenu } from './features/ui';
-import { initNightSky } from './effects/nightSky';
 import { initGitHubContributions, initVisitorCounter } from './features/gh';
 import { initDiscord } from './features/discord';
 import { initCodeTime } from './features/codetime';
@@ -52,7 +51,7 @@ async function init() {
   await safeInit('Cursor Spotlight', initCursorSpotlight);
   await safeInit('Nav Scroll Spy', initNavScrollSpy);
   await safeInit('Mobile Menu', initMobileMenu);
-  await safeInit('Night Sky', initNightSky);
+
   await safeInit('Visitor Counter', initVisitorCounter);
   await safeInit('GitHub Contributions', initGitHubContributions);
   await safeInit('Spotify', initSpotify);

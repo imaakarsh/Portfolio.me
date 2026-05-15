@@ -1,11 +1,11 @@
 import { byId, throttle } from '../utils/dom';
 
 const typingPhrases = [
-  'Full Stack Developer.',
-  'Creative Coder.',
-  'Problem Solver.',
-  'Open Source Enthusiast.',
-  'Lifelong Learner.',
+  'build',
+  'ship',
+  'code',
+  'gym',
+  'repeat',
 ];
 
 export function initAvatarToggle() {
