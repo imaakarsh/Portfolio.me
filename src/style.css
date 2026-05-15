@@ -5234,3 +5234,120 @@ footer {
     border: none !important;
   }
 }
+
+/* --- COMPREHENSIVE RESPONSIVENESS OVERHAUL --- */
+
+@media (max-width: 1024px) {
+  .page-wrapper {
+    width: 92%;
+    padding-top: 80px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-wrapper {
+    width: 100%;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-top: 70px;
+  }
+  
+  .section-gap {
+    --section-gap: 60px;
+  }
+  
+  .hero-heading {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .tech-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)) !important;
+    gap: 12px !important;
+  }
+  
+  .projects-grid, 
+  .blog-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  
+  .timeline-item {
+    padding: 20px 18px !important;
+  }
+  
+  .timeline-dot {
+    left: -24px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .navbar {
+    padding: 12px 10px !important;
+  }
+  
+  .nav-pill {
+    width: 100% !important;
+    padding: 5px 8px !important;
+    gap: 5px !important;
+  }
+  
+  .nav-links li a.nav-link {
+    padding: 6px 10px !important;
+    font-size: 12px !important;
+  }
+  
+  .hero-heading {
+    font-size: 2.2rem !important;
+  }
+  
+  .hero-heading--typing {
+    font-size: 1.4rem !important;
+  }
+  
+  .hero-section-bio {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+  
+  .hero-cta {
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  
+  .btn-outline, .btn-solid {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  .about-card {
+    padding: 20px !important;
+  }
+  
+  .skill-row {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+  
+  .skill-name {
+    font-size: 14px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .nav-links li a.nav-link {
+    padding: 5px 6px !important;
+    font-size: 11px !important;
+  }
+  
+  .nav-avatar {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  
+  .hero-heading {
+    font-size: 1.8rem !important;
+  }
+}
+
