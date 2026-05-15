@@ -14,11 +14,12 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Spotify, CodeTime, GitHub, and CountAPI (visitors)
 ## 🚀 Features
 
-- **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), WakaTime/CodeTime, and GitHub APIs with a visual contribution grid.
-- **Interactive UI**: Includes a cursor spotlight effect, multi-phrase typing animation, scroll progress indicator, animated counters, and tabbed skill groups.
+- **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), WakaTime/CodeTime, and Spotify with improved configuration validation.
+- **GitHub Activity**: Visual contribution grid featuring month labels, year-to-date summaries, and automated streak calculation.
+- **Interactive Guestbook**: Persistent messaging with Google authentication, message pagination (View More/Less), owner-specific deletion controls, and robust avatar fallbacks.
+- **Interactive UI**: Includes a cursor spotlight effect, multi-phrase typing animation, scroll progress indicator, and tabbed skill groups for organized tech stack display.
 - **Dynamic Themes**: Smooth dark/light mode switching powered by the View Transition API with custom ripple effects.
-- **Responsive Design**: Optimized horizontal navigation bar providing consistent access across all devices.
-- **Social Integration**: Quick access to social profiles and dynamic avatar interactions.
+- **Navigation**: Responsive horizontal navigation with ScrollSpy integration for automatic active-section highlighting.
 ## ✨ Features
 
 - 📱 Responsive single-page portfolio sections
@@ -71,6 +72,7 @@ Set deployment/local env vars for the APIs used in the project:
 - `CODETIME_API_KEY` or `WAKATIME_API_KEY`: API key for fetching WakaTime or CodeTime coding statistics.
 - `SPOTIFY_CLIENT_ID`: Client ID from the Spotify Developer Dashboard.
 - `SPOTIFY_CLIENT_SECRET`: Client Secret from the Spotify Developer Dashboard.
+- `SPOTIFY_REDIRECT_URI`: (Optional) Redirect URI for Spotify OAuth, defaults to `http://localhost:5173/api/spotify/callback`.
 - `SPOTIFY_REFRESH_TOKEN`: OAuth refresh token for persistent Spotify API access.
 ## 🚀 Deployment
 
