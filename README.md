@@ -22,6 +22,7 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Dynamic UI Effects**: Includes a custom cursor spotlight, multi-phrase typing animation ('build', 'ship', 'code', etc.), and a scroll progress indicator.
 - **Dynamic Themes**: Smooth dark/light mode switching powered by the View Transition API with custom ripple effects.
 - **Navigation**: Responsive navigation with ScrollSpy integration for automatic active-section highlighting.
+- **Responsive Overhaul**: Comprehensive mobile-first CSS improvements and visual refinements for a seamless experience across all device sizes.
 ## ✨ Features
 
 - 📱 Responsive single-page portfolio sections
