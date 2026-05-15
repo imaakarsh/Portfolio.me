@@ -124,6 +124,12 @@ export function initGitHubContributions() {
   const updateStats = (total) => {
     if (!ghTotal || !ghCard) return;
 
+    // Update summary text
+    const summaryText = byId('gh-summary-text');
+    if (summaryText) {
+      animateValue(summaryText, total, '');
+    }
+
     const statsObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
