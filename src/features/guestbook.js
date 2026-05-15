@@ -84,10 +84,7 @@ export function initGuestbook() {
 
     const avatarHtml = photoURL
       ? `<div class="gb-avatar gb-avatar--img">
-           <img src="${escHtml(photoURL)}" alt="${escHtml(name)}"
-                onerror="this.parentElement.style.background='${colorForName(name)}';
-                         this.parentElement.textContent='${escHtml(name[0])}';
-                         this.parentElement.classList.add('gb-avatar--letter');">
+           <img src="${escHtml(photoURL)}" alt="${escHtml(name)}" data-user-name="${escHtml(name)}">
          </div>`
       : `<div class="gb-avatar gb-avatar--letter" style="--av-color:${colorForName(name)};">
            ${escHtml(name[0])}
@@ -114,6 +111,18 @@ export function initGuestbook() {
         </div>
         <div class="gb-message">${escHtml(message)}</div>
       </div>`;
+
+    // Handle avatar image loading failures
+    const avatarImg = el.querySelector('img[data-user-name]');
+    if (avatarImg) {
+      const userName = avatarImg.getAttribute('data-user-name');
+      const parent = avatarImg.parentElement;
+      avatarImg.addEventListener('error', () => {
+        parent.style.background = colorForName(userName);
+        parent.textContent = userName[0];
+        parent.classList.add('gb-avatar--letter');
+      });
+    }
 
     if (isOwner) {
       const delBtn = el.querySelector('.gb-delete-btn');

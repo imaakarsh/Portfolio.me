@@ -248,7 +248,11 @@ export function initVisitorCounter() {
       if (!response.ok) throw new Error(`API returned ${response.status}`);
 
       const data = await response.json();
-      const count = data.count ?? 0;
+      let count = data.count ?? 0;
+
+      if (!Number.isFinite(count) || count < 0) {
+        count = 0;
+      }
 
       console.debug(`[Visitor Counter] Incremented via backend. Total visits: ${count}`);
       showCount(count);
@@ -257,14 +261,19 @@ export function initVisitorCounter() {
       try {
         const storageKey = 'portfolio-visitor-count-fallback';
 
-        let currentCount = Number.parseInt(localStorage.getItem(storageKey) ?? '0', 10);
+        let currentCount = parseInt(localStorage.getItem(storageKey) ?? '0', 10);
 
         if (!Number.isFinite(currentCount) || currentCount < 0) {
           currentCount = 0;
         }
 
         currentCount += 1;
-        localStorage.setItem(storageKey, String(currentCount));
+        try {
+          localStorage.setItem(storageKey, String(currentCount));
+        } catch (e) {
+          console.warn('LocalStorage full or disabled:', e);
+          return;
+        }
         console.debug(`[Visitor Counter] Incremented locally (fallback). Total: ${currentCount}`);
 
         showCount(currentCount);

@@ -228,5 +228,30 @@ export function initNavScrollSpy() {
 }
 
 export function initMobileMenu() {
-  return;
+  const menuBtn = byId('nav-menu-btn');
+  const navLinks = byId('nav-links');
+
+  if (!menuBtn || !navLinks) return;
+
+  menuBtn.addEventListener('click', () => {
+    const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.setAttribute('aria-expanded', String(!isExpanded));
+    navLinks.classList.toggle('nav-links--active');
+  });
+
+  // Close menu when a nav link is clicked
+  navLinks.querySelectorAll('.nav-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      menuBtn.setAttribute('aria-expanded', 'false');
+      navLinks.classList.remove('nav-links--active');
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!menuBtn.contains(e.target) && !navLinks.contains(e.target)) {
+      menuBtn.setAttribute('aria-expanded', 'false');
+      navLinks.classList.remove('nav-links--active');
+    }
+  });
 }

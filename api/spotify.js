@@ -2,7 +2,19 @@ const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI || 'http://localhost:5173/api/spotify/callback';
 
+function validateSpotifyConfig() {
+  if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET) {
+    console.error('[Spotify] Missing required environment variables: SPOTIFY_CLIENT_ID or SPOTIFY_CLIENT_SECRET');
+    return false;
+  }
+  return true;
+}
+
 function getAuthUrl(req, res) {
+  if (!validateSpotifyConfig()) {
+    return res.status(500).json({ error: 'Spotify configuration incomplete' });
+  }
+
   const scope = 'user-read-currently-playing user-read-playback-state';
   const authUrl = `https://accounts.spotify.com/authorize?${new URLSearchParams({
     client_id: SPOTIFY_CLIENT_ID,
@@ -15,6 +27,10 @@ function getAuthUrl(req, res) {
 }
 
 async function handleCallback(req, res) {
+  if (!validateSpotifyConfig()) {
+    return res.status(500).json({ error: 'Spotify configuration incomplete' });
+  }
+
   const url = new URL(req.url, `http://${req.headers.host}`);
   const code = url.searchParams.get('code');
 
@@ -45,6 +61,7 @@ async function handleCallback(req, res) {
     res.setHeader('Location', redirectUrl);
     res.status(302);
     res.end();
+    return;
   } catch (error) {
     console.error('Spotify auth error:', error);
     res.status(500).json({ error: 'Authentication failed' });

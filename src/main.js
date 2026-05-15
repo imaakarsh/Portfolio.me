@@ -6,6 +6,7 @@ import { initNightSky } from './effects/nightSky';
 import { initGitHubContributions, initVisitorCounter } from './features/gh';
 import { initDiscord } from './features/discord';
 import { initCodeTime } from './features/codetime';
+import { initSpotify } from './features/spotify';
 
 async function safeInit(name, fn) {
   try {
@@ -53,7 +54,8 @@ async function init() {
   await safeInit('Mobile Menu', initMobileMenu);
   await safeInit('Night Sky', initNightSky);
   await safeInit('Visitor Counter', initVisitorCounter);
-    await safeInit('GitHub Contributions', initGitHubContributions);
+  await safeInit('GitHub Contributions', initGitHubContributions);
+  await safeInit('Spotify', initSpotify);
   await safeInit('Guestbook', initGuestbookOnDemand);
   await safeInit('Discord', initDiscord);
   await safeInit('CodeTime', initCodeTime);
