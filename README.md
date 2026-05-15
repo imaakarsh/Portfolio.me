@@ -60,13 +60,14 @@ Portfolio/
 
 ## 💻 Local development
 
-1. Install dependencies:
+1. Ensure you have **Node.js v20** or higher installed.
+2. Install dependencies:
    - `npm install` 
-2. Run the development server:
+3. Run the development server:
    - `npm run dev` 
-3. Build the production bundle:
+4. Build the production bundle:
    - `npm run build` 
-4. Preview the production build locally:
+5. Preview the production build locally:
    - `npm run preview`
 ## 🔑 Environment variables
 
