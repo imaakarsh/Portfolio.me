@@ -32,6 +32,7 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - 🌌 Animated night sky effect with stars, shooting stars, and aurora gradients
 - 🎨 Enhanced themes with View Transition API support and ripple effects
 - 🛠️ Tabbed skill categories and learning progress visualization
+- 💎 Premium visual polish with refined CSS animations and high-fidelity UI enhancements
 ## 📂 Project structure
 
 text
