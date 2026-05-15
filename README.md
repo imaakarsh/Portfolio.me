@@ -14,12 +14,14 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Spotify, CodeTime, GitHub, and CountAPI (visitors)
 ## 🚀 Features
 
-- **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), WakaTime/CodeTime, and Spotify with improved configuration validation.
+- **Premium Aesthetic**: Redesigned with a dark glassmorphic UI providing a modern, high-end visual experience.
+- **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), WakaTime/CodeTime, and Spotify.
+- **Interactive Avatar**: Dynamic profile image that toggles on click with a smooth swapping animation.
 - **GitHub Activity**: Visual contribution grid featuring month labels, year-to-date summaries, and automated streak calculation.
-- **Interactive Guestbook**: Persistent messaging with Google authentication, message pagination (View More/Less), owner-specific deletion controls, and robust avatar fallbacks.
-- **Interactive UI**: Includes a cursor spotlight effect, multi-phrase typing animation, scroll progress indicator, and tabbed skill groups for organized tech stack display.
+- **Interactive Guestbook**: Persistent messaging with Google authentication, message pagination, and owner-specific deletion controls.
+- **Dynamic UI Effects**: Includes a custom cursor spotlight, multi-phrase typing animation ('build', 'ship', 'code', etc.), and a scroll progress indicator.
 - **Dynamic Themes**: Smooth dark/light mode switching powered by the View Transition API with custom ripple effects.
-- **Navigation**: Responsive horizontal navigation with ScrollSpy integration for automatic active-section highlighting.
+- **Navigation**: Responsive navigation with ScrollSpy integration for automatic active-section highlighting.
 ## ✨ Features
 
 - 📱 Responsive single-page portfolio sections
