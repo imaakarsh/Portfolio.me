@@ -18,11 +18,10 @@ export function initTheme() {
 
   const applyTheme = (theme) => {
     document.documentElement.setAttribute('data-theme', theme);
-    
+
     try {
       localStorage.setItem(themeStorageKey, theme);
     } catch (error) {
-      // localStorage might be disabled or full
       console.debug('[Theme] Could not persist to localStorage', error);
     }
 
@@ -51,7 +50,6 @@ export function initTheme() {
   const setTheme = (theme, animated = false) => {
     if (animated && 'startViewTransition' in document) {
       animateSwitch();
-      // Create ripple effect from toggle button
       if (themeToggle) {
         const rect = themeToggle.getBoundingClientRect();
         const startX = rect.left + rect.width / 2;
@@ -73,7 +71,6 @@ export function initTheme() {
     });
   }
 
-  // Load saved theme or use system preference
   try {
     const savedTheme = localStorage.getItem(themeStorageKey);
     if (savedTheme === 'light' || savedTheme === 'dark') {

@@ -1,4 +1,4 @@
-const POLL_INTERVAL = 5 * 60_000; // poll every 5 minutes
+const POLL_INTERVAL = 5 * 60_000;
 
 export function initCodeTime() {
   const timeEl = document.getElementById('discord-codetime');

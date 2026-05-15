@@ -49,7 +49,7 @@ export function initGitHubContributions() {
     let current = 0;
 
     for (let index = 0; index < days.length; index += 1) {
-      const contribution = days[index].count;
+      const contribution = days[index].count ?? 0;
       total += contribution;
       if (contribution > 0) {
         current += 1;
@@ -68,16 +68,19 @@ export function initGitHubContributions() {
   };
 
   const renderGitHubGrid = (sorted) => {
-    if (!gridEl || !monthsEl || sorted.length === 0) return;
+    if (!gridEl || sorted.length === 0) return;
 
+    // Build weeks array
     const weeks = [];
     let currentWeek = [];
-
     const firstDayIndex = new Date(sorted[0].date).getDay();
-    for (let index = 0; index < firstDayIndex; index += 1) {
+    
+    // Add empty cells for days before the first date
+    for (let i = 0; i < firstDayIndex; i += 1) {
       currentWeek.push(null);
     }
 
+    // Add all contribution days
     sorted.forEach((day) => {
       currentWeek.push(day);
       if (currentWeek.length === 7) {
@@ -86,45 +89,62 @@ export function initGitHubContributions() {
       }
     });
 
+    // Fill remaining cells in last week
     if (currentWeek.length > 0) {
-      while (currentWeek.length < 7) currentWeek.push(null);
+      while (currentWeek.length < 7) {
+        currentWeek.push(null);
+      }
       weeks.push(currentWeek);
     }
 
-    let html = '';
-    let monthsHtml = '';
-    let lastMonth = -1;
-
-    weeks.forEach((week, columnIndex) => {
-      html += '<div class="gh-column">';
-      const firstValid = week.find((day) => day !== null);
-      if (firstValid) {
-        const month = new Date(firstValid.date).getMonth();
-        if (month !== lastMonth) {
-          monthsHtml += `<span style="position: absolute; left: ${columnIndex * 14}px;">${new Date(firstValid.date).toLocaleString('default', { month: 'short' })}</span>`;
-          lastMonth = month;
-        }
-      }
-
+    // Render calendar grid columns
+    let gridHtml = '';
+    weeks.forEach((week) => {
+      gridHtml += '<div class="gh-column">';
       week.forEach((day) => {
         if (!day) {
-          html += '<div class="gh-cell gh-empty"></div>';
+          gridHtml += '<div class="gh-cell gh-empty"></div>';
         } else {
-          html += `<div class="gh-cell gh-level-${day.level}" title="${day.count} contributions on ${day.date}"></div>`;
+          gridHtml += `<div class="gh-cell gh-level-${day.level}" title="${day.count} contributions on ${day.date}"></div>`;
         }
       });
-
-      html += '</div>';
+      gridHtml += '</div>';
     });
 
-    gridEl.innerHTML = html;
-    monthsEl.innerHTML = monthsHtml;
+    gridEl.innerHTML = gridHtml;
+
+    // Render months row - calculate month positions
+    const monthsEl = byId('gh-calendar-months');
+    if (monthsEl) {
+      let monthsHtml = '';
+      let lastMonth = -1;
+      
+      weeks.forEach((week) => {
+        const firstDay = week.find(d => d !== null);
+        if (firstDay) {
+          const month = new Date(firstDay.date).getMonth();
+          if (month !== lastMonth) {
+            const monthName = new Date(firstDay.date).toLocaleString('default', { month: 'short' });
+            monthsHtml += `<span>${monthName}</span>`;
+            lastMonth = month;
+          }
+        }
+      });
+      
+      monthsEl.innerHTML = monthsHtml;
+    }
+
+    // Update year summary
+    const yearSummaryEl = byId('gh-year-summary');
+    if (yearSummaryEl) {
+      const total = sorted.reduce((sum, day) => sum + (day.count ?? 0), 0);
+      yearSummaryEl.textContent = `${total} contributions in the last year`;
+    }
   };
 
   const updateStats = (total) => {
     if (!ghTotal || !ghCard) return;
 
-    // Update summary text
     const summaryText = byId('gh-summary-text');
     if (summaryText) {
       animateValue(summaryText, total, '');
@@ -173,6 +193,7 @@ export function initGitHubContributions() {
 
   fetchGitHubStats();
 }
+
 export function initVisitorCounter() {
   const countEl = byId('visitor-count');
 
@@ -181,7 +202,6 @@ export function initVisitorCounter() {
     return;
   }
 
-  // Smooth count-up animation
   const animateCount = (target) => {
     const duration = 1200;
     const start = performance.now();
@@ -217,7 +237,7 @@ export function initVisitorCounter() {
     observer.observe(badge);
   };
 
-  const fetchAndUpdateCount = async (): Promise<void> => {
+  const fetchAndUpdateCount = async () => {
     try {
       const response = await fetch('/api/visitors?action=hit', {
         method: 'GET',
@@ -234,13 +254,11 @@ export function initVisitorCounter() {
       showCount(count);
     } catch (error) {
       console.warn('[Visitor Counter] Backend unavailable, falling back to localStorage.', error);
-      // Fallback: use localStorage for local counting
       try {
         const storageKey = 'portfolio-visitor-count-fallback';
 
         let currentCount = Number.parseInt(localStorage.getItem(storageKey) ?? '0', 10);
-        
-        // Ensure count is valid
+
         if (!Number.isFinite(currentCount) || currentCount < 0) {
           currentCount = 0;
         }
@@ -259,6 +277,3 @@ export function initVisitorCounter() {
 
   fetchAndUpdateCount();
 }
-
-
-

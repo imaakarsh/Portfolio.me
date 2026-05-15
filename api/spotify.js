@@ -2,21 +2,18 @@ const SPOTIFY_CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const SPOTIFY_REDIRECT_URI = process.env.SPOTIFY_REDIRECT_URI || 'http://localhost:5173/api/spotify/callback';
 
-// Get the authorization URL for the user to log in
 function getAuthUrl(req, res) {
   const scope = 'user-read-currently-playing user-read-playback-state';
   const authUrl = `https://accounts.spotify.com/authorize?${new URLSearchParams({
     client_id: SPOTIFY_CLIENT_ID,
     response_type: 'code',
     redirect_uri: SPOTIFY_REDIRECT_URI,
-    scope: scope,
+    scope,
   }).toString()}`;
 
-  // Return auth URL as JSON - frontend will handle redirect
   res.json({ authUrl });
 }
 
-// Handle the OAuth callback
 async function handleCallback(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const code = url.searchParams.get('code');
@@ -26,7 +23,6 @@ async function handleCallback(req, res) {
   }
 
   try {
-    // Exchange authorization code for access token
     const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
@@ -45,8 +41,6 @@ async function handleCallback(req, res) {
     }
 
     const tokenData = await tokenResponse.json();
-    
-    // Redirect back with the token as a query param
     const redirectUrl = `/?spotifyToken=${tokenData.access_token}&refreshToken=${tokenData.refresh_token}`;
     res.setHeader('Location', redirectUrl);
     res.status(302);
@@ -57,7 +51,6 @@ async function handleCallback(req, res) {
   }
 }
 
-// Fetch currently playing track
 async function getCurrentlyPlaying(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const accessToken = url.searchParams.get('accessToken');
@@ -74,7 +67,6 @@ async function getCurrentlyPlaying(req, res) {
     });
 
     if (response.status === 204) {
-      // No content - user is not currently playing anything
       return res.json({ isPlaying: false });
     }
 
@@ -88,11 +80,10 @@ async function getCurrentlyPlaying(req, res) {
       return res.json({ isPlaying: false });
     }
 
-    // Extract relevant track information
     const track = {
       isPlaying: data.is_playing,
       title: data.item.name,
-      artist: data.item.artists.map(a => a.name).join(', '),
+      artist: data.item.artists.map((artist) => artist.name).join(', '),
       albumArt: data.item.album.images[0]?.url,
       spotifyUrl: data.item.external_urls.spotify,
       duration: data.item.duration_ms,
@@ -106,7 +97,6 @@ async function getCurrentlyPlaying(req, res) {
   }
 }
 
-// Refresh the access token
 async function refreshToken(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const refreshTokenParam = url.searchParams.get('refreshToken');
@@ -140,7 +130,6 @@ async function refreshToken(req, res) {
   }
 }
 
-// Main handler for routing
 export default async function handler(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   const pathname = url.pathname;

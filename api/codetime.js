@@ -3,9 +3,9 @@ const CODETIME_API_KEY = process.env.CODETIME_API_KEY || process.env.WAKATIME_AP
 async function fetchCodetimeData(apiKey) {
   try {
     console.log('[CodeTime] attempting CodeTime API fetch');
-    const headers = { 
-      'Authorization': apiKey,
-      'Content-Type': 'application/json' 
+    const headers = {
+      Authorization: apiKey,
+      'Content-Type': 'application/json',
     };
 
     const res = await fetch('https://api.codetime.dev/v1/user', { headers });
@@ -27,13 +27,13 @@ async function fetchWakatimeData(apiKey) {
   try {
     console.log('[CodeTime] attempting WakaTime API fetch');
     const authHeader = `Bearer ${apiKey}`;
-    
+
     const res = await fetch('https://wakatime.com/api/v1/users/current/stats/today', {
-      headers: { 'Authorization': authHeader }
+      headers: { Authorization: authHeader },
     });
-    
+
     console.log(`[CodeTime] WakaTime API response: ${res.status}`);
-    
+
     if (res.ok) {
       const data = await res.json();
       console.log('[CodeTime] Got WakaTime data');
@@ -48,38 +48,36 @@ async function fetchWakatimeData(apiKey) {
 
 function formatCodetimeData(data) {
   if (!data) return { text: 'CodeTime unavailable', hours: 0, minutes: 0 };
-  
+
   const totalSeconds = data?.cumulativeCodeTime || data?.cumulative_total?.total_seconds || 0;
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
-  
+
   return {
     text: `${hours}h ${minutes}m coded today`,
     hours,
-    minutes
+    minutes,
   };
 }
 
 function formatWakatimeData(data) {
   if (!data || !data.data) return { text: '0h 0m coded today', hours: 0, minutes: 0 };
-  
+
   const grand = data.data.grand_total || {};
   const totalSeconds = grand.total_seconds || 0;
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
-  
+
   return {
     text: `${hours}h ${minutes}m coded today`,
     hours,
-    minutes
+    minutes,
   };
 }
 
 async function fetchWakaData(apiKey) {
   const authVariants = [
-    // WakaTime accepts raw token in Basic auth header
     { Authorization: `Basic ${apiKey}` },
-    // Also try standard Base64 encoding formats as fallbacks
     { Authorization: `Basic ${Buffer.from(`${apiKey}:`).toString('base64')}` },
     { Authorization: `Basic ${Buffer.from(apiKey).toString('base64')}` },
     { Authorization: `Bearer ${apiKey}` },
@@ -104,7 +102,6 @@ async function fetchWakaData(apiKey) {
       console.log(`[CodeTime] responses: today=${todayRes.status}, stats=${statsRes.status}`);
 
       if (!todayRes.ok) {
-        // try next auth variant
         continue;
       }
 
@@ -113,7 +110,6 @@ async function fetchWakaData(apiKey) {
       return { today, stats, todayStatus: todayRes.status, statsStatus: statsRes.status };
     } catch (err) {
       console.warn('[CodeTime] fetch attempt failed:', err && err.message ? err.message : err);
-      // try next variant
       continue;
     }
   }
@@ -123,37 +119,36 @@ async function fetchWakaData(apiKey) {
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Cache-Control', 's-maxage=300'); // cache 5 min
+  res.setHeader('Cache-Control', 's-maxage=300');
 
   if (!CODETIME_API_KEY) {
     console.warn('[CodeTime] No API key configured');
-    return res.status(200).json({ 
-      text: 'CodeTime unconfigured', 
-      hours: 0, 
-      minutes: 0 
+    return res.status(200).json({
+      text: 'CodeTime unconfigured',
+      hours: 0,
+      minutes: 0,
     });
   }
 
   try {
     const wakaData = await fetchWakaData(CODETIME_API_KEY);
-    
+
     if (wakaData?.today?.data) {
       const formatted = formatWakatimeData(wakaData.today);
       return res.status(200).json(formatted);
     }
-    
-    // Fallback to static response
-    return res.status(200).json({ 
-      text: 'Fetching stats...', 
-      hours: 0, 
-      minutes: 0 
+
+    return res.status(200).json({
+      text: 'Fetching stats...',
+      hours: 0,
+      minutes: 0,
     });
   } catch (err) {
     console.error('[CodeTime] Handler error:', err);
-    return res.status(200).json({ 
-      text: 'Stats unavailable', 
-      hours: 0, 
-      minutes: 0 
+    return res.status(200).json({
+      text: 'Stats unavailable',
+      hours: 0,
+      minutes: 0,
     });
   }
 }

@@ -1,18 +1,18 @@
 import { PROFILE } from '../config/constants';
 
-const LANYARD_WS  = 'wss://api.lanyard.rest/socket';
-const HEARTBEAT   = 30_000;
+const LANYARD_WS = 'wss://api.lanyard.rest/socket';
+const HEARTBEAT = 30_000;
 
 const STATUS_MAP = {
-  online:  { label: 'ONLINE',         color: '#23a55a' },
-  idle:    { label: 'IDLE',           color: '#f0b232' },
-  dnd:     { label: 'DO NOT DISTURB', color: '#f23f43' },
-  offline: { label: 'OFFLINE',        color: '#80848e' },
+  online: { label: 'ONLINE', color: '#23a55a' },
+  idle: { label: 'IDLE', color: '#f0b232' },
+  dnd: { label: 'DO NOT DISTURB', color: '#f23f43' },
+  offline: { label: 'OFFLINE', color: '#80848e' },
 };
 
 export function initDiscord() {
-  const dot    = document.getElementById('discord-dot');
-  const text   = document.getElementById('discord-text');
+  const dot = document.getElementById('discord-dot');
+  const text = document.getElementById('discord-text');
   const navDot = document.getElementById('nav-discord-dot');
 
   function applyStatus(data) {
@@ -22,7 +22,6 @@ export function initDiscord() {
     const s = STATUS_MAP[status] || STATUS_MAP.offline;
     const glow = `0 0 6px ${s.color}99`;
 
-    // 1. Update status indicators
     if (dot) {
       dot.style.background = s.color;
       dot.style.boxShadow = glow;
@@ -32,7 +31,6 @@ export function initDiscord() {
       navDot.style.boxShadow = glow;
     }
 
-    // 2. Update status text
     if (text) text.textContent = s.label;
   }
 
@@ -44,7 +42,7 @@ export function initDiscord() {
 
   function connect() {
     if (document.hidden) return;
-    
+
     clearInterval(heartbeatTimer);
     clearTimeout(reconnectTimer);
 

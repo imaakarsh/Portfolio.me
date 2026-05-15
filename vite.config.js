@@ -2,26 +2,25 @@ import { defineConfig, loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
 
-function resolveApiModule(apiName: string) {
-  const tsPath = path.resolve(__dirname, `api/${apiName}.ts`);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function resolveApiModule(apiName) {
   const jsPath = path.resolve(__dirname, `api/${apiName}.js`);
 
-  if (fs.existsSync(tsPath)) return tsPath;
   if (fs.existsSync(jsPath)) return jsPath;
   return null;
 }
 
 export default defineConfig(({ mode }) => {
-  // Load env file based on `mode` in the current working directory.
-  // Set the third parameter to '' to load all envs regardless of the `VITE_` prefix.
   console.log('[Vite Config] Mode:', mode);
   console.log('[Vite Config] CWD:', process.cwd());
-  
+
   const env = loadEnv(mode, process.cwd(), '');
-  // Merge loaded env into process.env so serverless functions can access them
   Object.assign(process.env, env);
-  
+
   console.log('[Vite Config] CODETIME_API_KEY loaded:', !!process.env.CODETIME_API_KEY);
   console.log('[Vite Config] WAKATIME_API_KEY present (fallback):', !!process.env.WAKATIME_API_KEY);
 
@@ -40,8 +39,7 @@ export default defineConfig(({ mode }) => {
               if (filePath) {
                 try {
                   const { default: handler } = await server.ssrLoadModule(filePath);
-                  
-                  // Simple Vercel-like Response object mock
+
                   const vercelRes = {
                     status(code) {
                       res.statusCode = code;
@@ -56,7 +54,6 @@ export default defineConfig(({ mode }) => {
                       res.setHeader(name, value);
                       return this;
                     },
-                    // Add other mocks if needed
                   };
 
                   await handler(req, vercelRes);

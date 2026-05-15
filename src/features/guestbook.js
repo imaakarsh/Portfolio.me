@@ -1,66 +1,62 @@
 import { initializeApp } from 'firebase/app';
-import { 
-  getAuth, 
-  onAuthStateChanged, 
-  GoogleAuthProvider, 
-  signInWithRedirect, 
-  signInWithPopup, 
-  getRedirectResult, 
-  signOut 
+import {
+  getAuth,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  signInWithPopup,
+  getRedirectResult,
+  signOut,
 } from 'firebase/auth';
-import { 
-  getFirestore, 
-  collection, 
-  query, 
-  orderBy, 
-  onSnapshot, 
-  addDoc, 
-  deleteDoc, 
-  doc, 
-  serverTimestamp 
+import {
+  getFirestore,
+  collection,
+  query,
+  orderBy,
+  onSnapshot,
+  addDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp,
 } from 'firebase/firestore';
 
 export function initGuestbook() {
-  // ---- Auto-redirect 127.0.0.1 to localhost for Firebase Auth compatibility ----
   if (window.location.hostname === '127.0.0.1') {
     window.location.hostname = 'localhost';
-    return; // Stop execution on this page as it's redirecting
+    return;
   }
 
   const firebaseConfig = {
-    apiKey: "AIzaSyD" + "LgDT3anDK" + "S3I9N47mG" + "FacUW5QJ8hQ90E",
-    authDomain: "aakarsh-portfolio.firebaseapp.com",
-    projectId: "aakarsh-portfolio",
-    storageBucket: "aakarsh-portfolio.firebasestorage.app",
-    messagingSenderId: "668776750805",
-    appId: "1:668776750805:web:65ead8e9b3502674774c5c",
-    measurementId: "G-ZQZBSBD4LR"
+    apiKey: 'AIzaSyD' + 'LgDT3anDK' + 'S3I9N47mG' + 'FacUW5QJ8hQ90E',
+    authDomain: 'aakarsh-portfolio.firebaseapp.com',
+    projectId: 'aakarsh-portfolio',
+    storageBucket: 'aakarsh-portfolio.firebasestorage.app',
+    messagingSenderId: '668776750805',
+    appId: '1:668776750805:web:65ead8e9b3502674774c5c',
+    measurementId: 'G-ZQZBSBD4LR',
   };
 
-  // ---- Initialise Firebase Modular ----
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // ---- DOM refs ----
   const authPanel = document.getElementById('gb-auth-panel');
   const composePanel = document.getElementById('gb-compose-panel');
   const signinBtn = document.getElementById('guestbook-signin-btn');
-  const signoutBtn   = document.getElementById('gb-signout-btn');
-  const userAvatar   = document.getElementById('gb-user-avatar');
-  const userName     = document.getElementById('gb-user-name');
-  const textarea     = document.getElementById('gb-textarea');
-  const charCount    = document.getElementById('gb-chars');
-  const submitBtn    = document.getElementById('gb-submit-btn');
+  const signoutBtn = document.getElementById('gb-signout-btn');
+  const userAvatar = document.getElementById('gb-user-avatar');
+  const userName = document.getElementById('gb-user-name');
+  const textarea = document.getElementById('gb-textarea');
+  const charCount = document.getElementById('gb-chars');
+  const submitBtn = document.getElementById('gb-submit-btn');
   const commentsList = document.getElementById('gb-comments-list');
-  const loadingEl    = document.getElementById('gb-loading');
+  const loadingEl = document.getElementById('gb-loading');
 
-  if (!commentsList) return; // Guard clause if guestbook isn't on page
+  if (!commentsList) return;
 
-  // ---- Avatar colours (for letter avatars) ----
   const AVATAR_COLORS = [
-    '#6366f1','#f97316','#22c55e','#0ea5e9',
-    '#a855f7','#ec4899','#eab308','#14b8a6'
+    '#6366f1', '#f97316', '#22c55e', '#0ea5e9',
+    '#a855f7', '#ec4899', '#eab308', '#14b8a6',
   ];
   function colorForName(name) {
     let hash = 0;
@@ -68,20 +64,17 @@ export function initGuestbook() {
     return AVATAR_COLORS[Math.abs(hash) % AVATAR_COLORS.length];
   }
 
-  // ---- Format timestamp ----
   function formatDate(ts) {
     if (!ts) return '';
-    const d = ts.toDate ? ts.toDate() : new Date(ts);
+    const d = ts && typeof ts.toDate === 'function' ? ts.toDate() : new Date(ts);
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 
-  // ---- Escape HTML ----
   function escHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-              .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
-  // ---- Render a single comment entry ----
   function renderEntry(docSnap, currentUid) {
     const data = docSnap.data();
     const id = docSnap.id;
@@ -102,13 +95,13 @@ export function initGuestbook() {
 
     const isOwner = currentUid && currentUid === uid;
 
-    const deleteBtnHtml = isOwner 
+    const deleteBtnHtml = isOwner
       ? `<button class="gb-delete-btn" data-id="${id}" aria-label="Delete message" title="Delete message">
            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
              <polyline points="3 6 5 6 21 6"></polyline>
              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
            </svg>
-         </button>` 
+         </button>`
       : '';
 
     el.innerHTML = `
@@ -131,7 +124,7 @@ export function initGuestbook() {
               await deleteDoc(doc(db, 'guestbook', id));
             } catch (err) {
               console.error('Delete error:', err);
-              alert('Failed to delete message: ' + err.message);
+              alert('Failed to delete message: ' + (err?.message ?? String(err)));
             }
           }
         });
@@ -145,8 +138,9 @@ export function initGuestbook() {
   let visibleCount = 5;
 
   function renderMessages(snapshot) {
-    commentsList.querySelectorAll('.guestbook-entry').forEach(e => e.remove());
-    commentsList.querySelectorAll('.gb-empty').forEach(e => e.remove());
+    if (!commentsList) return;
+    commentsList.querySelectorAll('.guestbook-entry').forEach((e) => e.remove());
+    commentsList.querySelectorAll('.gb-empty').forEach((e) => e.remove());
     const existingMoreBtn = commentsList.querySelector('.gb-show-more-wrap');
     if (existingMoreBtn) existingMoreBtn.remove();
 
@@ -157,13 +151,11 @@ export function initGuestbook() {
 
     const currentUid = auth.currentUser ? auth.currentUser.uid : null;
     const docsArray = snapshot.docs;
-    
-    // Render up to visibleCount messages
+
     for (let i = 0; i < Math.min(docsArray.length, visibleCount); i++) {
       commentsList.appendChild(renderEntry(docsArray[i], currentUid));
     }
 
-    // Add View More / View Less buttons if needed
     if (docsArray.length > 5) {
       const moreWrap = document.createElement('div');
       moreWrap.className = 'gb-show-more-wrap';
@@ -172,7 +164,7 @@ export function initGuestbook() {
       moreWrap.style.display = 'flex';
       moreWrap.style.justifyContent = 'center';
       moreWrap.style.gap = '12px';
-      
+
       if (docsArray.length > visibleCount) {
         const moreBtn = document.createElement('button');
         moreBtn.className = 'btn-outline';
@@ -194,28 +186,26 @@ export function initGuestbook() {
         };
         moreWrap.appendChild(lessBtn);
       }
-      
+
       commentsList.appendChild(moreWrap);
     }
   }
 
-  // ---- Load messages (real-time) ----
   function loadMessages() {
     const q = query(collection(db, 'guestbook'), orderBy('createdAt', 'desc'));
     onSnapshot(q, (snapshot) => {
-      if (loadingEl) loadingEl.remove();
+      if (loadingEl && loadingEl.parentNode) loadingEl.remove();
       currentMessagesSnapshot = snapshot;
       renderMessages(snapshot);
-    }, err => {
+    }, (err) => {
       console.error('Firestore error:', err);
       if (loadingEl) loadingEl.textContent = 'Could not load messages.';
     });
   }
 
-  // ---- Auth state ----
-  onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
-      if (authPanel) authPanel.style.display  = 'none';
+      if (authPanel) authPanel.style.display = 'none';
       if (composePanel) composePanel.style.display = '';
 
       if (userName) userName.textContent = user.displayName || 'Anonymous';
@@ -229,7 +219,7 @@ export function initGuestbook() {
         }
       }
     } else {
-      if (authPanel) authPanel.style.display  = '';
+      if (authPanel) authPanel.style.display = '';
       if (composePanel) composePanel.style.display = 'none';
     }
 
@@ -238,21 +228,22 @@ export function initGuestbook() {
     }
   });
 
-  // ---- Sign in with Google ----
   if (signinBtn) {
     signinBtn.addEventListener('click', async () => {
       signinBtn.disabled = true;
       signinBtn.textContent = 'Signing in…';
-      
+
       const resetBtnTimeout = setTimeout(() => {
-        signinBtn.disabled = false;
-        signinBtn.innerHTML = 'Sign in with Google (Stuck?)';
+        if (signinBtn) {
+          signinBtn.disabled = false;
+          signinBtn.innerHTML = 'Sign in with Google (Stuck?)';
+        }
       }, 10000);
 
       try {
         const provider = new GoogleAuthProvider();
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        
+
         if (isMobile) {
           await signInWithRedirect(auth, provider);
         } else {
@@ -261,17 +252,19 @@ export function initGuestbook() {
       } catch (err) {
         clearTimeout(resetBtnTimeout);
         console.error('Sign-in error:', err);
-        
-        signinBtn.disabled = false;
-        signinBtn.innerHTML = `
-          <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
-            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-          </svg>
-          Sign in failed`;
-          
+
+        if (signinBtn) {
+          signinBtn.disabled = false;
+          signinBtn.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            Sign in failed`;
+        }
+
         let errEl = document.getElementById('gb-auth-error');
         if (!errEl) {
           errEl = document.createElement('p');
@@ -279,35 +272,32 @@ export function initGuestbook() {
           errEl.style.color = '#ef4444';
           errEl.style.fontSize = '0.85rem';
           errEl.style.marginTop = '0.75rem';
-          signinBtn.parentNode.appendChild(errEl);
+          if (signinBtn && signinBtn.parentNode) signinBtn.parentNode.appendChild(errEl);
         }
-        errEl.textContent = err.message;
+        errEl.textContent = (err && err.message) ? err.message : String(err);
       }
     });
   }
 
-  // ---- Handle redirect errors (if any) ----
-  getRedirectResult(auth).catch(err => {
+  getRedirectResult(auth).catch((err) => {
     console.error('Redirect sign-in error:', err);
-    alert('Redirect error: ' + err.message);
+    alert('Redirect error: ' + (err?.message ?? String(err)));
   });
 
-  // ---- Sign out ----
   if (signoutBtn) {
     signoutBtn.addEventListener('click', () => signOut(auth));
   }
 
-  // ---- Character counter ----
   if (textarea) {
     textarea.addEventListener('input', () => {
-      charCount.textContent = textarea.value.length;
-      submitBtn.disabled = textarea.value.trim().length === 0;
+      if (charCount) charCount.textContent = String(textarea.value.length);
+      if (submitBtn) submitBtn.disabled = textarea.value.trim().length === 0;
     });
   }
 
-  // ---- Submit message ----
   if (submitBtn) {
     submitBtn.addEventListener('click', async () => {
+      if (!textarea) return;
       const msg = textarea.value.trim();
       if (!msg) return;
 
@@ -319,14 +309,14 @@ export function initGuestbook() {
 
       try {
         await addDoc(collection(db, 'guestbook'), {
-          name:      user.displayName || 'Anonymous',
-          photoURL:  user.photoURL || null,
-          uid:       user.uid,
-          message:   msg,
-          createdAt: serverTimestamp()
+          name: user.displayName || 'Anonymous',
+          photoURL: user.photoURL || null,
+          uid: user.uid,
+          message: msg,
+          createdAt: serverTimestamp(),
         });
         textarea.value = '';
-        charCount.textContent = '0';
+        if (charCount) charCount.textContent = '0';
       } catch (err) {
         console.error('Post error:', err);
         alert('Could not post message. Please try again.');
@@ -337,6 +327,5 @@ export function initGuestbook() {
     });
   }
 
-  // ---- Kick off ----
   loadMessages();
 }

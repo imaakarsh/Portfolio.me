@@ -353,6 +353,54 @@
       </div>
     </section>
 
+    <!-- GITHUB ACTIVITY SECTION -->
+    <section class="section reveal" id="github-contributions" aria-label="GitHub activity">
+      <div class="section-eyebrow">OPEN SOURCE</div>
+      <h2 class="section-heading">GitHub Activity</h2>
+      <div class="gh-card-container" id="gh-glass-card">
+        <div class="gh-header">
+          <div class="gh-header-left">
+            <span>Total: <span id="gh-total" class="gh-total-count">0</span> contributions this year</span>
+          </div>
+          <a href="https://github.com/imaakarsh" target="_blank" rel="noopener noreferrer" class="gh-view-profile-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.868-.013-1.703-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.89 1.529 2.341 1.544 2.914 1.186.09-.923.348-1.544.634-1.899-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            View Profile
+          </a>
+        </div>
+
+        <div class="gh-graph-wrapper">
+          <div class="gh-y-axis">
+            <span class="gh-day-label">Mon</span>
+            <span class="gh-day-label">Wed</span>
+            <span class="gh-day-label">Fri</span>
+          </div>
+          <div class="gh-calendar-container">
+            <div class="gh-months-row" id="gh-calendar-months"></div>
+            <div class="gh-grid" id="gh-calendar-grid"></div>
+          </div>
+        </div>
+
+        <div class="gh-footer">
+          <a href="https://docs.github.com/en/github/setting-up-and-managing-your-github-profile/why-are-my-contributions-not-showing-up-on-my-profile" target="_blank" rel="noopener noreferrer" class="gh-learn-link">
+            Learn how we count contributions
+          </a>
+          <div class="gh-legend-wrapper">
+            <span class="gh-legend-text">Less</span>
+            <div class="gh-color-legend">
+              <span class="gh-color-dot" style="background: var(--gh-grid-0)"></span>
+              <span class="gh-color-dot" style="background: var(--gh-grid-1)"></span>
+              <span class="gh-color-dot" style="background: var(--gh-grid-2)"></span>
+              <span class="gh-color-dot" style="background: var(--gh-grid-3)"></span>
+              <span class="gh-color-dot" style="background: var(--gh-grid-4)"></span>
+            </div>
+            <span class="gh-legend-text">More</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- FEATURED PROJECTS  -->
     <section class="section reveal" id="projects" aria-label="Featured projects">
       <p class="section-eyebrow">Featured</p>
@@ -733,7 +781,7 @@
     </footer>
   </main>
 
-  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>
