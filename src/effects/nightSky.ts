@@ -5,7 +5,7 @@ import { byId } from '../utils/dom';
  * Only displays in dark mode and properly cleans up resources
  */
 export function initNightSky() {
-  const canvas = byId('night-sky');
+  const canvas = byId('night-sky') as HTMLCanvasElement | null;
   if (!canvas) {
     console.debug('Night sky canvas not found');
     return;
@@ -19,15 +19,15 @@ export function initNightSky() {
 
   let width = 0;
   let height = 0;
-  let stars = [];
-  let shooters = [];
-  let raf = null;
-  let spawnInterval = null;
+  let stars: any[] = [];
+  let shooters: any[] = [];
+  let raf: number | null = null;
+  let spawnInterval: number | null = null;
 
   const starCount = 120;
   const twinkleSpeed = 0.008;
 
-  let resizeTimer = null;
+  let resizeTimer: number | null = null;
   const resize = () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = document.documentElement.scrollHeight;

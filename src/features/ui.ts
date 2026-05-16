@@ -142,7 +142,9 @@ export function initProgressBars() {
   const barObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.querySelectorAll('.progress-bar').forEach((bar) => {
+        const target = entry.target as HTMLElement;
+        target.querySelectorAll('.progress-bar').forEach((barEl) => {
+          const bar = barEl as HTMLElement;
           const width = bar.getAttribute('data-width');
           if (width) {
             bar.style.width = `${width}%`;
@@ -166,12 +168,12 @@ export function initSkillTabs() {
   const skillsPanel = document.querySelector('.skills-panel');
   if (!skillsPanel) return;
 
-  const tabs = Array.from(skillsPanel.querySelectorAll('.skills-tab[data-skill-group]'));
-  const rows = Array.from(skillsPanel.querySelectorAll('.skill-row[data-skill-group]'));
+  const tabs = Array.from(skillsPanel.querySelectorAll('.skills-tab[data-skill-group]')) as HTMLElement[];
+  const rows = Array.from(skillsPanel.querySelectorAll('.skill-row[data-skill-group]')) as HTMLElement[];
 
   if (!tabs.length || !rows.length) return;
 
-  const setActiveGroup = (group) => {
+  const setActiveGroup = (group: string) => {
     tabs.forEach((tab) => {
       const isActive = tab.dataset.skillGroup === group;
       tab.classList.toggle('is-active', isActive);
@@ -196,12 +198,12 @@ export function initCursorSpotlight() {
   const spotlight = byId('cursor-spotlight');
   if (!spotlight) return;
 
-  const updateSpotlight = throttle((clientX, clientY) => {
+  const updateSpotlight = throttle((clientX: number, clientY: number) => {
     spotlight.style.left = `${clientX}px`;
     spotlight.style.top = `${clientY}px`;
   }, 16); // ~60fps
 
-  const handleMouseMove = (event) => {
+  const handleMouseMove = (event: MouseEvent) => {
     updateSpotlight(event.clientX, event.clientY);
   };
 
@@ -209,11 +211,11 @@ export function initCursorSpotlight() {
 }
 
 export function initNavScrollSpy() {
-  const navLinks = document.querySelectorAll('.nav-link[data-section]');
+  const navLinks = Array.from(document.querySelectorAll('.nav-link[data-section]')) as HTMLElement[];
   if (!navLinks.length) return;
 
-  const sections = Array.from(navLinks).map((link) => {
-    const id = link.getAttribute('data-section');
+  const sections = navLinks.map((link) => {
+    const id = link.getAttribute('data-section') as string;
     return { link, section: document.getElementById(id) };
   }).filter(({ section }) => section != null);
 
@@ -249,7 +251,7 @@ export function initNavScrollSpy() {
   navLinks.forEach((link) => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const sectionId = link.getAttribute('data-section');
+      const sectionId = link.getAttribute('data-section') as string;
       const section = document.getElementById(sectionId);
       
       if (section) {
@@ -258,7 +260,7 @@ export function initNavScrollSpy() {
         
         // Scroll smoothly with appropriate offset
         const offsetTop = section.getBoundingClientRect().top + window.scrollY;
-        const navHeight = document.querySelector('.navbar')?.offsetHeight || 100;
+        const navHeight = (document.querySelector('.navbar') as HTMLElement | null)?.offsetHeight || 100;
         
         window.scrollTo({
           top: offsetTop - navHeight - 16,
@@ -270,25 +272,25 @@ export function initNavScrollSpy() {
 
   // Keyboard navigation support (Arrow keys for nav links)
   navLinks.forEach((link, index) => {
-    link.addEventListener('keydown', (e) => {
+    link.addEventListener('keydown', (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         e.preventDefault();
-        const nextLink = navLinks[(index + 1) % navLinks.length];
+        const nextLink = navLinks[(index + 1) % navLinks.length] as HTMLElement;
         nextLink.focus();
         nextLink.click();
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         e.preventDefault();
-        const prevLink = navLinks[(index - 1 + navLinks.length) % navLinks.length];
+        const prevLink = navLinks[(index - 1 + navLinks.length) % navLinks.length] as HTMLElement;
         prevLink.focus();
         prevLink.click();
       } else if (e.key === 'Home') {
         e.preventDefault();
-        navLinks[0].focus();
-        navLinks[0].click();
+        (navLinks[0] as HTMLElement).focus();
+        (navLinks[0] as HTMLElement).click();
       } else if (e.key === 'End') {
         e.preventDefault();
-        navLinks[navLinks.length - 1].focus();
-        navLinks[navLinks.length - 1].click();
+        (navLinks[navLinks.length - 1] as HTMLElement).focus();
+        (navLinks[navLinks.length - 1] as HTMLElement).click();
       }
     });
   });

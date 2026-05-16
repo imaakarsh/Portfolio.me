@@ -22,9 +22,9 @@ export function byId(id: string): HTMLElement | null {
  * @param {Document|Element} parent - Parent element to query within (defaults to document)
  * @returns {Element[]} Array of matching elements
  */
-export function queryAll(selector: string, parent: Document | Element = document): Element[] {
+export function queryAll(selector: string, parent: Document | Element = document): HTMLElement[] {
   try {
-    return Array.from(parent.querySelectorAll(selector));
+    return Array.from(parent.querySelectorAll(selector)) as HTMLElement[];
   } catch {
     console.warn(`Failed to query elements with selector: ${selector}`);
     return [];
@@ -37,9 +37,9 @@ export function queryAll(selector: string, parent: Document | Element = document
  * @param {Document|Element} parent - Parent element to query within (defaults to document)
  * @returns {Element|null} The element or null
  */
-export function query(selector: string, parent: Document | Element = document): Element | null {
+export function query(selector: string, parent: Document | Element = document): HTMLElement | null {
   try {
-    return parent.querySelector(selector) ?? null;
+    return (parent.querySelector(selector) as HTMLElement) ?? null;
   } catch {
     console.warn(`Failed to query element with selector: ${selector}`);
     return null;
@@ -91,13 +91,13 @@ export const classList = {
  * @returns {Function} Debounced function
  */
 export function debounce<T extends (...args: any[]) => any>(fn: T, delay: number): (...args: Parameters<T>) => void {
-  let timeoutId: NodeJS.Timeout | null = null;
+  let timeoutId: number | null = null;
 
   return (...args: Parameters<T>): void => {
-    if (timeoutId) {
+    if (timeoutId !== null) {
       clearTimeout(timeoutId);
     }
-    timeoutId = setTimeout(() => {
+    timeoutId = window.setTimeout(() => {
       fn(...args);
       timeoutId = null;
     }, delay);
@@ -112,7 +112,7 @@ export function debounce<T extends (...args: any[]) => any>(fn: T, delay: number
  */
 export function throttle<T extends (...args: any[]) => any>(fn: T, delay: number): (...args: Parameters<T>) => void {
   let lastCall = 0;
-  let timeoutId: NodeJS.Timeout | null = null;
+  let timeoutId: number | null = null;
 
   return (...args: Parameters<T>): void => {
     const now = Date.now();
@@ -120,8 +120,8 @@ export function throttle<T extends (...args: any[]) => any>(fn: T, delay: number
     if (now - lastCall >= delay) {
       fn(...args);
       lastCall = now;
-    } else if (!timeoutId) {
-      timeoutId = setTimeout(() => {
+    } else if (timeoutId === null) {
+      timeoutId = window.setTimeout(() => {
         fn(...args);
         lastCall = Date.now();
         timeoutId = null;

@@ -11,9 +11,9 @@ import { initCodeTime } from './features/codetime';
  * Error-safe wrapper for initialization functions
  * Logs errors but continues with other initializations
  */
-async function safeInit(name: string, fn: () => Promise<void>): Promise<void> {
+async function safeInit(name: string, fn: () => void | Promise<void>): Promise<void> {
   try {
-    await fn();
+    await Promise.resolve(fn());
   } catch (error) {
     console.error(`[Init] Failed to initialize ${name}:`, error);
   }

@@ -9,6 +9,9 @@ export function initGitHubContributions() {
   const gridEl = byId('gh-calendar-grid');
   const monthsEl = byId('gh-calendar-months');
 
+  type Contribution = { date: string; count?: number; level?: number };
+  type Week = { contributionDays: Contribution[] };
+
   if (ghCard) {
     const ghObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -22,7 +25,7 @@ export function initGitHubContributions() {
     ghObserver.observe(ghCard);
   }
 
-  const animateValue = (element, target, suffix = '') => {
+  const animateValue = (element: HTMLElement, target: number, suffix = '') => {
     const duration = 1100;
     const step = target / (duration / 16);
     let current = 0;
@@ -38,10 +41,10 @@ export function initGitHubContributions() {
     return timer;
   };
 
-  const computeStreaks = (weeks) => {
-    const days = [];
-    weeks.forEach((week) => {
-      week.contributionDays.forEach((day) => days.push(day));
+  const computeStreaks = (weeks: Week[]) => {
+    const days: Contribution[] = [];
+    weeks.forEach((week: Week) => {
+      week.contributionDays.forEach((day: Contribution) => days.push(day));
     });
 
     let total = 0;
@@ -67,18 +70,18 @@ export function initGitHubContributions() {
     return { total, current, longest };
   };
 
-  const renderGitHubGrid = (sorted) => {
+  const renderGitHubGrid = (sorted: Contribution[]) => {
     if (!gridEl || !monthsEl || sorted.length === 0) return;
 
-    const weeks = [];
-    let currentWeek = [];
+    const weeks: (Contribution | null)[][] = [];
+    let currentWeek: (Contribution | null)[] = [];
 
     const firstDayIndex = new Date(sorted[0].date).getDay();
     for (let index = 0; index < firstDayIndex; index += 1) {
       currentWeek.push(null);
     }
 
-    sorted.forEach((day) => {
+    sorted.forEach((day: Contribution) => {
       currentWeek.push(day);
       if (currentWeek.length === 7) {
         weeks.push(currentWeek);
@@ -97,7 +100,7 @@ export function initGitHubContributions() {
 
     weeks.forEach((week, columnIndex) => {
       html += '<div class="gh-column">';
-      const firstValid = week.find((day) => day !== null);
+      const firstValid = week.find((day) => day !== null) as Contribution | null;
       if (firstValid) {
         const month = new Date(firstValid.date).getMonth();
         if (month !== lastMonth) {
@@ -121,13 +124,13 @@ export function initGitHubContributions() {
     monthsEl.innerHTML = monthsHtml;
   };
 
-  const updateStats = (total) => {
+  const updateStats = (total: number) => {
     if (!ghTotal || !ghCard) return;
 
     // Update summary text
     const summaryText = byId('gh-summary-text');
     if (summaryText) {
-      animateValue(summaryText, total, '');
+      animateValue(summaryText as HTMLElement, total, '');
     }
 
     const statsObserver = new IntersectionObserver((entries) => {
@@ -147,7 +150,7 @@ export function initGitHubContributions() {
       const response = await fetch(`https://github-contributions-api.deno.dev/${githubUsername}.json`);
       if (!response.ok) throw new Error('Fallback API error');
       const data = await response.json();
-      const weeks = data.contributions ?? [];
+      const weeks = data.contributions ?? [] as Week[];
       const { total } = computeStreaks(weeks);
       updateStats(total);
     } catch (error) {
