@@ -82,9 +82,9 @@ Set deployment/local env vars for the APIs used in the project:
 - `SPOTIFY_REFRESH_TOKEN`: OAuth refresh token for persistent Spotify API access.
 ## 🚀 Deployment
 
-- **Build**: Vite compiles the application into the `dist/` directory.
-- **Platform**: Deployed via Vercel; `vercel.json` is configured for SPA rewrites, `/api/*` routing, and clean URLs.
-- **CI/CD**: A GitHub Actions workflow (`build.yml`) automatically runs `npm run build` and deploys to Vercel on every push to the `main` branch.
+- **Build**: Vite compiles the application into the `dist/` directory using Node.js 20.
+- **Platform**: Deployed via **GitHub Pages** with a custom domain configuration (`aakarshdev.me`).
+- **CI/CD**: A GitHub Actions workflow (`build.yml`) automatically installs dependencies, builds the production bundle, and deploys to GitHub Pages on every push to the `main` branch.
 ## License
 
 This project is open source and available for personal use.
