@@ -1,8 +1,8 @@
 import './oneko';
 import { initTheme } from './core/theme';
 import { initBlogFiltering, initBlogShowMore } from './features/blog';
-import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initSkillTabs, initCursorSpotlight, initNavScrollSpy, initMobileMenu } from './components';
-import { initGitHubContributions, initVisitorCounter } from './features/github';
+import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initSkillTabs, initCursorSpotlight, initNavScrollSpy, initMobileMenu } from './features/ui';
+import { initGitHubContributions, initVisitorCounter } from './features/gh';
 import { initDiscord } from './features/discord';
 import { initCodeTime } from './features/codetime';
 import { initSpotify } from './features/spotify';
