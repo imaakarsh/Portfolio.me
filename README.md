@@ -21,6 +21,7 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Interactive Guestbook**: Persistent messaging with Google authentication, message pagination, and owner-specific deletion controls.
 - **Visitor Counter**: Integrated visitor tracking with API-based persistence and fallback mechanisms.
 - **Dynamic UI Effects**: Includes a custom cursor spotlight, multi-phrase typing animation, and a scroll progress indicator.
+- **Blog Integration**: Dedicated feature module for displaying blog posts and content.
 - **Navigation**: Responsive navigation with ScrollSpy integration for automatic active-section highlighting.
 - **Modular Architecture**: Clean feature-based code organization for better maintainability and scalability.
 ## ✨ Features
@@ -30,9 +31,11 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - 💬 Discord live presence status via Lanyard API
 - ⏱️ CodeTime coding statistics and refined status layout
 - 📖 Firebase guestbook with Google sign-in and realtime updates
+- 📝 Integrated blog module for sharing content and insights
 - 🌌 Animated night sky effect with stars, shooting stars, and aurora gradients
 - 🎨 Enhanced themes with View Transition API support and ripple effects
 - 🛠️ Tabbed skill categories and learning progress visualization
+- 🐈 Playful cursor-following Oneko cat animation
 - 💎 Premium visual polish with refined CSS animations and high-fidelity UI enhancements
 ## 📂 Project structure
 
