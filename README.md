@@ -8,7 +8,7 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 
 ## 🛠️ Stack
 
-- **Frontend**: HTML, CSS, JavaScript, Tailwind CSS v4 (via `@tailwindcss/vite`)
+- **Frontend**: HTML, CSS (Custom Design Tokens & Theme-aware styling), JavaScript, Tailwind CSS v4 (via `@tailwindcss/vite`)
 - **Build tool**: Vite 6
 - **APIs**: Vercel Serverless Functions in `api/routes/` (Node.js)
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Spotify, CodeTime, GitHub, and custom Visitor Counter API
