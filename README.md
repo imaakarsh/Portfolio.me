@@ -8,21 +8,21 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 
 ## 🛠️ Stack
 
-- **Frontend**: HTML, CSS, TypeScript, Tailwind CSS v4 (via `@tailwindcss/vite`)
+- **Frontend**: HTML, CSS, JavaScript, Tailwind CSS v4 (via `@tailwindcss/vite`)
 - **Build tool**: Vite 6
-- **APIs**: Vercel-style serverless functions in `api/` (Node.js/TypeScript)
-- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Spotify, CodeTime, GitHub, and CountAPI (visitors)
+- **APIs**: Vercel Serverless Functions in `api/routes/` (Node.js)
+- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Spotify, CodeTime, GitHub, and custom Visitor Counter API
 ## 🚀 Features
 
 - **Premium Aesthetic**: Redesigned with a dark glassmorphic UI providing a modern, high-end visual experience.
 - **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), WakaTime/CodeTime, and Spotify.
 - **Interactive Avatar**: Dynamic profile image that toggles on click with a smooth swapping animation.
-- **GitHub Activity**: Visual contribution grid featuring month labels, year-to-date summaries, and automated streak calculation.
+- **GitHub Activity**: Visual contribution grid featuring month labels, year-to-date summaries, and automated streak calculation with enhanced tooltips.
 - **Interactive Guestbook**: Persistent messaging with Google authentication, message pagination, and owner-specific deletion controls.
-- **Dynamic UI Effects**: Includes a custom cursor spotlight, multi-phrase typing animation ('build', 'ship', 'code', etc.), and a scroll progress indicator.
-- **Dynamic Themes**: Smooth dark/light mode switching powered by the View Transition API with custom ripple effects.
+- **Visitor Counter**: Integrated visitor tracking with API-based persistence and fallback mechanisms.
+- **Dynamic UI Effects**: Includes a custom cursor spotlight, multi-phrase typing animation, and a scroll progress indicator.
 - **Navigation**: Responsive navigation with ScrollSpy integration for automatic active-section highlighting.
-- **Responsive Overhaul**: Comprehensive mobile-first CSS improvements and visual refinements for a seamless experience across all device sizes.
+- **Modular Architecture**: Clean feature-based code organization for better maintainability and scalability.
 ## ✨ Features
 
 - 📱 Responsive single-page portfolio sections
@@ -38,25 +38,23 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 
 text
 Portfolio/
-├── api/                      # Serverless API handlers (TypeScript)
-│   ├── visitors.ts
-│   ├── spotify.ts
-│   └── codetime.ts
-├── docs/                     # Documentation
+├── api/                      # Serverless API handlers
+│   └── routes/               # Organized endpoints (spotify, visitors, codetime)
+├── docs/                     # Documentation (Structure & Implementation guides)
 ├── public/                   # Static public assets
 ├── src/
-│   ├── config/               # Shared constants (profile data)
-│   ├── core/                 # Core systems (theme)
+│   ├── components/           # Reusable UI components (navbar, ui, etc.)
+│   ├── config/               # Shared constants and profile data
+│   ├── core/                 # Core systems (theme management)
 │   ├── effects/              # Visual effects (night sky)
-│   ├── features/             # Feature modules (Discord, GH, etc.)
-│   ├── utils/                # Utility functions
-│   ├── main.ts               # Frontend entry point
-│   ├── oneko.ts              # Cursor-following cat effect
-│   └── style.css
+│   ├── features/             # Feature-specific modules (github, spotify, blog, etc.)
+│   ├── utils/                # Utility functions (DOM, etc.)
+│   ├── main.js               # Frontend entry point
+│   ├── oneko.js              # Cursor-following cat effect
+│   └── style.css             # Global styles
 ├── index.html                # App HTML entry
-├── tsconfig.json             # TypeScript configuration
-├── vite.config.ts            # Vite configuration
-├── vercel.json
+├── vite.config.js            # Vite configuration
+├── vercel.json               # Vercel deployment config
 └── package.json
 
 ## 💻 Local development
