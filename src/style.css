@@ -5259,12 +5259,13 @@ footer {
 }
 
 .page-wrapper {
+  max-width: 768px;
+  margin: 0 auto;
   background-color: var(--bg) !important;
   border-left: 1px dashed rgba(255, 255, 255, 0.04) !important;
   border-right: 1px dashed rgba(255, 255, 255, 0.04) !important;
-  padding-left: 30px !important;
-  padding-right: 30px !important;
-  /* To ensure the background spans all the way up/down */
+  padding-left: 40px !important;
+  padding-right: 40px !important;
   min-height: 100vh;
 }
 
