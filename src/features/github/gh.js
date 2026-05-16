@@ -1,5 +1,5 @@
-import { byId } from '../utils/dom';
-import { PROFILE } from '../config/constants';
+import { byId } from '../../utils/dom';
+import { PROFILE } from '../../config/constants';
 
 const { githubUsername } = PROFILE;
 

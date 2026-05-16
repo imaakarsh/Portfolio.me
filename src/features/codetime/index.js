@@ -1,0 +1,1 @@
+export { initCodeTime } from './codetime';

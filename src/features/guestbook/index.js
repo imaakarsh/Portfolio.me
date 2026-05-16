@@ -1,0 +1,1 @@
+export { initGuestbook } from './guestbook';
