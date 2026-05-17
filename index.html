@@ -43,6 +43,14 @@
 </head>
 
 <body>
+  <!-- Cinematic overlays -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <div class="ambient-bg" aria-hidden="true">
+    <div class="ambient-orb ambient-orb--1"></div>
+    <div class="ambient-orb ambient-orb--2"></div>
+    <div class="ambient-orb ambient-orb--3"></div>
+  </div>
+
   <!-- Cursor Spotlight -->
   <div id="cursor-spotlight" aria-hidden="true"></div>
 
@@ -78,7 +86,20 @@
 
       <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false"
         aria-label="Toggle light mode" title="Toggle light mode">
-        <span id="theme-toggle-icon" aria-hidden="true">☾</span>
+        <span class="toggle-icon-wrap" aria-hidden="true">
+          <!-- Sun -->
+          <svg class="toggle-icon toggle-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <!-- Moon -->
+          <svg class="toggle-icon toggle-moon" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </span>
       </button>
 
     </div>
@@ -95,9 +116,8 @@
         <h1 class="hero-heading">
           Hi, I'm <span class="highlight"> Aakarsh </span>
         </h1>
-        <h1 class="hero-heading hero-heading--typing">
-          I <span id="typing-text" class="typing-text"></span>
-          <span class="typing-cursor">|</span>
+        <h1 class="hero-heading hero-heading--sub">
+          A <span class="hero-sub-accent">Full Stack</span> web developer.
         </h1>
 
         <p class="hero-section-bio">
@@ -360,18 +380,6 @@
         <div class="gh-header">
           <div class="gh-header-left">
             <span>Total: <span id="gh-total" class="gh-total-count">0</span> contributions this year</span>
-          </div>
-          <div class="gh-stats-row">
-            <div class="gh-stat-item">
-              <span class="gh-stat-label">Current Streak</span>
-              <span class="gh-stat-value" id="gh-current-streak">0</span>
-              <span class="gh-stat-unit">days</span>
-            </div>
-            <div class="gh-stat-item">
-              <span class="gh-stat-label">Longest Streak</span>
-              <span class="gh-stat-value" id="gh-longest-streak">0</span>
-              <span class="gh-stat-unit">days</span>
-            </div>
           </div>
           <a href="https://github.com/imaakarsh" target="_blank" rel="noopener noreferrer" class="gh-view-profile-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

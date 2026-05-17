@@ -103,8 +103,180 @@
   --section-gap: 80px;
 }
 
+/* ════════════════════════════════════════════════
+   CINEMATIC THEME TRANSITION — Full System
+   ════════════════════════════════════════════════ */
 
-/*  RESET & BASE  */
+/* 1. Animated grain/noise overlay */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  opacity: 0.028;
+  mix-blend-mode: overlay;
+  animation: noise-shift 0.35s steps(2) infinite;
+}
+@keyframes noise-shift {
+  0%   { background-position: 0 0; }
+  25%  { background-position: -40px 28px; }
+  50%  { background-position: 28px -40px; }
+  75%  { background-position: 55px 55px; }
+}
+
+/* 2. Ambient background orbs */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+[data-theme="dark"]  .ambient-orb { opacity: 0.055; }
+[data-theme="light"] .ambient-orb { opacity: 0.035; }
+
+.ambient-orb--1 {
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, #7c3aed, transparent 70%);
+  top: -180px; left: -80px;
+  animation: orb1 28s ease-in-out infinite;
+}
+.ambient-orb--2 {
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, #0ea5e9, transparent 70%);
+  bottom: -140px; right: -80px;
+  animation: orb2 34s ease-in-out infinite;
+}
+.ambient-orb--3 {
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, #ec4899, transparent 70%);
+  top: 40%; left: 55%;
+  animation: orb3 22s ease-in-out infinite;
+}
+@keyframes orb1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  40%      { transform: translate(70px, 55px) scale(1.08); }
+  70%      { transform: translate(-35px, 90px) scale(0.93); }
+}
+@keyframes orb2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  35%      { transform: translate(-55px,-70px) scale(1.06); }
+  70%      { transform: translate(70px,-35px) scale(0.94); }
+}
+@keyframes orb3 {
+  0%,100% { transform: scale(1); opacity: 0.6; }
+  50%      { transform: scale(1.18); opacity: 1; }
+}
+
+/* 3. Circular ripple — View Transition API */
+@keyframes theme-ripple-in {
+  from {
+    clip-path: circle(0% at var(--ripple-x, 50%) var(--ripple-y, 50%));
+    filter: blur(18px) brightness(1.18);
+  }
+  30% { filter: blur(8px) brightness(1.08); }
+  75% { filter: blur(1px) brightness(1.01); }
+  to {
+    clip-path: circle(150% at var(--ripple-x, 50%) var(--ripple-y, 50%));
+    filter: blur(0) brightness(1);
+  }
+}
+@keyframes theme-ripple-out {
+  from { opacity: 1; filter: blur(0) brightness(1); }
+  50%  { filter: blur(8px) brightness(0.88); }
+  to   { opacity: 0; filter: blur(14px) brightness(0.72); }
+}
+::view-transition-new(root) {
+  animation: theme-ripple-in 0.72s cubic-bezier(0.22, 1, 0.36, 1) both;
+  z-index: 9999;
+}
+::view-transition-old(root) {
+  animation: theme-ripple-out 0.52s ease both;
+  z-index: 9998;
+}
+
+/* 4. Toggle icon morph (sun ↔ moon) */
+.toggle-icon-wrap {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.toggle-icon {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  transition:
+    opacity 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform, opacity;
+}
+/* Dark mode → show moon */
+[data-theme="dark"] .toggle-sun  { opacity: 0; transform: rotate(90deg) scale(0.3); }
+[data-theme="dark"] .toggle-moon { opacity: 1; transform: rotate(0deg) scale(1); }
+/* Light mode → show sun */
+[data-theme="light"] .toggle-sun  { opacity: 1; transform: rotate(0deg) scale(1); }
+[data-theme="light"] .toggle-moon { opacity: 0; transform: rotate(-90deg) scale(0.3); }
+
+/* 5. Pre-switch glow pulse on toggle button */
+@keyframes toggle-pre-glow {
+  0%   { box-shadow: 0 0 0 0 rgba(129,140,248,0.75), 0 0 10px rgba(129,140,248,0.2); }
+  55%  { box-shadow: 0 0 0 11px rgba(129,140,248,0), 0 0 22px rgba(129,140,248,0.45); }
+  100% { box-shadow: 0 0 0 0 rgba(129,140,248,0), 0 0 10px rgba(129,140,248,0.15); }
+}
+.theme-toggle.pre-switching {
+  animation: toggle-pre-glow 0.45s ease forwards !important;
+}
+
+/* 6. Blur sweep overlay (injected by JS) */
+.theme-blur-sweep {
+  position: fixed;
+  inset: 0;
+  z-index: 99996;
+  pointer-events: none;
+  animation: blur-sweep-pass 0.75s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes blur-sweep-pass {
+  0%   { backdrop-filter: blur(0px);  opacity: 0; }
+  28%  { backdrop-filter: blur(12px); opacity: 0.45; }
+  72%  { backdrop-filter: blur(5px);  opacity: 0.18; }
+  100% { backdrop-filter: blur(0px);  opacity: 0; }
+}
+
+/* 7. Card float stagger during transition */
+@keyframes card-float-pass {
+  0%   { transform: translateY(0) scale(1);     filter: blur(0); }
+  38%  { transform: translateY(-6px) scale(1.004); filter: blur(1.5px); }
+  72%  { transform: translateY(-2px) scale(1.001); filter: blur(0.4px); }
+  100% { transform: translateY(0) scale(1);     filter: blur(0); }
+}
+.theme-transitioning .nav-pill {
+  animation: card-float-pass 0.65s 0ms   cubic-bezier(0.22,1,0.36,1) both;
+}
+.theme-transitioning .focus-card {
+  animation: card-float-pass 0.65s 50ms  cubic-bezier(0.22,1,0.36,1) both;
+}
+.theme-transitioning .premium-project-card {
+  animation: card-float-pass 0.65s 90ms  cubic-bezier(0.22,1,0.36,1) both;
+}
+.theme-transitioning .blog-card {
+  animation: card-float-pass 0.65s 130ms cubic-bezier(0.22,1,0.36,1) both;
+}
+.theme-transitioning .about-card {
+  animation: card-float-pass 0.65s 160ms cubic-bezier(0.22,1,0.36,1) both;
+}
+
 *,
 *::before,
 *::after {
@@ -112,10 +284,21 @@
   padding: 0;
   box-sizing: border-box;
   transition:
-    background-color 0.35s ease,
-    color 0.35s ease,
-    border-color 0.35s ease,
-    box-shadow 0.35s ease;
+    background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    color            0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color     0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow       0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    fill             0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke           0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity          0.3s  cubic-bezier(0.4, 0, 0.2, 1),
+    outline-color    0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Let the View Transition ripple run cleanly — don't fight it with
+   per-element transitions while the snapshot is animating. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-fill-mode: both;
 }
 
 html {
@@ -360,11 +543,11 @@ ul {
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 16px 20px;
+  padding: 14px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: background 0.3s ease;
+  transition: background 0.4s ease;
 }
 
 [data-theme="dark"] .navbar {
@@ -381,38 +564,74 @@ ul {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 620px;
-  padding: 10px 12px;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  max-width: 640px;
+  padding: 7px 8px 7px 10px;
+  gap: 4px;
+  background: rgba(10, 15, 30, 0.55);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(156, 201, 255, 0.13);
   border-radius: 999px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 0 0 1px rgba(156, 201, 255, 0.06) inset,
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 8px 32px rgba(0, 0, 0, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  position: relative;
+}
+
+/* Subtle top highlight line */
+.nav-pill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(156, 201, 255, 0.35), transparent);
+  border-radius: 999px;
+  pointer-events: none;
 }
 
 [data-theme="dark"] .nav-pill {
-  background: rgba(15, 23, 42, 0.4);
-  border-color: rgba(156, 201, 255, 0.12);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  background: rgba(8, 14, 28, 0.62);
+  border-color: rgba(156, 201, 255, 0.14);
+  box-shadow:
+    0 0 0 1px rgba(156, 201, 255, 0.07) inset,
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] .nav-pill:hover {
-  background: rgba(15, 23, 42, 0.5);
-  border-color: rgba(156, 201, 255, 0.18);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+  background: rgba(10, 18, 36, 0.72);
+  border-color: rgba(156, 201, 255, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(156, 201, 255, 0.1) inset,
+    0 1px 0 rgba(255, 255, 255, 0.07) inset,
+    0 12px 40px rgba(0, 0, 0, 0.6),
+    0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
 [data-theme="light"] .nav-pill {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.07);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 8px 32px rgba(0, 0, 0, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    0 8px 32px rgba(0, 0, 0, 0.09);
+}
+
+[data-theme="light"] .nav-pill::before {
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.2), transparent);
 }
 
 [data-theme="light"] .nav-pill:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 12px 40px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 12px 40px rgba(0, 0, 0, 0.12);
 }
 
 /* Avatar logo */
@@ -472,58 +691,63 @@ ul {
 .nav-links {
   display: flex;
   flex-direction: row;
-  gap: 8px;
+  gap: 2px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .nav-links li a.nav-link {
   display: block;
-  padding: 8px 18px;
+  padding: 7px 16px;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
   color: var(--text-muted);
   background: transparent;
-  transition: background 0.2s, color 0.2s, transform 0.2s;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
   white-space: nowrap;
   cursor: pointer;
+  letter-spacing: 0.01em;
+  position: relative;
 }
 
 .nav-links li a.nav-link:hover {
   color: var(--text);
-  background: rgba(255, 255, 255, 0.1);
-  transform: translateY(-1px);
+  background: rgba(156, 201, 255, 0.08);
 }
 
 [data-theme="dark"] .nav-links li a.nav-link:hover {
-  background: rgba(156, 201, 255, 0.12);
-  color: var(--text);
+  background: rgba(156, 201, 255, 0.1);
+  color: #e2e8f0;
 }
 
 [data-theme="light"] .nav-links li a.nav-link:hover {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.07);
   color: var(--text);
 }
 
 /* Active pill */
 .nav-links li a.nav-link.active {
-  background: rgba(156, 201, 255, 0.2);
-  color: var(--text);
+  color: #fff;
   font-weight: 600;
-  box-shadow: inset 0 0 0 1px rgba(156, 201, 255, 0.3);
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.35), rgba(56, 189, 248, 0.25));
+  box-shadow:
+    inset 0 0 0 1px rgba(129, 140, 248, 0.4),
+    0 0 12px rgba(129, 140, 248, 0.15);
 }
 
 [data-theme="light"] .nav-links li a.nav-link.active {
-  background: rgba(0, 0, 0, 0.12);
-  color: var(--text);
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  color: #1e293b;
+  background: rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.14);
 }
 
 [data-theme="dark"] .nav-links li a.nav-link.active {
-  background: rgba(156, 201, 255, 0.18);
-  color: var(--text);
-  box-shadow: inset 0 0 0 1px rgba(156, 201, 255, 0.3);
+  color: #e2e8f0;
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.3), rgba(56, 189, 248, 0.2));
+  box-shadow:
+    inset 0 0 0 1px rgba(129, 140, 248, 0.38),
+    0 0 14px rgba(129, 140, 248, 0.18);
 }
 
 /* Theme toggle */
@@ -531,23 +755,30 @@ ul {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(156, 201, 255, 0.08);
+  border: 1px solid rgba(156, 201, 255, 0.18);
   color: var(--text);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1;
   cursor: pointer;
   flex-shrink: 0;
-  transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
-  margin-left: auto;
+  transition: background 0.25s ease, transform 0.2s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  margin-left: 4px;
+}
+
+.theme-toggle:hover {
+  background: rgba(156, 201, 255, 0.16);
+  border-color: rgba(156, 201, 255, 0.32);
+  box-shadow: 0 0 12px rgba(129, 140, 248, 0.2);
+  transform: scale(1.08);
 }
 
 [data-theme="dark"] .theme-toggle {
-  background: rgba(156, 201, 255, 0.1);
-  border-color: rgba(156, 201, 255, 0.2);
+  background: rgba(129, 140, 248, 0.1);
+  border-color: rgba(129, 140, 248, 0.25);
 }
 
 #theme-toggle-icon,
@@ -557,16 +788,16 @@ ul {
 }
 
 .theme-toggle.is-switching {
-  transform: scale(0.975);
+  transform: scale(0.9) rotate(-20deg);
 }
 
 .theme-toggle.is-switching .theme-toggle-icon {
-  transform: rotate(135deg) scale(1.1);
-  opacity: 0.9;
+  transform: rotate(180deg) scale(1.15);
+  opacity: 0.7;
 }
 
 [data-theme="light"] .theme-toggle {
-  background: rgba(0, 0, 0, 0.08);
+  background: rgba(0, 0, 0, 0.07);
   border-color: rgba(0, 0, 0, 0.12);
 }
 
@@ -1319,6 +1550,17 @@ ul {
   font-size: clamp(1.6rem, 5vw, 2.2rem);
 }
 
+.hero-heading--sub {
+  display: block;
+  max-width: 100%;
+  color: #a1a1aa;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .hero-heading--sub {
+  color: #71717a;
+}
+
 
 
 
@@ -1338,9 +1580,9 @@ ul {
 
 /* Keyword highlight boxes */
 .kw {
-  display: inline-block;
+  display: inline;
   padding: 2px 9px;
-  border: 1.5px solid var(--kw-border);
+  border: 1px dashed var(--border);
   border-radius: 5px;
   background: var(--kw-bg);
   color: var(--text);
@@ -1527,6 +1769,7 @@ ul {
     transform: scaleX(0);
     opacity: 0;
   }
+
   to {
     transform: scaleX(1);
     opacity: 1;
