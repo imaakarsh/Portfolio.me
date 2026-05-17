@@ -558,7 +558,7 @@ ul {
   background: transparent;
 }
 
-/* Nav pill - rounded pill container for navbar items */
+/* Nav pill */
 .nav-pill {
   display: flex;
   align-items: center;
@@ -567,16 +567,16 @@ ul {
   max-width: 640px;
   padding: 7px 8px 7px 10px;
   gap: 4px;
-  background: rgba(10, 15, 30, 0.55);
+  background: rgba(18, 22, 40, 0.82);
   backdrop-filter: blur(32px) saturate(180%);
   -webkit-backdrop-filter: blur(32px) saturate(180%);
-  border: 1px solid rgba(156, 201, 255, 0.13);
+  border: 1px solid rgba(156, 201, 255, 0.18);
   border-radius: 999px;
   box-shadow:
-    0 0 0 1px rgba(156, 201, 255, 0.06) inset,
-    0 1px 0 rgba(255, 255, 255, 0.06) inset,
-    0 8px 32px rgba(0, 0, 0, 0.45),
-    0 2px 8px rgba(0, 0, 0, 0.3);
+    0 0 0 1px rgba(156, 201, 255, 0.08) inset,
+    0 1px 0 rgba(255, 255, 255, 0.07) inset,
+    0 8px 32px rgba(0, 0, 0, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.4);
   transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   position: relative;
 }
@@ -595,23 +595,23 @@ ul {
 }
 
 [data-theme="dark"] .nav-pill {
-  background: rgba(8, 14, 28, 0.62);
-  border-color: rgba(156, 201, 255, 0.14);
+  background: rgba(20, 26, 48, 0.88);
+  border-color: rgba(156, 201, 255, 0.2);
   box-shadow:
-    0 0 0 1px rgba(156, 201, 255, 0.07) inset,
-    0 1px 0 rgba(255, 255, 255, 0.05) inset,
-    0 8px 32px rgba(0, 0, 0, 0.55),
-    0 2px 8px rgba(0, 0, 0, 0.4);
+    0 0 0 1px rgba(156, 201, 255, 0.09) inset,
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 8px 32px rgba(0, 0, 0, 0.65),
+    0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 [data-theme="dark"] .nav-pill:hover {
-  background: rgba(10, 18, 36, 0.72);
-  border-color: rgba(156, 201, 255, 0.22);
+  background: rgba(24, 32, 58, 0.92);
+  border-color: rgba(156, 201, 255, 0.28);
   box-shadow:
-    0 0 0 1px rgba(156, 201, 255, 0.1) inset,
-    0 1px 0 rgba(255, 255, 255, 0.07) inset,
-    0 12px 40px rgba(0, 0, 0, 0.6),
-    0 4px 16px rgba(0, 0, 0, 0.5);
+    0 0 0 1px rgba(156, 201, 255, 0.12) inset,
+    0 1px 0 rgba(255, 255, 255, 0.08) inset,
+    0 12px 40px rgba(0, 0, 0, 0.7),
+    0 4px 16px rgba(0, 0, 0, 0.6);
 }
 
 [data-theme="light"] .nav-pill {
