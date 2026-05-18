@@ -70,7 +70,7 @@ export function initGitHubContributions() {
     const weeks = [];
     let currentWeek = [];
     const firstDayIndex = new Date(sorted[0].date).getDay();
-    
+
     // Add empty cells for days before the first date
     for (let i = 0; i < firstDayIndex; i += 1) {
       currentWeek.push(null);
@@ -126,7 +126,7 @@ export function initGitHubContributions() {
     if (monthsEl) {
       let monthsHtml = '';
       let lastMonth = -1;
-      
+
       weeks.forEach((week) => {
         const firstDay = week.find(d => d !== null);
         if (firstDay) {
@@ -138,7 +138,7 @@ export function initGitHubContributions() {
           }
         }
       });
-      
+
       monthsEl.innerHTML = monthsHtml;
     }
 
@@ -164,7 +164,7 @@ export function initGitHubContributions() {
     // Update streak stats if elements exist
     const currentStreakEl = byId('gh-current-streak');
     const longestStreakEl = byId('gh-longest-streak');
-    
+
     if (currentStreakEl) {
       animateValue(currentStreakEl, currentStreak, '');
     }
