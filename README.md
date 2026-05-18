@@ -14,6 +14,7 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Spotify, CodeTime, GitHub, and custom Visitor Counter API
 ## 🚀 Features
 
+- **Cinematic Theme Transitions**: Sophisticated transition system for seamless, high-fidelity theme switching.
 - **Premium Aesthetic**: Redesigned with a dark glassmorphic UI providing a modern, high-end visual experience.
 - **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), WakaTime/CodeTime, and Spotify.
 - **Interactive Avatar**: Dynamic profile image that toggles on click with a smooth swapping animation.
@@ -22,18 +23,18 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Visitor Counter**: Integrated visitor tracking with API-based persistence and fallback mechanisms.
 - **Dynamic UI Effects**: Includes a custom cursor spotlight, multi-phrase typing animation, and a scroll progress indicator.
 - **Blog Integration**: Dedicated feature module for displaying blog posts and content.
-- **Navigation**: Responsive navigation with ScrollSpy integration for automatic active-section highlighting.
+- **Navigation**: Improved navbar visibility and responsive ScrollSpy integration for automatic active-section highlighting.
 - **Modular Architecture**: Clean feature-based code organization for better maintainability and scalability.
 ## ✨ Features
 
-- 📱 Responsive single-page portfolio sections
+- 📱 Responsive single-page portfolio sections with improved navbar visibility
+- 🎨 **Cinematic Transitions**: Enhanced theme switching system with cinematic effects and View Transition API support
 - 📊 GitHub contribution grid, streak tracking, and animated counters
 - 💬 Discord live presence status via Lanyard API
 - ⏱️ CodeTime coding statistics and refined status layout
 - 📖 Firebase guestbook with Google sign-in and realtime updates
 - 📝 Integrated blog module for sharing content and insights
 - 🌌 Animated night sky effect with stars, shooting stars, and aurora gradients
-- 🎨 Enhanced themes with View Transition API support and ripple effects
 - 🛠️ Tabbed skill categories and learning progress visualization
 - 🐈 Playful cursor-following Oneko cat animation
 - 💎 Premium visual polish with refined CSS animations and high-fidelity UI enhancements
