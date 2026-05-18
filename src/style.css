@@ -828,6 +828,60 @@ ul {
   border-color: rgba(156, 201, 255, 0.2);
 }
 
+/* Hamburger button — hidden on desktop, revealed at ≤520px */
+.nav-menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(156, 201, 255, 0.1);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.nav-menu-btn:hover {
+  background: rgba(156, 201, 255, 0.2);
+  transform: scale(1.06);
+}
+
+[data-theme="light"] .nav-menu-btn {
+  background: rgba(0, 0, 0, 0.07);
+}
+
+[data-theme="light"] .nav-menu-btn:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.nav-menu-icon {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  border-radius: 99px;
+  background: var(--text-muted);
+  transition: transform 0.25s ease, opacity 0.25s ease, width 0.25s ease;
+}
+
+/* Animate to X when open */
+.nav-menu-btn[aria-expanded="true"] .nav-menu-icon:nth-child(1) {
+  transform: translateY(5.5px) rotate(45deg);
+}
+.nav-menu-btn[aria-expanded="true"] .nav-menu-icon:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+.nav-menu-btn[aria-expanded="true"] .nav-menu-icon:nth-child(3) {
+  transform: translateY(-5.5px) rotate(-45deg);
+}
+
 /* Nav links */
 .nav-links {
   display: flex;
