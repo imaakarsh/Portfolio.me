@@ -14,11 +14,11 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), CodeTime, GitHub, and custom Visitor Counter API
 ## 🚀 Features
 
-- **Cinematic Theme System**: Implements the native View Transitions API for seamless, high-fidelity theme switching accompanied by ambient background effects.
-- **Premium Aesthetic**: Redesigned with a dark glassmorphic UI providing a modern, high-end visual experience.
+- **Cinematic Theme System**: Leverages the native **View Transitions API** for fluid, high-fidelity transitions between themes, complemented by dynamic ambient background effects.
+- **Premium Aesthetic**: Redesigned with a dark glassmorphic UI and custom styling for a modern, high-end visual experience.
 - **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), and WakaTime/CodeTime.
 - **Interactive Avatar**: Dynamic profile image that toggles on click with a smooth swapping animation.
-- **GitHub Activity**: Visual contribution grid featuring month labels, year-to-date summaries, and automated streak calculation with enhanced tooltips.
+- **GitHub Activity**: Visual contribution grid featuring month labels, year-to-date summaries, and automated streak calculation with animated counters and enhanced tooltips.
 - **Interactive Guestbook**: Persistent messaging with Google authentication, message pagination, and owner-specific deletion controls.
 - **Visitor Counter**: Integrated visitor tracking with API-based persistence and fallback mechanisms.
 - **Dynamic UI Effects**: Includes a custom cursor spotlight, multi-phrase typing animation, and a scroll progress indicator.
@@ -27,17 +27,17 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Modular Architecture**: Clean feature-based code organization for better maintainability and scalability.
 ## ✨ Features
 
-- 📱 Responsive single-page portfolio sections with improved navbar visibility
-- 🎨 **Cinematic Transitions**: Enhanced theme switching system with cinematic effects and View Transition API support
-- 📊 GitHub contribution grid, streak tracking, and animated counters
-- 💬 Discord live presence status via Lanyard API
-- ⏱️ CodeTime coding statistics and refined status layout
-- 📖 Firebase guestbook with Google sign-in and realtime updates
-- 📝 Integrated blog module for sharing content and insights
-- 🌌 Animated night sky effect with stars, shooting stars, and aurora gradients
-- 🛠️ Tabbed skill categories and learning progress visualization
-- 🐈 Playful cursor-following Oneko cat animation
-- 💎 Premium visual polish with refined CSS animations and high-fidelity UI enhancements
+- 📱 **Responsive Design**: Single-page portfolio sections with improved navbar visibility and mobile-first layout.
+- 🎨 **Cinematic Transitions**: Immersive theme switching system powered by the **View Transition API** and custom CSS animations.
+- 📊 **GitHub Insights**: Visual contribution grid with month-wise breakdown, streak tracking, and animated stat counters.
+- 💬 **Discord Presence**: Live status updates via Lanyard API integration.
+- ⏱️ **CodeTime Stats**: Real-time coding statistics and refined status layout.
+- 📖 **Firebase Guestbook**: Real-time messaging with Google sign-in and message management.
+- 📝 **Blog Module**: Integrated system for sharing content and technical insights.
+- 🌌 **Ambient Effects**: Animated night sky with stars, shooting stars, and aurora gradients.
+- 🛠️ **Skill Visualization**: Tabbed categories and learning progress tracking.
+- 🐈 **Interactive Oneko**: Playful cursor-following cat animation.
+- 💎 **Premium Polish**: High-fidelity UI enhancements with refined glassmorphism and smooth interactions.
 ## 📂 Project structure
 
 ```
