@@ -14,7 +14,7 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), CodeTime, GitHub, and custom Visitor Counter API
 ## 🚀 Features
 
-- **Cinematic Theme Transitions**: Sophisticated transition system for seamless, high-fidelity theme switching.
+- **Cinematic Theme System**: Implements the native View Transitions API for seamless, high-fidelity theme switching accompanied by ambient background effects.
 - **Premium Aesthetic**: Redesigned with a dark glassmorphic UI providing a modern, high-end visual experience.
 - **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), and WakaTime/CodeTime.
 - **Interactive Avatar**: Dynamic profile image that toggles on click with a smooth swapping animation.
