@@ -204,6 +204,14 @@ export function initGitHubContributions() {
       const data = await response.json();
       const contributions = data.contributions ?? [];
       const totalValue = contributions.reduce((sum, day) => sum + (day.count ?? 0), 0);
+
+      // Hide the whole section if API returned 0 — avoids showing misleading data
+      if (totalValue === 0) {
+        const section = document.getElementById('github-contributions');
+        if (section) section.style.display = 'none';
+        return;
+      }
+
       const sorted = [...contributions].sort((left, right) => new Date(left.date).getTime() - new Date(right.date).getTime());
       renderGitHubGrid(sorted);
       updateStats(totalValue, sorted);
