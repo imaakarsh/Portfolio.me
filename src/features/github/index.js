@@ -1,1 +1,1 @@
-export { initGitHubContributions, initVisitorCounter } from './gh';
+export { initGitHubContributions } from './gh';

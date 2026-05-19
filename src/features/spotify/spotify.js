@@ -1,223 +1,195 @@
-/**
- * Spotify API Integration
- * Handles authentication, token refresh, and fetching currently playing track
- */
+const SPOTIFY_API = '/api/spotify';
+const TOKEN_KEY = 'spotifyTokens';
+const TRACK_KEY = 'spotifyLastTrack';
+const POLL_MS = 30_000;
 
-const SPOTIFY_WIDGET_ID = 'spotify-widget';
-const TOKEN_STORAGE_KEY = 'spotifyTokens';
-const SPOTIFY_API_BASE = '/api/spotify';
-
-export async function initSpotify() {
+function getTokens() {
   try {
-    let tokens = getStoredTokens();
-
-    const params = new URLSearchParams(window.location.search);
-    const spotifyToken = params.get('spotifyToken');
-    const refreshToken = params.get('refreshToken');
-
-    if (spotifyToken && refreshToken) {
-      tokens = { accessToken: spotifyToken, refreshToken };
-      storeTokens(tokens);
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-
-    if (!tokens) {
-      showLoginPrompt();
-      return;
-    }
-
-    await fetchAndUpdateWidget(tokens.accessToken, tokens.refreshToken);
-
-    setInterval(async () => {
-      const latest = getStoredTokens();
-      if (latest) {
-        await fetchAndUpdateWidget(latest.accessToken, latest.refreshToken);
-      }
-    }, 5000);
-  } catch (error) {
-    console.error('Spotify initialization error:', error);
-    showLoginPrompt();
+    const raw = localStorage.getItem(TOKEN_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
   }
 }
 
-function getStoredTokens() {
-  const stored = localStorage.getItem(TOKEN_STORAGE_KEY);
-  return stored ? JSON.parse(stored) : null;
-}
-
-function storeTokens(tokens) {
-  localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(tokens));
+function saveTokens(tokens) {
+  localStorage.setItem(TOKEN_KEY, JSON.stringify(tokens));
 }
 
 function clearTokens() {
-  localStorage.removeItem(TOKEN_STORAGE_KEY);
+  localStorage.removeItem(TOKEN_KEY);
 }
 
-async function fetchAndUpdateWidget(accessToken, refreshToken) {
-  try {
-    const response = await fetch(`${SPOTIFY_API_BASE}?action=currently-playing&accessToken=${encodeURIComponent(accessToken)}`);
-
-    if (response.status === 401) {
-      const refreshResponse = await fetch(`${SPOTIFY_API_BASE}?action=refresh&refreshToken=${encodeURIComponent(refreshToken)}`);
-      if (refreshResponse.ok) {
-        const newToken = await refreshResponse.json();
-        storeTokens({ accessToken: newToken.accessToken, refreshToken });
-        await fetchAndUpdateWidget(newToken.accessToken, refreshToken);
-        return;
-      }
-
-      clearTokens();
-      showLoginPrompt();
-      return;
-    }
-
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    const track = await response.json();
-    updateWidget(track);
-  } catch (error) {
-    console.error('Error fetching Spotify data:', error);
-    updateWidget(getStoredTrackData());
+function cacheTrack(track) {
+  if (track?.title) {
+    localStorage.setItem(TRACK_KEY, JSON.stringify(track));
   }
 }
 
-function getStoredTrackData() {
-  const stored = localStorage.getItem('trackData');
-
-  if (!stored) {
-    return { isPlaying: false };
-  }
-
+function getCachedTrack() {
   try {
-    const track = JSON.parse(stored);
-    return track ? { ...track, isPlaying: false } : { isPlaying: false };
+    const raw = localStorage.getItem(TRACK_KEY);
+    return raw ? JSON.parse(raw) : null;
   } catch {
-    return { isPlaying: false };
+    return null;
   }
 }
 
-function updateWidget(trackData) {
-  const widget = document.getElementById(SPOTIFY_WIDGET_ID);
+function setText(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+function updateWidget(track) {
+  const widget = document.getElementById('spotify-widget');
   if (!widget) return;
 
-  const artElement = document.getElementById('sp-art');
-  const labelElement = document.getElementById('sp-label');
-  const titleElement = document.getElementById('sp-title');
-  const artistElement = document.getElementById('sp-artist');
-  const linkElement = document.getElementById('sp-link');
+  const art = document.getElementById('sp-art');
+  const placeholder = document.getElementById('sp-art-placeholder');
+  const link = document.getElementById('sp-link');
+  const play = document.getElementById('sp-play');
 
-  const setText = (el, txt) => { if (el) el.textContent = txt; };
-
-  if (trackData.isPlaying === false) {
-    const lastPlayed = getStoredTrackData();
-
-    if (lastPlayed.title) {
-      setText(labelElement, 'LAST PLAYED');
-      setText(titleElement, lastPlayed.title);
-      setText(artistElement, lastPlayed.artist || '');
-
-      if (artElement) {
-        if (lastPlayed.albumArt) {
-          artElement.src = lastPlayed.albumArt;
-          artElement.style.display = 'block';
-        } else {
-          artElement.src = '';
-          artElement.style.display = 'none';
-        }
-      }
-
-      if (linkElement) {
-        if (lastPlayed.spotifyUrl) {
-          linkElement.href = lastPlayed.spotifyUrl;
-          linkElement.style.display = 'flex';
-        } else {
-          linkElement.href = '#';
-          linkElement.style.display = 'none';
-        }
-      }
-    } else {
-      setText(labelElement, 'LAST PLAYED');
-      setText(titleElement, 'Nothing playing');
-      setText(artistElement, 'Start playing on Spotify');
-      if (artElement) { artElement.src = ''; artElement.style.display = 'none'; }
-      if (linkElement) { linkElement.href = '#'; linkElement.style.display = 'none'; }
-    }
+  if (!track?.title) {
+    setText('sp-label', 'SPOTIFY');
+    setText('sp-title', 'Nothing played yet');
+    setText('sp-artist', 'Connect Spotify to show your music');
+    if (art) art.hidden = true;
+    if (placeholder) placeholder.hidden = false;
+    if (link) link.removeAttribute('href');
+    if (play) play.hidden = true;
+    widget.classList.remove('spotify-card--playing');
     return;
   }
 
-  setText(labelElement, trackData.isPlaying ? 'CURRENTLY PLAYING' : 'LAST PLAYED');
-  setText(titleElement, trackData.title || 'Unknown');
-  setText(artistElement, trackData.artist || 'Unknown');
+  setText('sp-label', track.label || 'LAST PLAYED');
+  setText('sp-title', track.title);
+  setText('sp-artist', track.artist || '');
 
-  if (artElement) {
-    if (trackData.albumArt) {
-      artElement.src = trackData.albumArt;
-      artElement.style.display = 'block';
-    } else {
-      artElement.src = '';
-      artElement.style.display = 'none';
-    }
+  if (art && track.albumArt) {
+    art.src = track.albumArt;
+    art.alt = `${track.title} cover`;
+    art.hidden = false;
+    if (placeholder) placeholder.hidden = true;
+  } else {
+    if (art) art.hidden = true;
+    if (placeholder) placeholder.hidden = false;
   }
 
-  if (linkElement) {
-    if (trackData.spotifyUrl) {
-      linkElement.href = trackData.spotifyUrl;
-      linkElement.target = '_blank';
-      linkElement.rel = 'noopener noreferrer';
-      linkElement.style.display = 'flex';
-    } else {
-      linkElement.href = '#';
-      linkElement.style.display = 'none';
-    }
+  const url = track.spotifyUrl || '#';
+  if (link) {
+    link.href = url;
+    link.setAttribute('aria-label', `Open ${track.title} on Spotify`);
+  }
+  if (play) {
+    play.href = url;
+    play.hidden = !track.spotifyUrl;
   }
 
-  if (trackData.isPlaying) {
-    localStorage.setItem('trackData', JSON.stringify({
-      title: trackData.title,
-      artist: trackData.artist,
-      albumArt: trackData.albumArt,
-      spotifyUrl: trackData.spotifyUrl,
-    }));
-  }
+  widget.classList.toggle('spotify-card--playing', Boolean(track.isPlaying));
+  cacheTrack(track);
 }
 
-function showLoginPrompt() {
-  const widget = document.getElementById(SPOTIFY_WIDGET_ID);
+function showConnectState(message) {
+  const widget = document.getElementById('spotify-widget');
   if (!widget) return;
 
-  const titleElement = document.getElementById('sp-title');
-  const artistElement = document.getElementById('sp-artist');
-  const labelElement = document.getElementById('sp-label');
+  setText('sp-label', 'SPOTIFY');
+  setText('sp-title', 'Connect Spotify');
+  setText('sp-artist', message || 'One-time setup for local dev');
 
-  if (labelElement) labelElement.textContent = 'SPOTIFY LOGIN REQUIRED';
-  if (titleElement) titleElement.textContent = 'Authenticate with Spotify';
-  if (artistElement) artistElement.textContent = '';
+  const connect = document.getElementById('sp-connect');
+  if (connect) connect.hidden = false;
 
-  const linkElement = document.getElementById('sp-link');
-  if (!linkElement) return;
-  linkElement.href = '#';
-  linkElement.textContent = 'Click to Connect';
-  linkElement.style.display = 'flex';
-
-  const newLink = linkElement.cloneNode(true);
-  linkElement.replaceWith(newLink);
-  newLink.addEventListener('click', async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`${SPOTIFY_API_BASE}?action=auth`);
-      const data = await response.json();
-      if (data.authUrl) {
-        window.location.href = data.authUrl;
-      }
-    } catch (error) {
-      console.error('Error fetching auth URL:', error);
-    }
-  });
+  widget.classList.add('spotify-card--setup');
 }
 
-export function logoutSpotify() {
-  clearTokens();
-  showLoginPrompt();
+function hideConnectState() {
+  const connect = document.getElementById('sp-connect');
+  if (connect) connect.hidden = true;
+  document.getElementById('spotify-widget')?.classList.remove('spotify-card--setup');
+}
+
+async function fetchPlayback(tokens) {
+  const params = new URLSearchParams({ action: 'now-playing' });
+  if (tokens?.accessToken) {
+    params.set('accessToken', tokens.accessToken);
+  }
+
+  const response = await fetch(`${SPOTIFY_API}?${params}`, { cache: 'no-store' });
+
+  if (response.status === 401 && tokens?.refreshToken) {
+    const refreshRes = await fetch(
+      `${SPOTIFY_API}?action=refresh&refreshToken=${encodeURIComponent(tokens.refreshToken)}`,
+    );
+    if (refreshRes.ok) {
+      const { accessToken } = await refreshRes.json();
+      saveTokens({ accessToken, refreshToken: tokens.refreshToken });
+      return fetchPlayback({ accessToken, refreshToken: tokens.refreshToken });
+    }
+    clearTokens();
+  }
+
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+  return response.json();
+}
+
+async function startAuth() {
+  const response = await fetch(`${SPOTIFY_API}?action=auth`);
+  const data = await response.json();
+  if (data.authUrl) window.location.href = data.authUrl;
+}
+
+export async function initSpotify() {
+  const widget = document.getElementById('spotify-widget');
+  if (!widget) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const spotifyToken = params.get('spotifyToken');
+  const refreshToken = params.get('refreshToken');
+  const spotifyError = params.get('spotifyError');
+
+  if (spotifyError) {
+    showConnectState('Auth failed — check Redirect URI in Spotify Dashboard');
+    return;
+  }
+
+  if (spotifyToken && refreshToken) {
+    saveTokens({ accessToken: spotifyToken, refreshToken });
+    window.history.replaceState({}, document.title, window.location.pathname);
+    hideConnectState();
+  }
+
+  const connectBtn = document.getElementById('sp-connect');
+  connectBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    startAuth();
+  });
+
+  const cached = getCachedTrack();
+  if (cached) updateWidget(cached);
+
+  const load = async () => {
+    try {
+      const tokens = getTokens();
+      const data = await fetchPlayback(tokens);
+
+      if (data.needsAuth) {
+        if (!tokens) {
+          showConnectState('Add SPOTIFY_REFRESH_TOKEN in .env for production, or connect below');
+        }
+        return;
+      }
+
+      hideConnectState();
+      updateWidget(data);
+    } catch (error) {
+      console.warn('[Spotify]', error);
+      const cachedTrack = getCachedTrack();
+      if (cachedTrack) updateWidget(cachedTrack);
+    }
+  };
+
+  await load();
+  setInterval(load, POLL_MS);
 }

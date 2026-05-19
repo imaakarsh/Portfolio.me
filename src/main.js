@@ -1,9 +1,18 @@
-// Triggering fresh production deployment to sync domain with localhost...
 import './oneko';
 import { initTheme } from './core/theme';
+import { initNightSky } from './effects/nightSky';
+import {
+  initAvatarToggle,
+  initRevealObserver,
+  initTypingAnimation,
+  initScrollProgress,
+  initSkillTabs,
+  initCursorSpotlight,
+  initNavScrollSpy,
+  initMobileMenu,
+} from './components/ui';
 import { initBlogFiltering, initBlogShowMore } from './features/blog';
-import { initAvatarToggle, initRevealObserver, initTypingAnimation, initScrollProgress, initSkillTabs, initCursorSpotlight, initNavScrollSpy, initMobileMenu } from './features/ui';
-import { initGitHubContributions, initVisitorCounter } from './features/gh';
+import { initGitHubContributions } from './features/github';
 import { initDiscord } from './features/discord';
 import { initCodeTime } from './features/codetime';
 import { initSpotify } from './features/spotify';
@@ -42,6 +51,7 @@ async function initGuestbookOnDemand() {
 
 async function init() {
   await safeInit('Theme', initTheme);
+  await safeInit('Night sky', initNightSky);
   await safeInit('Avatar Toggle', initAvatarToggle);
   await safeInit('Blog Filtering', initBlogFiltering);
   await safeInit('Blog Show More', initBlogShowMore);
@@ -53,12 +63,11 @@ async function init() {
   await safeInit('Nav Scroll Spy', initNavScrollSpy);
   await safeInit('Mobile Menu', initMobileMenu);
 
-  await safeInit('Visitor Counter', initVisitorCounter);
   await safeInit('GitHub Contributions', initGitHubContributions);
-  await safeInit('Spotify', initSpotify);
   await safeInit('Guestbook', initGuestbookOnDemand);
   await safeInit('Discord', initDiscord);
   await safeInit('CodeTime', initCodeTime);
+  await safeInit('Spotify', initSpotify);
 }
 
 if (document.readyState === 'loading') {

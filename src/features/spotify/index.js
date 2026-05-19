@@ -1,1 +1,1 @@
-export { initSpotify, logoutSpotify } from './spotify';
+export { initSpotify } from './spotify.js';

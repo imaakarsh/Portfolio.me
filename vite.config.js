@@ -7,22 +7,26 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function resolveApiModule(apiName) {
-  const jsPath = path.resolve(__dirname, `api/${apiName}.js`);
+function resolveApiModule(apiPath) {
+  const cleanPath = apiPath.split('?')[0].replace(/\/$/, '');
+  if (!cleanPath) return null;
 
-  if (fs.existsSync(jsPath)) return jsPath;
+  const topLevel = cleanPath.split('/')[0];
+  const candidates = [
+    path.resolve(__dirname, 'api', `${cleanPath}.js`),
+    path.resolve(__dirname, 'api/routes', `${topLevel}.js`),
+  ];
+
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) return candidate;
+  }
+
   return null;
 }
 
 export default defineConfig(({ mode }) => {
-  console.log('[Vite Config] Mode:', mode);
-  console.log('[Vite Config] CWD:', process.cwd());
-
   const env = loadEnv(mode, process.cwd(), '');
   Object.assign(process.env, env);
-
-  console.log('[Vite Config] CODETIME_API_KEY loaded:', !!process.env.CODETIME_API_KEY);
-  console.log('[Vite Config] WAKATIME_API_KEY present (fallback):', !!process.env.WAKATIME_API_KEY);
 
   return {
     plugins: [
@@ -33,8 +37,8 @@ export default defineConfig(({ mode }) => {
           server.middlewares.use(async (req, res, next) => {
             if (req.url?.startsWith('/api/')) {
               const url = new URL(req.url, `http://${req.headers.host}`);
-              const apiName = url.pathname.split('/api/')[1];
-              const filePath = resolveApiModule(apiName);
+              const apiPath = url.pathname.replace(/^\/api\//, '');
+              const filePath = resolveApiModule(apiPath);
 
               if (filePath) {
                 try {
@@ -59,7 +63,7 @@ export default defineConfig(({ mode }) => {
                   await handler(req, vercelRes);
                   return;
                 } catch (error) {
-                  console.error(`[API Error] ${apiName}:`, error);
+                  console.error(`[API Error] ${apiPath}:`, error);
                   res.statusCode = 500;
                   res.end(JSON.stringify({ error: 'Internal Server Error', message: error.message }));
                   return;

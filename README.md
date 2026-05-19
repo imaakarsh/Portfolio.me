@@ -4,19 +4,19 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 
 ## Live site
 
-- [https://portfolio.me](https://portfolio.me)
+- [https://aakarshdev.me](https://aakarshdev.me)
 
 ## 🛠️ Stack
 
 - **Frontend**: HTML, CSS (Custom Design Tokens & Theme-aware styling), JavaScript, Tailwind CSS v4 (via `@tailwindcss/vite`)
 - **Build tool**: Vite 6
 - **APIs**: Vercel Serverless Functions in `api/routes/` (Node.js)
-- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), Spotify, CodeTime, GitHub, and custom Visitor Counter API
+- **Realtime/data**: Firebase (guestbook), Lanyard (Discord), CodeTime, GitHub, and custom Visitor Counter API
 ## 🚀 Features
 
 - **Cinematic Theme Transitions**: Sophisticated transition system for seamless, high-fidelity theme switching.
 - **Premium Aesthetic**: Redesigned with a dark glassmorphic UI providing a modern, high-end visual experience.
-- **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), WakaTime/CodeTime, and Spotify.
+- **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), and WakaTime/CodeTime.
 - **Interactive Avatar**: Dynamic profile image that toggles on click with a smooth swapping animation.
 - **GitHub Activity**: Visual contribution grid featuring month labels, year-to-date summaries, and automated streak calculation with enhanced tooltips.
 - **Interactive Guestbook**: Persistent messaging with Google authentication, message pagination, and owner-specific deletion controls.
@@ -40,26 +40,35 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - 💎 Premium visual polish with refined CSS animations and high-fidelity UI enhancements
 ## 📂 Project structure
 
-text
+```
 Portfolio/
-├── api/                      # Serverless API handlers
-│   └── routes/               # Organized endpoints (spotify, visitors, codetime)
-├── docs/                     # Documentation (Structure & Implementation guides)
-├── public/                   # Static public assets
+├── api/
+│   ├── routes/               # API handlers (visitors, codetime)
+│   ├── codetime.js
+│   └── visitors.js
+├── docs/
+├── public/assets/
+├── scripts/                  # optimize-images.mjs, etc.
 ├── src/
-│   ├── components/           # Reusable UI components (navbar, ui, etc.)
-│   ├── config/               # Shared constants and profile data
-│   ├── core/                 # Core systems (theme management)
-│   ├── effects/              # Visual effects (night sky)
-│   ├── features/             # Feature-specific modules (github, spotify, blog, etc.)
-│   ├── utils/                # Utility functions (DOM, etc.)
-│   ├── main.js               # Frontend entry point
-│   ├── oneko.js              # Cursor-following cat effect
-│   └── style.css             # Global styles
-├── index.html                # App HTML entry
-├── vite.config.js            # Vite configuration
-├── vercel.json               # Vercel deployment config
+│   ├── components/ui.js      # Shared UI (nav, reveal, typing, …)
+│   ├── config/constants.js
+│   ├── core/theme.js
+│   ├── effects/nightSky.js
+│   ├── features/
+│   │   ├── blog/
+│   │   ├── codetime/
+│   │   ├── discord/
+│   │   ├── github/
+│   │   └── guestbook/
+│   ├── utils/dom.js
+│   ├── main.js
+│   ├── oneko.js
+│   └── style.css
+├── index.html
+├── vite.config.js
+├── vercel.json
 └── package.json
+```
 
 ## 💻 Local development
 
@@ -77,10 +86,6 @@ Portfolio/
 Set deployment/local env vars for the APIs used in the project:
 
 - `CODETIME_API_KEY` or `WAKATIME_API_KEY`: API key for fetching WakaTime or CodeTime coding statistics.
-- `SPOTIFY_CLIENT_ID`: Client ID from the Spotify Developer Dashboard.
-- `SPOTIFY_CLIENT_SECRET`: Client Secret from the Spotify Developer Dashboard.
-- `SPOTIFY_REDIRECT_URI`: (Optional) Redirect URI for Spotify OAuth, defaults to `http://localhost:5173/api/spotify/callback`.
-- `SPOTIFY_REFRESH_TOKEN`: OAuth refresh token for persistent Spotify API access.
 ## 🚀 Deployment
 
 - **Build**: Vite compiles the application into the `dist/` directory using Node.js 20.
