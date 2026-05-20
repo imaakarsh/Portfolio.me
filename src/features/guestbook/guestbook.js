@@ -177,7 +177,7 @@ export function initGuestbook() {
       if (docsArray.length > visibleCount) {
         const moreBtn = document.createElement('button');
         moreBtn.className = 'btn-outline';
-        moreBtn.innerHTML = `View More (${docsArray.length - visibleCount} remaining)`;
+        moreBtn.innerHTML = 'View More';
         moreBtn.onclick = () => {
           visibleCount += 5;
           renderMessages(currentMessagesSnapshot);
