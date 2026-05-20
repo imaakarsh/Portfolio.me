@@ -14,8 +14,8 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - **Realtime/data**: Firebase (guestbook), Lanyard (Discord), CodeTime, GitHub, and custom Visitor Counter API
 ## 🚀 Features
 
-- **Cinematic Theme System**: Leverages the native **View Transitions API** for fluid, high-fidelity transitions between themes, complemented by dynamic ambient background effects.
-- **Premium Aesthetic**: Redesigned with a dark glassmorphic UI and custom styling for a modern, high-end visual experience.
+- **Cinematic Theme System**: Leverages the native **View Transitions API** for fluid, high-fidelity transitions between themes, complemented by dynamic ambient backgrounds and cinematic noise overlays.
+- **Premium Aesthetic**: Redesigned with a dark glassmorphic UI, grain textures, and custom styling for a modern, high-end visual experience.
 - **Real-time Data**: Live integration with Firebase (guestbook), Lanyard (Discord), and WakaTime/CodeTime.
 - **Interactive Avatar**: Dynamic profile image that toggles on click with a smooth swapping animation.
 - **GitHub Activity**: Visual contribution grid featuring month labels, year-to-date summaries, and automated streak calculation with animated counters and enhanced tooltips.
@@ -28,16 +28,16 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 ## ✨ Features
 
 - 📱 **Responsive Design**: Single-page portfolio sections with improved navbar visibility and mobile-first layout.
-- 🎨 **Cinematic Transitions**: Immersive theme switching system powered by the **View Transition API** and custom CSS animations.
+- 🎨 **Cinematic Transitions**: Immersive theme switching system powered by the **View Transition API**, custom CSS animations, and cinematic noise overlays.
 - 📊 **GitHub Insights**: Visual contribution grid with month-wise breakdown, streak tracking, and animated stat counters.
 - 💬 **Discord Presence**: Live status updates via Lanyard API integration.
 - ⏱️ **CodeTime Stats**: Real-time coding statistics and refined status layout.
 - 📖 **Firebase Guestbook**: Real-time messaging with Google sign-in and message management.
 - 📝 **Blog Module**: Integrated system for sharing content and technical insights.
-- 🌌 **Ambient Effects**: Animated night sky with stars, shooting stars, and aurora gradients.
+- 🌌 **Ambient Effects**: Animated night sky with stars, shooting stars, aurora gradients, and textured noise backgrounds.
 - 🛠️ **Skill Visualization**: Tabbed categories and learning progress tracking.
 - 🐈 **Interactive Oneko**: Playful cursor-following cat animation.
-- 💎 **Premium Polish**: High-fidelity UI enhancements with refined glassmorphism and smooth interactions.
+- 💎 **Premium Polish**: High-fidelity UI enhancements with refined glassmorphism, grain textures, and smooth interactions.
 ## 📂 Project structure
 
 ```
