@@ -731,7 +731,10 @@ ul {
 }
 
 /* Graceful degradation for backdrop-filter */
-@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+@supports (
+  (backdrop-filter: blur(12px)) or
+  (-webkit-backdrop-filter: blur(12px))
+) {
   .nav-pill {
     background: rgba(15, 15, 15, 0.45);
     --nav-backdrop: blur(12px) saturate(180%);
