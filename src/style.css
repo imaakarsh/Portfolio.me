@@ -751,8 +751,10 @@ ul {
 
   background: rgba(15, 15, 15, 0.45);
 
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  --nav-blur: blur(12px);
+  --nav-saturate: saturate(180%);
+  backdrop-filter: var(--nav-blur) var(--nav-saturate);
+  -webkit-backdrop-filter: var(--nav-blur) var(--nav-saturate);
   isolation: isolate;
 
   border: 1px solid rgba(255,255,255,0.08);
