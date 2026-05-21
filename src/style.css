@@ -113,11 +113,14 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 160px 160px;
   opacity: 0.028;
   mix-blend-mode: overlay;
   isolation: isolate;
+  /* Hardware acceleration for noise shift animation */
+  transform: translateZ(0);
+  will-change: background-position;
   animation: noise-shift 0.35s steps(2) infinite;
 }
 
@@ -154,6 +157,9 @@
   filter: blur(72px);
   opacity: 0;
   transition: opacity 1.4s ease;
+  /* GPU acceleration to reduce render cost of blur */
+  transform: translateZ(0);
+  will-change: transform, opacity;
 }
 
 [data-theme="dark"] .ambient-orb {
@@ -424,6 +430,13 @@
   box-sizing: border-box;
 }
 
+/* Global focus accessibility */
+:focus-visible {
+  outline: 2px solid var(--focus-dot, #38bdf8);
+  outline-offset: 2px;
+  transition: outline 0.1s ease;
+}
+
 :where(
   .nav-pill,
   .nav-avatar,
@@ -534,57 +547,7 @@ body::before {
   transition: opacity 0.4s ease;
 }
 
-/* Premium view transition animations */
-::view-transition-image-pair(root) {
-  isolation: isolate;
-}
-
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 650ms;
-  animation-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-::view-transition-old(root) {
-  animation-name: theme-fade-out;
-}
-
-::view-transition-new(root) {
-  animation-name: theme-fade-in;
-}
-
-/* Cinematic fade transition */
-@keyframes theme-fade-out {
-  0% {
-    opacity: 1;
-    filter: brightness(1);
-  }
-
-  50% {
-    filter: brightness(0.95);
-  }
-
-  100% {
-    opacity: 0;
-    filter: brightness(0.9);
-  }
-}
-
-@keyframes theme-fade-in {
-  0% {
-    opacity: 0;
-    filter: brightness(1.05);
-  }
-
-  50% {
-    filter: brightness(1.02);
-  }
-
-  100% {
-    opacity: 1;
-    filter: brightness(1);
-  }
-}
+/* Cleaned up redundant cinematic fade transition (Ripple transition is used instead) */
 
 [data-theme="light"] body::before {
   display: none !important;
@@ -655,7 +618,10 @@ body::after {
   pointer-events: none;
   z-index: 0;
   opacity: 1;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.6s ease, filter 0.6s ease;
+  /* Force GPU rendering for large canvas */
+  transform: translateZ(0);
+  will-change: opacity, filter;
 }
 
 [data-theme="light"] #night-sky {
@@ -749,25 +715,30 @@ ul {
   padding: 7px 8px 7px 10px;
   gap: 4px;
 
-  background: rgba(15, 15, 15, 0.45);
-
-  --nav-blur: blur(12px);
-  --nav-saturate: saturate(180%);
-  backdrop-filter: var(--nav-blur) var(--nav-saturate);
-  -webkit-backdrop-filter: var(--nav-blur) var(--nav-saturate);
-  isolation: isolate;
+  /* Fallback background for older browsers */
+  background: rgba(15, 15, 15, 0.85);
 
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 999px;
-
   box-shadow: var(--shadow-card);
+  isolation: isolate;
+  position: relative;
 
   transition:
     border-color 0.3s ease,
     box-shadow 0.3s ease,
     background 0.3s ease;
+}
 
-  position: relative;
+/* Graceful degradation for backdrop-filter */
+@supports (backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px)) {
+  .nav-pill {
+    background: rgba(15, 15, 15, 0.45);
+    --nav-backdrop: blur(12px) saturate(180%);
+    backdrop-filter: var(--nav-backdrop);
+    -webkit-backdrop-filter: var(--nav-backdrop);
+    will-change: backdrop-filter;
+  }
 }
 
 .nav-pill:hover {
