@@ -91,8 +91,8 @@ Set deployment/local env vars for the APIs used in the project:
 ## 🚀 Deployment
 
 - **Build**: Vite compiles the application into the `dist/` directory using Node.js 20.
-- **Platform**: Deployed via **GitHub Pages** with a custom domain configuration (`aakarshdev.me`).
-- **CI/CD**: A GitHub Actions workflow (`build.yml`) automatically installs dependencies, builds the production bundle, and deploys to GitHub Pages on every push to the `main` branch.
+- **Platform**: Currently deployed via **GitHub Pages** (`aakarshdev.me`). The upcoming **FocusFlow** feature is marked as *in progress* and will be deployed separately once ready.
+- **CI/CD**: A GitHub Actions workflow (`build.yml`) automatically installs dependencies, builds the production bundle, and deploys to GitHub Pages on every push to the `main` branch. Deployment for FocusFlow will be handled via Vercel when it becomes available.
 ## License
 
 This project is open source and available for personal use.
