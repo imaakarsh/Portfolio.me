@@ -6203,27 +6203,28 @@
       position: relative;
     }
 
+    /* Show regular links on small screens instead of a dropdown */
     .nav-menu-btn {
-      display: flex !important;
-      margin-left: auto;
+      display: none !important;
     }
 
     .nav-links {
-      display: none !important;
-      position: absolute !important;
-      top: calc(100% + 10px);
-      left: 0;
-      right: 0;
-      flex-direction: column !important;
-      gap: 2px;
-      padding: 8px;
-      border-radius: 16px;
-      background: rgba(14, 18, 36, 0.96) !important;
-      border: 1px solid rgba(156, 201, 255, 0.18) !important;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(156, 201, 255, 0.08) inset !important;
-      z-index: 999;
+      display: flex !important;
+      position: static !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      flex-direction: row !important;
+      gap: 8px;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      z-index: auto !important;
       margin: 0 !important;
-      width: 100% !important;
+      width: auto !important;
+      justify-content: flex-end;
     }
 
     [data-theme="light"] .nav-links {
@@ -6238,23 +6239,23 @@
     }
 
     .nav-links li {
-      width: 100%;
+      width: auto;
     }
 
     .nav-links li a.nav-link {
-      width: 100%;
-      padding: 12px 16px !important;
-      font-size: 14px !important;
-      border-radius: 10px !important;
-      min-height: 46px;
-      display: flex;
+      width: auto;
+      padding: 7px 12px !important;
+      font-size: 13.5px !important;
+      border-radius: 999px !important;
+      min-height: auto;
+      display: inline-flex;
       align-items: center;
     }
-    
+
     .nav-links li a.nav-link.active {
-      background: linear-gradient(135deg, rgba(129, 140, 248, 0.22), rgba(56, 189, 248, 0.15)) !important;
-      color: #fff !important;
-      box-shadow: inset 0 0 0 1px rgba(129, 140, 248, 0.35) !important;
+      background: var(--bg-card-hover) !important;
+      color: var(--text) !important;
+      box-shadow: inset 0 0 0 1px var(--border-hover) !important;
     }
 
     [data-theme="light"] .nav-links li a.nav-link.active {
