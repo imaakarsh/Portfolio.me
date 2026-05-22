@@ -31,13 +31,15 @@ Modern personal portfolio built with Vite, modular JavaScript, and serverless AP
 - 🎨 **Cinematic Transitions**: Immersive theme switching system powered by the **View Transition API**, custom CSS animations, and cinematic noise overlays.
 - 📊 **GitHub Insights**: Visual contribution grid with month-wise breakdown, streak tracking, and animated stat counters.
 - 💬 **Discord Presence**: Live status updates via Lanyard API integration.
+- 🎵 **Spotify Integration**: Real-time music activity tracking and "Now Playing" status updates.
 - ⏱️ **CodeTime Stats**: Real-time coding statistics and refined status layout.
 - 📖 **Firebase Guestbook**: Real-time messaging with Google sign-in and message management.
 - 📝 **Blog Module**: Integrated system for sharing content and technical insights.
 - 🌌 **Ambient Effects**: Animated night sky with stars, shooting stars, aurora gradients, and textured noise backgrounds.
 - 🛠️ **Skill Visualization**: Tabbed categories and learning progress tracking.
 - 🐈 **Interactive Oneko**: Playful cursor-following cat animation.
-- 💎 **Premium Polish**: High-fidelity UI enhancements with refined glassmorphism, grain textures, and smooth interactions.
+- 📈 **Visitor Analytics**: Integrated backend system for tracking site traffic and engagement metrics.
+- 💎 **Premium Polish**: High-fidelity UI enhancements with optimized performance, refined glassmorphism, and smooth interactions.
 ## 📂 Project structure
 
 ```
